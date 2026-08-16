@@ -1,0 +1,15 @@
+- Runtime Environment: Node.js v24 on Ubuntu 18.04 (GLIBC 2.28 in ~/glibc-2.28/build).
+- Native Engine Ban: STRICTLY NO Prisma, NO Tailwind v4 Oxide, NO native C/Rust binaries.
+- Stack: Next.js 15 App Router, TypeScript (strict), Tailwind CSS v3.4 (PostCSS), Drizzle ORM with postgres.js, shadcn/ui.
+- Code Structure:
+  - All mortgage calculations (P&I, Amortization, APR, DTI) must be pure functions isolated in `/lib/mortgage-math/`.
+  - All schemas and database models live in `/db/schema.ts`.
+  - Server Actions handle all database mutations in `/actions/`.
+- Styling: Nasdaq-style exchange palette. Tokens live in `tailwind.config.ts`:
+  - `ink` = black through cool gray chrome (#000000 / #0B0D0E / #424242 / #949494 / #E6E6E6), `canvas` #F4F6F7.
+  - `brand` = Nasdaq Blue #0092BC (primary CTAs, accents, active states).
+  - `up` #00B86B / `down` #FF4B4B for market direction only. A falling mortgage rate prints green.
+- Typography: `font-sans` DM Sans for prose, `font-display` Inter Tight (bold, tight tracking) for headings,
+  `font-mono` IBM Plex Mono for all figures. Use the `.tape` utility for any rate, price, or payment number.
+- Surfaces: dark market chrome (ticker, navbar, hero, rate board, footer) on `ink-950`; light data sections on
+  `canvas`/white with `rounded-board` corners and hairline `ink/10` borders.

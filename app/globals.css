@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-canvas text-ink antialiased;
+}
+
+::selection {
+  background: #0092bc;
+  color: #ffffff;
+}
+
+@layer components {
+  /* Market data: monospaced, fixed-width figures so columns never jitter. */
+  .tape {
+    @apply font-mono tabular-nums tracking-tight;
+  }
+
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-[0.22em];
+  }
+
+  /* Faint terminal grid used behind dark hero panels. */
+  .grid-field {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+}
