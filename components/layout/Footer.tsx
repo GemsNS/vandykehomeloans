@@ -1,6 +1,7 @@
 import { Equal, Phone } from "lucide-react";
 import Link from "next/link";
 import { CONTACT, LENDER, PEOPLE, SITE_NAME, TEAM_NAME, fullAddress } from "@/lib/company";
+import { IS_DEMO } from "@/lib/demo";
 
 const COLUMNS = [
   {
@@ -31,7 +32,8 @@ const COLUMNS = [
       { href: "/calculators", label: "Calculators" },
       { href: "/#naf-black-impact", label: "NAF Black Impact" },
       { href: LENDER.nmlsLookup, label: "NMLS Consumer Access", external: true },
-      { href: "/admin", label: "Staff login" },
+      // The static demo ships without the admin portal, so the link would 404 there.
+      ...(IS_DEMO ? [] : [{ href: "/admin", label: "Staff login" }]),
     ],
   },
 ];
@@ -111,6 +113,12 @@ export function Footer() {
             determined at lock through New American Funding.
           </p>
           <p>© {new Date().getFullYear()} {SITE_NAME}. {fullAddress()}.</p>
+          {IS_DEMO ? (
+            <p className="text-brand-300">
+              Preview build: rates on this page are sample data, and form submissions are not
+              recorded or sent to anyone.
+            </p>
+          ) : null}
         </div>
       </div>
     </footer>
