@@ -1,0 +1,8 @@
+User-Agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /api/
+
+Host: https://vandykehomeloans.net
+Sitemap: https://vandykehomeloans.net/sitemap.xml
