@@ -30,6 +30,7 @@ export async function upsertRate(input: unknown) {
     termYears: parsed.termYears,
     points: parsed.points.toFixed(2),
     productType: parsed.productType,
+    loanPurpose: parsed.loanPurpose ?? "purchase",
     isFeatured: parsed.isFeatured ?? false,
     weeklyChange: parsed.weeklyChange.toFixed(3),
     updatedAt: new Date(),

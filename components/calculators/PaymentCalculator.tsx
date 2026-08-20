@@ -16,9 +16,9 @@ import {
 } from "@/lib/mortgage-math";
 import { formatCurrency, formatPercent } from "@/lib/utils";
 
-const COLORS = ["#0092BC", "#0B0D0E", "#5AC4E4", "#949494", "#D1D1D1"];
+const COLORS = ["#C9A44C", "#0B192C", "#E3C77E", "#4E5F79", "#B7C0CD"];
 
-export function PaymentCalculator({ defaultRate = 6.375 }: { defaultRate?: number }) {
+export function PaymentCalculator({ defaultRate = 6.625 }: { defaultRate?: number }) {
   const [homePrice, setHomePrice] = useState(450000);
   const [downMode, setDownMode] = useState<"percent" | "dollars">("percent");
   const [downPercent, setDownPercent] = useState(20);

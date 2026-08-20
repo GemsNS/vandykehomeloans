@@ -94,6 +94,11 @@ export function localBusinessJsonLd() {
       },
     ],
     sameAs: [CONTACT.facebook, PEOPLE.anthony.profile, PEOPLE.gonzalo.profile, LENDER.website],
+    potentialAction: {
+      "@type": "ApplyAction",
+      name: "Start pre-qualification",
+      target: CONTACT.preQual,
+    },
   };
 }
 

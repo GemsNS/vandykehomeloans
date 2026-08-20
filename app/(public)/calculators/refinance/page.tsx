@@ -12,7 +12,7 @@ export const metadata = pageMetadata({
 
 export default async function RefinanceCalculatorPage() {
   const rates = await getFeaturedRates();
-  const rate = Number(rates.find((item) => item.termYears === 30)?.rate ?? rates[0]?.rate ?? 6.375);
+  const rate = Number(rates.find((item) => item.termYears === 30)?.rate ?? rates[0]?.rate ?? 6.625);
   return (
     <>
       <PageHero

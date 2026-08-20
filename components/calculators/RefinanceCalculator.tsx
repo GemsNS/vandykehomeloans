@@ -16,7 +16,7 @@ import { Label } from "@/components/ui/label";
 import { calculateRefinanceBreakEven } from "@/lib/mortgage-math";
 import { formatCurrency } from "@/lib/utils";
 
-export function RefinanceCalculator({ defaultRate = 6.375 }: { defaultRate?: number }) {
+export function RefinanceCalculator({ defaultRate = 6.625 }: { defaultRate?: number }) {
   const [currentBalance, setCurrentBalance] = useState(320000);
   const [currentRate, setCurrentRate] = useState(7.25);
   const [remainingYears, setRemainingYears] = useState(27);
@@ -98,14 +98,14 @@ export function RefinanceCalculator({ defaultRate = 6.375 }: { defaultRate?: num
           <div className="mt-6 h-56">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#E6E6E6" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#E7EBF1" />
                 <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} />
                 <Tooltip
                   formatter={(value) => formatCurrency(Number(value))}
                   labelFormatter={(label) => `Month ${label}`}
                 />
-                <Line type="monotone" dataKey="savings" stroke="#0092BC" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="savings" stroke="#C9A44C" strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>

@@ -5,11 +5,17 @@
   - All mortgage calculations (P&I, Amortization, APR, DTI) must be pure functions isolated in `/lib/mortgage-math/`.
   - All schemas and database models live in `/db/schema.ts`.
   - Server Actions handle all database mutations in `/actions/`.
-- Styling: Nasdaq-style exchange palette. Tokens live in `tailwind.config.ts`:
-  - `ink` = black through cool gray chrome (#000000 / #0B0D0E / #424242 / #949494 / #E6E6E6), `canvas` #F4F6F7.
-  - `brand` = Nasdaq Blue #0092BC (primary CTAs, accents, active states).
-  - `up` #00B86B / `down` #FF4B4B for market direction only. A falling mortgage rate prints green.
+- Styling: navy-and-gold branding from the VanDyke logo (`public/brand/`), on an exchange-style
+  rate board. Tokens live in `tailwind.config.ts`:
+  - `ink` = logo navy chrome (#050D18 / #0B192C / #3A4A63 / #8A97AA / #E7EBF1), `canvas` #F7F5F1.
+  - `brand` = logo gold #C9A44C. Use `brand-300` for text on navy, `brand-500` for fills,
+    `brand-600`+ for text on light. Never white text on gold — it fails contrast; use `text-ink-950`.
+  - `up` #0E9F6E / `down` #E5484D for market direction only. A falling mortgage rate prints green.
 - Typography: `font-sans` DM Sans for prose, `font-display` Inter Tight (bold, tight tracking) for headings,
-  `font-mono` IBM Plex Mono for all figures. Use the `.tape` utility for any rate, price, or payment number.
-- Surfaces: dark market chrome (ticker, navbar, hero, rate board, footer) on `ink-950`; light data sections on
+  `font-brand` Playfair Display for the logo wordmark only, `font-mono` IBM Plex Mono for all figures.
+  Use the `.tape` utility for any rate, price, or payment number.
+- Surfaces: navy chrome (ticker, navbar, hero, rate board, footer) on `ink-950`; light data sections on
   `canvas`/white with `rounded-board` corners and hairline `ink/10` borders.
+- Imagery: warm lifestyle photography in `public/images/`, Unsplash-licensed and credited in
+  `public/images/CREDITS.md`. Never copy imagery from other lenders' sites — theirs is Adobe Stock
+  or Getty licensed and does not transfer. Import photos statically so the demo `basePath` holds.

@@ -16,6 +16,7 @@ export const rates = pgTable("rates", {
   termYears: integer("term_years").notNull(),
   points: numeric("points", { precision: 4, scale: 2 }).default("0.00"),
   productType: text("product_type").notNull(), // 'conventional', 'fha', 'va', 'usda', 'jumbo', 'arm'
+  loanPurpose: text("loan_purpose").default("purchase").notNull(), // 'purchase' | 'refinance'
   isFeatured: boolean("is_featured").default(false),
   weeklyChange: numeric("weekly_change", { precision: 5, scale: 3 }).default("0.000"),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),

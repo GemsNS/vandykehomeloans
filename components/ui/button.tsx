@@ -8,7 +8,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-brand-500 text-white hover:bg-brand-600",
+        // Navy label on gold: white on this gold fails contrast.
+        default: "bg-brand-500 text-ink-950 hover:bg-brand-400",
         ink: "bg-ink-950 text-white hover:bg-ink-800",
         outline: "border border-ink/15 bg-white text-ink hover:border-ink/40 hover:bg-canvas",
         ghost: "text-ink hover:bg-ink/5",

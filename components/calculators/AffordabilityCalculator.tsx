@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { calculateAffordability, calculateDti } from "@/lib/mortgage-math";
 import { formatCurrency, formatPercent } from "@/lib/utils";
 
-export function AffordabilityCalculator({ defaultRate = 6.375 }: { defaultRate?: number }) {
+export function AffordabilityCalculator({ defaultRate = 6.625 }: { defaultRate?: number }) {
   const [annualIncome, setAnnualIncome] = useState(120000);
   const [monthlyDebt, setMonthlyDebt] = useState(650);
   const [downPayment, setDownPayment] = useState(80000);
@@ -79,11 +79,11 @@ export function AffordabilityCalculator({ defaultRate = 6.375 }: { defaultRate?:
           <div className="mt-6 h-56">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#E6E6E6" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#E7EBF1" />
                 <XAxis dataKey="name" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} />
                 <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                <Bar dataKey="value" fill="#0092BC" radius={[2, 2, 0, 0]} />
+                <Bar dataKey="value" fill="#C9A44C" radius={[2, 2, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

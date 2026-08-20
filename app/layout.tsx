@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { DM_Sans, IBM_Plex_Mono, Inter_Tight } from "next/font/google";
+import { DM_Sans, IBM_Plex_Mono, Inter_Tight, Playfair_Display } from "next/font/google";
+import Script from "next/script";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { CONTACT, SITE_NAME, SITE_URL, TEAM_NAME } from "@/lib/company";
 import { localBusinessJsonLd } from "@/lib/seo";
@@ -15,6 +16,14 @@ const dmSans = DM_Sans({
 const interTight = Inter_Tight({
   subsets: ["latin"],
   variable: "--font-inter-tight",
+  display: "swap",
+});
+
+// Serif that carries the logo wordmark.
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  variable: "--font-playfair",
   display: "swap",
 });
 
@@ -57,12 +66,21 @@ export const metadata: Metadata = {
     title: `${SITE_NAME} | Hampton Roads Mortgages`,
     description:
       "Conventional, FHA, VA, self-employed, Non-QM, and investor financing with Anthony VanDyke and the VanDyke Mortgage Team. Powered by New American Funding.",
+    images: [
+      {
+        url: "/brand/vandyke-home-loans-logo.png",
+        width: 1024,
+        height: 683,
+        alt: `${SITE_NAME} logo`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${SITE_NAME} | Hampton Roads Mortgages`,
     description:
       "Talk with Anthony VanDyke, NMLS #955777, or Gonzalo Guimoye, NMLS #1131706, in Suffolk, Virginia.",
+    images: ["/brand/vandyke-home-loans-logo.png"],
   },
   robots: { index: true, follow: true },
   formatDetection: { telephone: true, email: true, address: true },
@@ -77,10 +95,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <link rel="alternate" hrefLang="en-US" href={SITE_URL} />
-        <meta name="theme-color" content="#000000" />
+        <meta name="theme-color" content="#0B192C" />
+        <Script id="vd-splash" strategy="beforeInteractive">
+          {`(function(){try{if(window.matchMedia("(min-width:768px)").matches||window.matchMedia("(prefers-reduced-motion: reduce)").matches||sessionStorage.getItem("vd-splash-seen"))document.documentElement.classList.add("splash-done");}catch(e){document.documentElement.classList.add("splash-done");}})();`}
+        </Script>
       </head>
       <body
-        className={`${dmSans.variable} ${interTight.variable} ${plexMono.variable} font-sans`}
+        className={`${dmSans.variable} ${interTight.variable} ${playfair.variable} ${plexMono.variable} font-sans`}
       >
         <JsonLd data={localBusinessJsonLd()} />
         <a

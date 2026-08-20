@@ -13,7 +13,7 @@ const PRODUCT_TYPES = ["conventional", "fha", "va", "usda", "jumbo", "arm"] as c
 
 const empty = {
   productName: "",
-  rate: 6.375,
+  rate: 6.625,
   apr: 6.5,
   termYears: 30,
   points: 0,

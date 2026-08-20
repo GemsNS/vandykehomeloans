@@ -1,6 +1,7 @@
 import { Equal, Phone } from "lucide-react";
 import Link from "next/link";
-import { CONTACT, LENDER, PEOPLE, SITE_NAME, TEAM_NAME, fullAddress } from "@/lib/company";
+import { LogoPlate } from "@/components/brand/LogoPlate";
+import { CONTACT, LENDER, NAF_PUBLISHED_RATES, PEOPLE, SITE_NAME, TEAM_NAME, fullAddress } from "@/lib/company";
 import { IS_DEMO } from "@/lib/demo";
 
 const COLUMNS = [
@@ -9,8 +10,7 @@ const COLUMNS = [
     links: [
       { href: "/purchase", label: "Buy a home" },
       { href: "/refinance", label: "Refinance" },
-      { href: "/apply", label: "Request a quote" },
-      { href: CONTACT.preQual, label: "NAF pre-qualification", external: true },
+      { href: CONTACT.preQual, label: "Start pre-qualification", external: true },
     ],
   },
   {
@@ -43,12 +43,12 @@ export function Footer() {
     <footer className="border-t border-white/10 bg-ink-950 text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 md:grid-cols-4">
         <div>
-          <p className="font-display text-2xl font-bold tracking-tight">{SITE_NAME}</p>
-          <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-brand-300">
+          <LogoPlate className="w-full max-w-[260px]" />
+          <p className="mt-4 text-xs font-semibold uppercase tracking-[0.16em] text-brand-300">
             Powered by NAF | New American Funding
           </p>
           <p className="mt-3 max-w-xs text-sm text-white/70">
-            {TEAM_NAME} — local guidance in {fullAddress()}.
+            {TEAM_NAME} — {fullAddress()}.
           </p>
           <a
             href={`tel:${CONTACT.phoneTel}`}
@@ -109,14 +109,15 @@ export function Footer() {
             <a href={LENDER.nmlsLookup} className="underline hover:text-white" target="_blank" rel="noreferrer">
               NMLS Consumer Access
             </a>
-            . Rates shown on this site are illustrative and subject to change. Your actual rate is
-            determined at lock through New American Funding.
+            . Rates shown match New American Funding&apos;s published estimates as of{" "}
+            {NAF_PUBLISHED_RATES.asOf} and are subject to change. Your actual rate is determined at
+            lock through New American Funding.
           </p>
           <p>© {new Date().getFullYear()} {SITE_NAME}. {fullAddress()}.</p>
           {IS_DEMO ? (
             <p className="text-brand-300">
-              Preview build: rates on this page are sample data, and form submissions are not
-              recorded or sent to anyone.
+              Preview build: submissions are not recorded. Published rates match New American
+              Funding&apos;s public table as of the date shown on the rate board.
             </p>
           ) : null}
         </div>

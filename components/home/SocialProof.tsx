@@ -1,4 +1,6 @@
+import Image from "next/image";
 import { FAQS, REVIEWS } from "@/lib/company";
+import communityPhoto from "@/public/images/black-excellence-father-son.jpg";
 
 export function ReviewsSection() {
   return (
@@ -61,20 +63,27 @@ export function NafBlackImpact() {
   return (
     <section id="naf-black-impact" className="bg-ink-950 py-16 text-white">
       <div className="mx-auto max-w-7xl px-4">
-        <p className="eyebrow text-brand-300">
-          NAF Black Impact
-        </p>
-        <h2 className="mt-3 max-w-3xl font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
-          A stronger path to equitable homeownership for diverse communities.
-        </h2>
-        <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/75">
-          We are dedicated to promoting equitable homeownership in diverse communities. The NAF
-          Black Impact program trains and certifies loan officers in cultural competency and
-          historical awareness. For the VanDyke Mortgage Team, that commitment supports local Black
-          homebuyers in Hampton Roads alongside first-time buyers, military households, and
-          self-employed borrowers.
-        </p>
-        <div className="mt-8 grid gap-4 md:grid-cols-3">
+        <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
+          <div>
+            <p className="eyebrow text-brand-300">NAF Black Impact</p>
+            <h2 className="mt-3 max-w-3xl font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
+              Black excellence, homeownership, and a team that shows up.
+            </h2>
+            <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/75">
+              A large part of this work is helping Black families in Hampton Roads buy, refinance,
+              and keep homes. The NAF Black Impact program trains and certifies loan officers in
+              cultural competency and historical awareness. Anthony and Gonzalo bring that to the
+              kitchen table — not as a slogan, as the way the file gets done.
+            </p>
+          </div>
+          <Image
+            src={communityPhoto}
+            alt="African American father and son talking together at the kitchen counter of their home"
+            sizes="(max-width: 1024px) 100vw, 480px"
+            className="h-auto w-full rounded-board border border-white/10 object-cover shadow-lift"
+          />
+        </div>
+        <div className="mt-10 grid gap-4 md:grid-cols-3">
           {[
             {
               title: "Mortgage-ready guidance",

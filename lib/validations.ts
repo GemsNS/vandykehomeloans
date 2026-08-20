@@ -28,6 +28,7 @@ export const rateFormSchema = z.object({
   termYears: z.coerce.number().int().min(1).max(40),
   points: z.coerce.number().min(0).max(10),
   productType: z.enum(["conventional", "fha", "va", "usda", "jumbo", "arm"]),
+  loanPurpose: z.enum(["purchase", "refinance"]).default("purchase"),
   isFeatured: z.coerce.boolean().optional(),
   weeklyChange: z.coerce.number().min(-5).max(5),
 });

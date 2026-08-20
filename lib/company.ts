@@ -29,8 +29,15 @@ export const CONTACT = {
   facebook: "https://www.facebook.com/share/1G8iJ39nX1/",
   portal: "https://share.google/Qjz5J06xzG2dlyaFv",
   corporateRates: "https://share.google/EDnFMezGxLaJh3SQt",
-  preQual: "https://www.newamericanfunding.com/mortgage-loans/anthonyvandyke",
+  preQual: "https://www.newamericanfunding.com/lps/prequal/anthonyvandyke/",
+  publishedRates: "https://www.newamericanfunding.com/mortgage-rates/",
 };
+
+/** Snapshot of NAF's public rate table. Update whenever https://www.newamericanfunding.com/mortgage-rates/ changes. */
+export const NAF_PUBLISHED_RATES = {
+  asOf: "9:00AM PT on 8/18/2026",
+  pointsLabel: "1.000 ($8,065)",
+} as const;
 
 export const PEOPLE = {
   anthony: {

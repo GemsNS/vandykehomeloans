@@ -12,7 +12,7 @@ export const metadata = pageMetadata({
 
 export default async function AffordabilityPage() {
   const rates = await getFeaturedRates();
-  const rate = Number(rates[0]?.rate ?? 6.375);
+  const rate = Number(rates[0]?.rate ?? 6.625);
   return (
     <>
       <PageHero

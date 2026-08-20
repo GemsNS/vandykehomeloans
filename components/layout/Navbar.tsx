@@ -4,6 +4,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import * as React from "react";
+import { BrandLockup } from "@/components/brand/BrandLockup";
 import { ApplyNowButton } from "@/components/lead-funnel/ApplyNowButton";
 import { Button } from "@/components/ui/button";
 import { CONTACT } from "@/lib/company";
@@ -56,16 +57,8 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-ink-950/95 text-white backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4">
-        <Link href="/" className="flex items-center gap-2.5" aria-label="VanDyke Home Loans home">
-          <span className="flex h-9 w-9 items-center justify-center rounded-board bg-brand-500 font-display text-lg font-bold text-white">
-            V
-          </span>
-          <span className="leading-tight">
-            <span className="block font-display text-lg font-bold tracking-tight">VanDyke</span>
-            <span className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">
-              Home Loans
-            </span>
-          </span>
+        <Link href="/" aria-label="VanDyke Home Loans home">
+          <BrandLockup />
         </Link>
 
         <nav className="hidden items-center gap-0.5 xl:flex" aria-label="Primary">
@@ -128,7 +121,7 @@ export function Navbar() {
               My Portal
             </a>
           </Button>
-          <ApplyNowButton size="sm">Request a Quote</ApplyNowButton>
+          <ApplyNowButton size="sm">Start Pre-Qualification</ApplyNowButton>
         </div>
 
         <button
@@ -168,7 +161,7 @@ export function Navbar() {
                   My Portal
                 </a>
               </Button>
-              <ApplyNowButton>Request a Quote</ApplyNowButton>
+              <ApplyNowButton>Start Pre-Qualification</ApplyNowButton>
             </div>
           </div>
         </div>

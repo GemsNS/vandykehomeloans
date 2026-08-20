@@ -1,6 +1,7 @@
 import { BrokerGrid } from "@/components/home/BrokerGrid";
 import { ContactCta } from "@/components/home/ContactCta";
 import { Hero } from "@/components/home/Hero";
+import { LifestyleShowcase } from "@/components/home/LifestyleShowcase";
 import { RateTable } from "@/components/home/RateTable";
 import { FaqSection, NafBlackImpact, ReviewsSection } from "@/components/home/SocialProof";
 import { TrustSection } from "@/components/home/TrustSection";
@@ -24,7 +25,8 @@ export default async function HomePage() {
   return (
     <>
       <JsonLd data={faqJsonLd(FAQS)} />
-      <Hero featuredRate={Number(featured?.rate ?? 6.375)} />
+      <Hero featuredRate={Number(featured?.rate ?? 6.625)} />
+      <LifestyleShowcase />
       <RateTable rates={rates} />
       <BrokerGrid brokers={brokers} />
       <ReviewsSection />

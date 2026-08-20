@@ -27,6 +27,11 @@ const nextConfig: NextConfig = {
               destination: "/self-employed-loans",
               permanent: true,
             },
+            {
+              source: "/apply",
+              destination: "https://www.newamericanfunding.com/lps/prequal/anthonyvandyke/",
+              permanent: false,
+            },
           ];
         },
       }),

@@ -9,66 +9,69 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Nasdaq-style chrome: black through cool gray (PMS Cool Gray 1–11).
+        // Deep navy taken from the VanDyke logo plate; 950 is the darkest chrome.
         ink: {
-          DEFAULT: "#0B0D0E",
-          950: "#000000",
-          900: "#0B0D0E",
-          800: "#16181A",
-          700: "#212426",
-          600: "#424242",
-          500: "#595959",
-          400: "#949494",
-          300: "#BCBCBC",
-          200: "#D1D1D1",
-          100: "#E6E6E6",
-          50: "#F4F6F7",
+          DEFAULT: "#0B192C",
+          950: "#050D18",
+          900: "#0B192C",
+          800: "#12243B",
+          700: "#1B3050",
+          600: "#3A4A63",
+          500: "#4E5F79",
+          400: "#8A97AA",
+          300: "#B7C0CD",
+          200: "#D5DBE4",
+          100: "#E7EBF1",
+          50: "#F5F7FA",
         },
-        // Nasdaq Blue, PMS 313 C.
+        // Brushed gold from the logo. 300 for text on navy, 500 for surfaces,
+        // 600+ only for text on light backgrounds (contrast).
         brand: {
-          DEFAULT: "#0092BC",
-          50: "#E6F5FA",
-          100: "#CCEAF4",
-          200: "#99D5E9",
-          300: "#5AC4E4",
-          400: "#22ABD3",
-          500: "#0092BC",
-          600: "#007CA1",
-          700: "#006585",
+          DEFAULT: "#C9A44C",
+          50: "#FBF6E9",
+          100: "#F6ECD2",
+          200: "#EEDBA6",
+          300: "#E3C77E",
+          400: "#D5B25F",
+          500: "#C9A44C",
+          600: "#9C7A28",
+          700: "#7A5F1C",
         },
         // Market tape direction. For mortgage rates, down is the good print.
         up: {
-          DEFAULT: "#00B86B",
-          soft: "#E6F8F0",
+          DEFAULT: "#0E9F6E",
+          soft: "#E6F6EF",
         },
         down: {
-          DEFAULT: "#FF4B4B",
-          soft: "#FFECEC",
+          DEFAULT: "#E5484D",
+          soft: "#FDECEC",
         },
-        // Neutralized from Tailwind's blue-tinted slate to match the cool gray ramp.
+        // Navy-tinted neutrals so grays never read cold against the gold.
         slate: {
-          DEFAULT: "#424242",
-          400: "#949494",
-          500: "#6E6E6E",
-          600: "#595959",
-          700: "#424242",
-          800: "#212426",
-          900: "#0B0D0E",
+          DEFAULT: "#3A4A63",
+          400: "#8A97AA",
+          500: "#67748A",
+          600: "#4E5F79",
+          700: "#3A4A63",
+          800: "#12243B",
+          900: "#0B192C",
         },
-        canvas: "#F4F6F7",
+        canvas: "#F7F5F1",
       },
       fontFamily: {
         sans: ["var(--font-dm-sans)", "system-ui", "sans-serif"],
         display: ["var(--font-inter-tight)", "system-ui", "sans-serif"],
+        // Logo wordmark serif, used only for the brand lockup.
+        brand: ["var(--font-playfair)", "Georgia", "serif"],
         mono: ["var(--font-plex-mono)", "ui-monospace", "monospace"],
       },
       borderRadius: {
         board: "0.375rem",
       },
       boxShadow: {
-        card: "0 1px 2px rgba(11, 13, 14, 0.06), 0 8px 24px rgba(11, 13, 14, 0.06)",
-        lift: "0 12px 40px rgba(11, 13, 14, 0.18)",
-        glow: "0 0 0 1px rgba(0, 146, 188, 0.35), 0 0 32px rgba(0, 146, 188, 0.25)",
+        card: "0 1px 2px rgba(11, 25, 44, 0.06), 0 8px 24px rgba(11, 25, 44, 0.08)",
+        lift: "0 12px 40px rgba(11, 25, 44, 0.22)",
+        glow: "0 0 0 1px rgba(201, 164, 76, 0.4), 0 0 32px rgba(201, 164, 76, 0.22)",
       },
       keyframes: {
         ticker: {
