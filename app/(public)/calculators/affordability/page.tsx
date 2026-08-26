@@ -1,4 +1,5 @@
 import { AffordabilityCalculator } from "@/components/calculators/AffordabilityCalculator";
+import { CalculatorDisclaimer } from "@/components/compliance/CalculatorDisclaimer";
 import { CalculatorNav, PageHero } from "@/components/layout/PageHero";
 import { getFeaturedRates } from "@/lib/data/queries";
 import { pageMetadata } from "@/lib/seo";
@@ -6,7 +7,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Home Affordability Calculator",
   description:
-    "Estimate how much home you can afford using 28/36 DTI limits. VanDyke Mortgage Team, Suffolk, Virginia.",
+    "Estimate how much home you can afford using 28/36 DTI limits. VanDyke Home Loans, Suffolk, Virginia.",
   path: "/calculators/affordability",
 });
 
@@ -23,6 +24,7 @@ export default async function AffordabilityPage() {
       <section className="mx-auto max-w-7xl space-y-8 px-4 py-12">
         <CalculatorNav />
         <AffordabilityCalculator defaultRate={rate} />
+        <CalculatorDisclaimer />
       </section>
     </>
   );

@@ -4,7 +4,7 @@ import { DM_Sans, IBM_Plex_Mono, Inter_Tight, Playfair_Display } from "next/font
 import Script from "next/script";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { CONTACT, SITE_NAME, SITE_URL, TEAM_NAME } from "@/lib/company";
-import { localBusinessJsonLd } from "@/lib/seo";
+import { OG_IMAGE, localBusinessJsonLd } from "@/lib/seo";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -58,6 +58,11 @@ export const metadata: Metadata = {
     "FHA loans Suffolk",
     "New American Funding Suffolk",
   ],
+  icons: {
+    icon: [{ url: OG_IMAGE.url, type: "image/png" }],
+    apple: [{ url: OG_IMAGE.url }],
+    shortcut: OG_IMAGE.url,
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -66,21 +71,14 @@ export const metadata: Metadata = {
     title: `${SITE_NAME} | Hampton Roads Mortgages`,
     description:
       "Conventional, FHA, VA, self-employed, Non-QM, and investor financing with Anthony VanDyke and the VanDyke Mortgage Team. Powered by New American Funding.",
-    images: [
-      {
-        url: "/brand/vandyke-home-loans-logo.png",
-        width: 1024,
-        height: 683,
-        alt: `${SITE_NAME} logo`,
-      },
-    ],
+    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: `${SITE_NAME} | Hampton Roads Mortgages`,
     description:
       "Talk with Anthony VanDyke, NMLS #955777, or Gonzalo Guimoye, NMLS #1131706, in Suffolk, Virginia.",
-    images: ["/brand/vandyke-home-loans-logo.png"],
+    images: [OG_IMAGE.url],
   },
   robots: { index: true, follow: true },
   formatDetection: { telephone: true, email: true, address: true },

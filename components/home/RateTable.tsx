@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { Rate } from "@/db/schema";
+import { RateAdvertisingDisclaimer } from "@/components/compliance/RateAdvertisingDisclaimer";
 import { ApplyNowButton } from "@/components/lead-funnel/ApplyNowButton";
 import { CONTACT, NAF_PUBLISHED_RATES } from "@/lib/company";
 import { formatPercent } from "@/lib/utils";
@@ -134,6 +135,7 @@ export function RateTable({ rates }: { rates: Rate[] }) {
             </table>
           </div>
         </div>
+        <RateAdvertisingDisclaimer className="mt-4" />
       </div>
     </section>
   );

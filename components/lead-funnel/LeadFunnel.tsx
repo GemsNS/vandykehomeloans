@@ -298,8 +298,20 @@ export function LeadFunnel({ onComplete }: { onComplete?: () => void }) {
           <p className="sm:col-span-2 text-xs text-slate-500">
             By submitting you agree to be contacted by the VanDyke Mortgage Team / New American
             Funding at the number and email provided, including via autodialed calls or texts.
-            Consent is not a condition of purchase. Anthony VanDyke NMLS #955777 · Gonzalo Guimoye
-            NMLS #1131706 · Company NMLS #6606. nmlsconsumeraccess.org.
+            Consent is not a condition of purchase. See our{" "}
+            <a href="/privacy" className="font-semibold text-brand-600 underline-offset-2 hover:underline">
+              Privacy Policy
+            </a>
+            . Anthony VanDyke NMLS #955777 · Gonzalo Guimoye NMLS #1131706 · Company NMLS #6606.{" "}
+            <a
+              href="https://www.nmlsconsumeraccess.org/"
+              target="_blank"
+              rel="noreferrer"
+              className="underline underline-offset-2 hover:text-slate-700"
+            >
+              nmlsconsumeraccess.org
+            </a>
+            .
           </p>
         </div>
       )}

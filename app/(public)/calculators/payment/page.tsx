@@ -1,4 +1,5 @@
 import { PaymentCalculator } from "@/components/calculators/PaymentCalculator";
+import { CalculatorDisclaimer } from "@/components/compliance/CalculatorDisclaimer";
 import { CalculatorNav, PageHero } from "@/components/layout/PageHero";
 import { getFeaturedRates } from "@/lib/data/queries";
 import { pageMetadata } from "@/lib/seo";
@@ -23,6 +24,7 @@ export default async function PaymentCalculatorPage() {
       <section className="mx-auto max-w-7xl space-y-8 px-4 py-12">
         <CalculatorNav />
         <PaymentCalculator defaultRate={rate} />
+        <CalculatorDisclaimer />
       </section>
     </>
   );

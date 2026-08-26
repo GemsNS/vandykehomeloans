@@ -1,6 +1,20 @@
 import type { Metadata } from "next";
 import { CONTACT, LENDER, OFFICE, PEOPLE, SITE_NAME, SITE_URL, TEAM_NAME, fullAddress } from "@/lib/company";
 
+const OG_IMAGE = {
+  url: "/brand/vandyke-home-loans-logo.png",
+  width: 1024,
+  height: 683,
+  alt: `${SITE_NAME} logo`,
+} as const;
+
+/** Build a document/social title that always names VanDyke Home Loans. */
+export function brandTitle(pageTitle?: string): string {
+  if (!pageTitle || pageTitle === SITE_NAME) return SITE_NAME;
+  if (pageTitle.includes(SITE_NAME)) return pageTitle;
+  return `${pageTitle} | ${SITE_NAME}`;
+}
+
 export function pageMetadata({
   title,
   description,
@@ -13,10 +27,12 @@ export function pageMetadata({
   keywords?: string[];
 }): Metadata {
   const url = new URL(path, SITE_URL).toString();
-  const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+  const fullTitle = brandTitle(title);
   return {
-    title,
+    // absolute avoids the root `%s | SITE_NAME` template doubling the brand.
+    title: { absolute: fullTitle },
     description,
+    applicationName: SITE_NAME,
     keywords: [
       "VanDyke Home Loans",
       "VanDyke Mortgage Team",
@@ -37,11 +53,13 @@ export function pageMetadata({
       siteName: SITE_NAME,
       title: fullTitle,
       description,
+      images: [OG_IMAGE],
     },
     twitter: {
       card: "summary_large_image",
       title: fullTitle,
       description,
+      images: [OG_IMAGE.url],
     },
     robots: { index: true, follow: true },
   };
@@ -127,4 +145,4 @@ export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
   };
 }
 
-export { fullAddress };
+export { fullAddress, OG_IMAGE };
