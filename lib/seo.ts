@@ -40,6 +40,7 @@ export function pageMetadata({
     title: { absolute: fullTitle },
     description,
     applicationName: SITE_NAME,
+    appleWebApp: { title: SITE_NAME },
     keywords: [
       "VanDyke Home Loans",
       "VanDyke Mortgage Team",

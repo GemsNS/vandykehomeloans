@@ -50,7 +50,7 @@ const hostname = fileEnv.HOSTNAME || process.env.HOSTNAME || "127.0.0.1";
 module.exports = {
   apps: [
     {
-      name: "vandyke-home-loans",
+      name: "vandyke-home-loan",
       cwd: root,
       script: "node_modules/next/dist/bin/next",
       args: "start",

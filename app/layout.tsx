@@ -42,6 +42,11 @@ export const metadata: Metadata = {
   },  description:
     "The VanDyke Mortgage Team in Suffolk, VA helps first-time buyers, veterans, FHA clients, self-employed borrowers, and investors. Branch Manager Anthony VanDyke, NMLS #955777. Powered by New American Funding, NMLS #6606.",
   applicationName: SITE_NAME,
+  appleWebApp: {
+    capable: true,
+    title: SITE_NAME,
+    statusBarStyle: "black-translucent",
+  },
   authors: [{ name: TEAM_NAME, url: SITE_URL }],
   creator: TEAM_NAME,
   publisher: SITE_NAME,
@@ -93,6 +98,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <link rel="alternate" hrefLang="en-US" href={SITE_URL} />
         <meta name="theme-color" content="#0B192C" />
+        <meta name="apple-mobile-web-app-title" content={SITE_NAME} />
         <Script id="vd-splash" strategy="beforeInteractive">
           {`(function(){try{var k="vd-splash-seen";var wide=window.matchMedia("(min-width:768px)").matches;var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;var seen=false;try{seen=!!sessionStorage.getItem(k);}catch(e){seen=true;}if(wide||reduced||seen){document.documentElement.classList.add("splash-done");return;}setTimeout(function(){try{sessionStorage.setItem(k,"1");}catch(e){}document.documentElement.classList.add("splash-done");document.body&&(document.body.style.overflow="");},2600);}catch(e){document.documentElement.classList.add("splash-done");}})();`}
         </Script>
