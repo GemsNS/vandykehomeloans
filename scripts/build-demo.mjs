@@ -77,4 +77,13 @@ fs.cpSync(path.join(work, "out"), path.join(root, "out"), { recursive: true });
 
 // Without this, Pages runs Jekyll and discards the _next directory.
 fs.writeFileSync(path.join(root, "out", ".nojekyll"), "");
-console.log("\nStatic demo written to out/");
+
+// Close the public demo behind an under-construction password gate.
+const gate = spawnSync("node", ["scripts/apply-demo-gate.mjs"], {
+  cwd: root,
+  stdio: "inherit",
+  env: process.env,
+});
+if (gate.status !== 0) process.exit(gate.status ?? 1);
+
+console.log("\nStatic demo written to out/ (construction gate enabled)");
