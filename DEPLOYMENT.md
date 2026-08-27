@@ -103,14 +103,24 @@ Schema lives in `db/schema.ts`. Mutations go through Server Actions in `actions/
 
 ## Static demo (GitHub Pages)
 
-For a public preview without secrets:
+The GitHub Pages preview is **closed for construction** and password-gated.
 
 ```bash
-npm run build:demo    # writes out/
+export DEMO_GATE_PASSWORD='your-preview-password'
+npm run build:demo    # writes out/ and injects the construction gate
 npm run deploy:demo   # force-pushes out/ to gh-pages
 ```
 
 Live demo URL: https://gemsns.github.io/vandykehomeloans/
+
+| Detail | Behavior |
+| --- | --- |
+| Public visitors | “Under construction” screen only; `robots.txt` disallows all crawlers |
+| Unlock | Enter `DEMO_GATE_PASSWORD` on `/gate.html`; session kept in `sessionStorage` for that browser tab session |
+| Mechanism | Locked app pages immediately redirect to a standalone `gate.html` (no Next.js), so the marketing UI cannot flash through |
+| Limitation | GitHub Pages cannot do HTTP Basic Auth on a public site. The gate hides the UI; exported static files are still fetchable if someone knows direct asset URLs. Do not put secrets in the demo export. |
+
+`DEMO_GATE_PASSWORD` is **required** for `build:demo` / `deploy:demo`. Only a SHA-256 hash of the password is embedded in the published `demo-gate.js`.
 
 Demo builds set `DEMO_EXPORT=1` / `NEXT_PUBLIC_DEMO=1`, strip admin and server actions, and use a client-side lead stub. Do not treat the demo as the compliance production surface for lead capture.
 

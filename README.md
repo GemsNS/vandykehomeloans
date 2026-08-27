@@ -2,7 +2,7 @@
 
 Production web application for [vandykehomeloans.net](https://vandykehomeloans.net) — live published rates, mortgage calculators, lead capture, and a protected broker admin portal.
 
-**Deployment:** see [DEPLOYMENT.md](./DEPLOYMENT.md) for production env vars, Postgres setup, host options, and the GitHub Pages demo.
+**Deployment:** see [DEPLOYMENT.md](./DEPLOYMENT.md) for production env vars, Postgres setup, host options, and the GitHub Pages demo (currently closed for construction and password-gated).
 
 ## Stack (pure JS/TS)
 
