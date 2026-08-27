@@ -28,6 +28,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/programs/investors",
     "/team",
     "/about",
+    "/privacy",
+    "/licensing",
     "/apply",
   ];
 

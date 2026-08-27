@@ -31,7 +31,10 @@ const COLUMNS = [
       { href: "/about", label: "About us" },
       { href: "/calculators", label: "Calculators" },
       { href: "/#naf-black-impact", label: "NAF Black Impact" },
+      { href: "/privacy", label: "Privacy Policy" },
+      { href: "/licensing", label: "Licensing & Disclosures" },
       { href: LENDER.nmlsLookup, label: "NMLS Consumer Access", external: true },
+      { href: LENDER.licensing, label: "State licensing", external: true },
       // The static demo ships without the admin portal, so the link would 404 there.
       ...(IS_DEMO ? [] : [{ href: "/admin", label: "Staff login" }]),
     ],
@@ -111,7 +114,21 @@ export function Footer() {
             </a>
             . Rates shown match New American Funding&apos;s published estimates as of{" "}
             {NAF_PUBLISHED_RATES.asOf} and are subject to change. Your actual rate is determined at
-            lock through New American Funding.
+            lock through New American Funding. This website is operated by the VanDyke Mortgage Team
+            for marketing purposes; loans are originated through {LENDER.name}.
+          </p>
+          <p>
+            <Link href="/privacy" className="underline hover:text-white">
+              Privacy Policy
+            </Link>
+            {" · "}
+            <Link href="/licensing" className="underline hover:text-white">
+              Licensing &amp; Disclosures
+            </Link>
+            {" · "}
+            <a href={LENDER.licensing} className="underline hover:text-white" target="_blank" rel="noreferrer">
+              State licensing
+            </a>
           </p>
           <p>© {new Date().getFullYear()} {SITE_NAME}. {fullAddress()}.</p>
           {IS_DEMO ? (

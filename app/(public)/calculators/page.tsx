@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CalculatorDisclaimer } from "@/components/compliance/CalculatorDisclaimer";
 import { CalculatorNav, PageHero } from "@/components/layout/PageHero";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { pageMetadata } from "@/lib/seo";
@@ -50,6 +51,7 @@ export default function CalculatorsIndexPage() {
             </Link>
           ))}
         </div>
+        <CalculatorDisclaimer />
       </section>
     </>
   );
