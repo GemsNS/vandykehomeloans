@@ -8,11 +8,18 @@ const OG_IMAGE = {
   alt: `${SITE_NAME} logo`,
 } as const;
 
-/** Build a document/social title that always names VanDyke Home Loans. */
+/** Build a document/social title that always leads with VanDyke Home Loans. */
 export function brandTitle(pageTitle?: string): string {
   if (!pageTitle || pageTitle === SITE_NAME) return SITE_NAME;
-  if (pageTitle.includes(SITE_NAME)) return pageTitle;
-  return `${pageTitle} | ${SITE_NAME}`;
+  if (pageTitle.startsWith(`${SITE_NAME} |`) || pageTitle === SITE_NAME) return pageTitle;
+  // Strip a trailing brand suffix so we can normalize to brand-first.
+  const withoutTrailing = pageTitle
+    .replace(new RegExp(`\\s*[\\|–-]\\s*${SITE_NAME}\\s*$`), "")
+    .replace(SITE_NAME, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+  if (!withoutTrailing) return SITE_NAME;
+  return `${SITE_NAME} | ${withoutTrailing}`;
 }
 
 export function pageMetadata({

@@ -12,7 +12,8 @@ html {
 
 /* First-visit mobile landing. Hidden after the intro, on md+, or when reduced-motion. */
 html.splash-done [data-mobile-splash] {
-  display: none;
+  display: none !important;
+  pointer-events: none !important;
 }
 
 [data-mobile-splash] {
@@ -25,6 +26,8 @@ html.splash-done [data-mobile-splash] {
   justify-content: center;
   background: #050d18;
   color: #e3c77e;
+  /* CSS failsafe: even if JS never hydrates, release the overlay. */
+  animation: vd-splash-auto-hide 0.01s linear 2.6s forwards;
 }
 
 @media (min-width: 768px) {
@@ -48,7 +51,7 @@ html.splash-done [data-mobile-splash] {
 }
 
 [data-mobile-splash].is-leaving {
-  animation: vd-splash-leave 0.7s ease-in forwards;
+  animation: vd-splash-leave 0.5s ease-in forwards;
 }
 
 @keyframes vd-splash-in {
@@ -75,6 +78,15 @@ html.splash-done [data-mobile-splash] {
   to {
     opacity: 0;
     visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+@keyframes vd-splash-auto-hide {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
   }
 }
 
