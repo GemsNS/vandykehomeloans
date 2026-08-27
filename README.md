@@ -2,7 +2,7 @@
 
 Production web application for [vandykehomeloans.net](https://vandykehomeloans.net) — live published rates, mortgage calculators, lead capture, and a protected broker admin portal.
 
-**Deployment:** see [DEPLOYMENT.md](./DEPLOYMENT.md) for Ubuntu 18.04 + NVM Node 24 + GLIBC 2.28 + Apache/TLS production steps (and optional GitHub Pages demo).
+**Deployment:** see [DEPLOYMENT.md](./DEPLOYMENT.md) for the shared GCP Ubuntu 18.04 layout (`/var/www/vandykehomeloans.net/{public_html,backend}`), NVM Node 24, GLIBC 2.28, PM2, Apache ProxyPass, and Certbot.
 
 ## Stack (pure JS/TS)
 

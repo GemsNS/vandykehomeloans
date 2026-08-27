@@ -1,122 +1,128 @@
-# VanDyke Home Loans — Deployment
+# VanDyke Home Loans — Deployment (shared GCP Ubuntu 18.04)
 
-Production target: **https://vandykehomeloans.net**
+Production: **https://vandykehomeloans.net**
 
-Next.js 15 App Router (Node server) on **Ubuntu 18.04**, **Node v24 via NVM**, **custom GLIBC 2.28** at `~/glibc-2.28/build`. npm scripts already wrap Next through `scripts/with-glibc.mjs`.
+This guide matches the shared VM conventions used by other sites on the box:
 
-A static GitHub Pages demo can also publish without Postgres/admin (optional).
+- **OS:** Ubuntu 18.04 LTS  
+- **Web:** Apache + Certbot (multi-site)  
+- **Layout:** `/var/www/<domain>/{public_html,backend}`  
+- **Node:** NVM only (not apt) — **v24.16.0**  
+- **GLIBC:** custom **2.28** at `~/glibc-2.28/build`  
+- **Process manager:** PM2  
+- **Bind:** Node listens on **127.0.0.1** only (unique port **3010**)  
+- **Secrets:** `backend/.env` only — never commit  
+- **FTP/files:** `chown USER:www-data` so deploy user and Apache can both access  
+
+**Do not modify** existing vhosts, certs, PM2 apps, or `/var/www/<other-domain>/` trees.
+
+VanDyke is a **Next.js 15 App Router** app (UI + Server Actions + `/admin`). Unlike a static HTML + `/api` split, Apache must **ProxyPass `/` (and `/_next`)** to Node in addition to `/api` and `/uploads`. Frontend same-origin config lives in `runtime.json` (`apiBase: "/api"`).
 
 ---
 
-## 1. Environments
+## Layout on the server
 
-| Surface | Command | Postgres | Admin `/admin` |
-| --- | --- | --- | --- |
-| Production Node (this guide) | `npm run build` → PM2 `npm start` | Recommended | Yes (middleware-protected) |
-| Static GitHub Pages demo | `npm run build:demo` → `npm run deploy:demo` | No | No |
+```text
+/var/www/vandykehomeloans.net/
+  public_html/          # Apache DocumentRoot (static fallback + runtime.json)
+    runtime.json
+    index.html          # unused while ProxyPass / is active
+    uploads/            # optional static uploads dir
+  backend/              # Next.js app (git clone) — PM2 runs from here
+    .env                # secrets (chmod 600)
+    ecosystem.config.cjs
+    ...
+```
+
+| Piece | Path / value |
+| --- | --- |
+| Domain folder | `/var/www/vandykehomeloans.net` |
+| Static root | `.../public_html` |
+| Node app | `.../backend` |
+| Localhost port | **3010** (change only if taken; keep unique) |
+| PM2 name | `vandyke-home-loans` |
 
 ---
 
-## 2. Required environment variables
-
-Create `/var/www/vandykehomeloans/.env` on the server (never commit secrets):
+## 1. One-time server modules
 
 ```bash
-# Postgres (postgres.js / Drizzle)
-DATABASE_URL=postgres://USER:PASSWORD@127.0.0.1:5432/vandyke
+sudo a2enmod proxy proxy_http headers rewrite ssl
+sudo systemctl reload apache2
+```
 
-# Admin portal (/admin)
-ADMIN_PASSWORD=use-a-long-unique-password
-ADMIN_SESSION_SECRET=$(openssl rand -base64 48)
+Confirm NVM Node 24 + glibc (do **not** install Node from apt):
 
-# Next listens here; Apache proxies to it
+```bash
+export NVM_DIR="$HOME/.nvm"
+. "$NVM_DIR/nvm.sh"
+nvm use 24
+node -v    # v24.16.0
+ls "$HOME/glibc-2.28/build" | head
+```
+
+Pick a free port (must stay unique vs other PM2 apps):
+
+```bash
+ss -tlnp | grep -E '3010|3000|3001|3020' || true
+```
+
+---
+
+## 2. Create the site tree (new folder only)
+
+```bash
+export DEPLOY_USER="$USER"   # FTP/SSH user that owns other sites
+sudo mkdir -p /var/www/vandykehomeloans.net/{public_html/uploads,backend}
+sudo chown -R "$DEPLOY_USER":www-data /var/www/vandykehomeloans.net
+sudo find /var/www/vandykehomeloans.net -type d -exec chmod 775 {} \;
+sudo find /var/www/vandykehomeloans.net -type f -exec chmod 664 {} \;
+```
+
+Seed `public_html` from the repo templates (after clone, or copy now):
+
+```bash
+# After backend clone (step 3), sync static helpers:
+cp /var/www/vandykehomeloans.net/backend/deploy/public_html/* \
+   /var/www/vandykehomeloans.net/public_html/
+mkdir -p /var/www/vandykehomeloans.net/public_html/uploads
+```
+
+---
+
+## 3. Install the Next.js app into `backend/`
+
+```bash
+export NVM_DIR="$HOME/.nvm"
+. "$NVM_DIR/nvm.sh"
+nvm use 24
+
+cd /var/www/vandykehomeloans.net/backend
+git clone https://github.com/GemsNS/vandykehomeloans.git .
+git checkout main
+git pull origin main
+
+cp .env.example .env
+nano .env
+chmod 600 .env
+```
+
+Minimum `.env`:
+
+```bash
+DATABASE_URL=postgres://vandyke:PASSWORD@127.0.0.1:5432/vandyke
+ADMIN_PASSWORD=long-unique-admin-password
+ADMIN_SESSION_SECRET=paste-openssl-rand-base64-48
 PORT=3010
 HOSTNAME=127.0.0.1
 NODE_ENV=production
 ```
 
-| Variable | Required | Purpose |
-| --- | --- | --- |
-| `DATABASE_URL` | Production (live rates / brokers / leads) | Postgres connection string |
-| `ADMIN_PASSWORD` | Yes | `/admin` login |
-| `ADMIN_SESSION_SECRET` | Yes | Signs admin session cookies |
-| `PORT` | Recommended | App port (use a free port if other apps use 3000) |
-| `HOSTNAME` | Recommended | Bind to localhost behind Apache |
-
-Without `DATABASE_URL`, the public site still boots with fallback rates/brokers; admin writes will not persist.
-
----
-
-## 3. Production checklist (before DNS cutover)
-
-- [ ] Node `v24.x` via NVM; `~/glibc-2.28/build` present
-- [ ] Repo cloned; `.env` filled; `npm ci` + `npm run build` succeed
-- [ ] Postgres DB created; `npm run db:push` + `npm run db:seed`
-- [ ] PM2 process running on `127.0.0.1:$PORT`
-- [ ] Apache vhost + ProxyPass for `vandykehomeloans.net`
-- [ ] TLS cert covers `vandykehomeloans.net` (+ `www` if used)
-- [ ] DNS A/AAAA points at this server
-- [ ] Verify: home title **VanDyke Home Loans**, `/privacy`, `/licensing`, `/admin` login, rates show APR
-
----
-
-## 4. Step-by-step: add the site to an existing Ubuntu 18.04 server
-
-Assumes you already run other sites on this machine (e.g. Apache + Let’s Encrypt), with:
-
-- Node.js **v24.16.0** (NVM)
-- GLIBC **2.28** in `~/glibc-2.28/build`
-- Ubuntu **18.04 LTS**
-
-Run as your deploy user (the one that owns NVM + glibc). Use `sudo` only where shown.
-
-### 4.1 Shell prep
-
 ```bash
-# Load NVM (adjust path if your nvm lives elsewhere)
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-nvm use 24
-
-node -v          # expect v24.16.0
-ls ~/glibc-2.28/build | head  # expect glibc build tree
-
-# Optional: confirm LD path the app will use
-echo ~/glibc-2.28/build
+openssl rand -base64 48
 ```
 
-### 4.2 Install app files
-
-```bash
-sudo mkdir -p /var/www/vandykehomeloans
-sudo chown "$USER":"$USER" /var/www/vandykehomeloans
-cd /var/www/vandykehomeloans
-
-git clone https://github.com/GemsNS/vandykehomeloans.git .
-# or: git pull origin main   if already cloned
-
-git checkout main
-git pull origin main
-```
-
-### 4.3 Environment file
-
-```bash
-cd /var/www/vandykehomeloans
-cp .env.example .env
-nano .env   # set DATABASE_URL, ADMIN_PASSWORD, ADMIN_SESSION_SECRET, PORT, HOSTNAME, NODE_ENV
-chmod 600 .env
-```
-
-Pick a **free** port (example `3010`) if `3000` is taken:
-
-```bash
-ss -tlnp | grep -E '3000|3010|3011' || netstat -tlnp | grep -E '3000|3010'
-```
-
-### 4.4 Postgres database
-
-If Postgres is already on the box:
+Postgres (new DB only — do not touch other databases):
 
 ```bash
 sudo -u postgres psql <<'SQL'
@@ -126,232 +132,194 @@ GRANT ALL PRIVILEGES ON DATABASE vandyke TO vandyke;
 SQL
 ```
 
-Put the matching URL in `.env`:
+Build (scripts already wrap GLIBC 2.28 via `scripts/with-glibc.mjs`):
 
 ```bash
-DATABASE_URL=postgres://vandyke:choose-a-strong-password@127.0.0.1:5432/vandyke
-```
-
-### 4.5 Install, migrate, build
-
-```bash
-cd /var/www/vandykehomeloans
-export NVM_DIR="$HOME/.nvm"
-. "$NVM_DIR/nvm.sh"
-nvm use 24
-
+cd /var/www/vandykehomeloans.net/backend
 npm ci
 npm run db:push
 npm run db:seed
 npm run build
 ```
 
-`npm run build` / `start` already invoke `scripts/with-glibc.mjs` so Node 24 can load against your custom GLIBC.
-
-### 4.6 Run with PM2 (recommended on a multi-site box)
+Sync `runtime.json` into DocumentRoot:
 
 ```bash
-npm install -g pm2
-
-# From the app directory — uses ecosystem.config.cjs
-cd /var/www/vandykehomeloans
-pm2 start ecosystem.config.cjs
-pm2 save
-pm2 startup
-# run the command pm2 prints (sudo env PATH=...)
-
-pm2 status
-curl -sI http://127.0.0.1:3010 | head   # use your PORT
-```
-
-Update / restart later:
-
-```bash
-cd /var/www/vandykehomeloans
-git pull origin main
-npm ci
-npm run db:push    # only when schema changes
-npm run build
-pm2 restart vandyke-home-loans
+cp public/runtime.json /var/www/vandykehomeloans.net/public_html/runtime.json
+cp deploy/public_html/index.html /var/www/vandykehomeloans.net/public_html/index.html
+chown "$DEPLOY_USER":www-data /var/www/vandykehomeloans.net/public_html/runtime.json
 ```
 
 ---
 
-## 5. Apache: add the vhost on an existing server
-
-### 5.1 Enable proxy modules (once per server)
+## 4. PM2 — Node on 127.0.0.1:3010 only
 
 ```bash
-sudo a2enmod proxy proxy_http headers rewrite ssl
-sudo systemctl reload apache2
+npm install -g pm2
+cd /var/www/vandykehomeloans.net/backend
+pm2 start ecosystem.config.cjs
+pm2 save
+pm2 startup
+# run the sudo env PATH=... command that pm2 prints
+
+pm2 status
+curl -sI http://127.0.0.1:3010/ | head
+curl -s http://127.0.0.1:3010/runtime.json
 ```
 
-### 5.2 Create the site config
+`ecosystem.config.cjs` loads `backend/.env`, forces `HOSTNAME=127.0.0.1`, sets `LD_LIBRARY_PATH` for `~/glibc-2.28/build`, and uses NVM’s Node binary.
+
+Update deploy later:
 
 ```bash
-sudo nano /etc/apache2/sites-available/vandykehomeloans.net.conf
+cd /var/www/vandykehomeloans.net/backend
+git pull origin main
+npm ci
+npm run build
+pm2 restart vandyke-home-loans
+cp public/runtime.json /var/www/vandykehomeloans.net/public_html/runtime.json
 ```
 
-Paste (adjust `PORT` if not `3010`):
+---
 
-```apache
-<VirtualHost *:80>
-    ServerName vandykehomeloans.net
-    ServerAlias www.vandykehomeloans.net
-
-    # After certbot --apache, this block is often redirected to HTTPS automatically.
-    ProxyPreserveHost On
-    RequestHeader set X-Forwarded-Proto "http"
-    ProxyPass        / http://127.0.0.1:3010/
-    ProxyPassReverse / http://127.0.0.1:3010/
-
-    ErrorLog ${APACHE_LOG_DIR}/vandykehomeloans-error.log
-    CustomLog ${APACHE_LOG_DIR}/vandykehomeloans-access.log combined
-</VirtualHost>
-```
-
-Enable and reload:
+## 5. Apache vhosts (new site only)
 
 ```bash
+sudo cp /var/www/vandykehomeloans.net/backend/deploy/apache/vandykehomeloans.net.conf \
+  /etc/apache2/sites-available/
+
+# Optional SSL template (Certbot often writes *-le-ssl.conf itself):
+sudo cp /var/www/vandykehomeloans.net/backend/deploy/apache/vandykehomeloans.net-le-ssl.conf \
+  /etc/apache2/sites-available/
+
 sudo a2ensite vandykehomeloans.net.conf
 sudo apache2ctl configtest
 sudo systemctl reload apache2
 ```
 
+Confirm ProxyPass targets **3010** and paths `/api`, `/uploads`, `/_next`, `/`.
+
 ---
 
-## 6. TLS: add this domain to an **existing** Let’s Encrypt certificate
+## 6. TLS with Certbot on the existing multi-site box
 
-You have two common cases on a multi-site Ubuntu box.
+### Recommended: new certificate for this domain only
 
-### Option A — Expand an existing cert (same cert, more names)
-
-List current certs:
-
-```bash
-sudo certbot certificates
-```
-
-Note the **Certificate Name** (e.g. `wearencc.org` or `pinnacle…`) and its current domains. Expand it to include VanDyke:
-
-```bash
-# Replace CERT_NAME and list EVERY domain that must remain on the cert, plus the new ones.
-sudo certbot certonly --apache --cert-name CERT_NAME --expand \
-  -d existing-domain.com \
-  -d www.existing-domain.com \
-  -d vandykehomeloans.net \
-  -d www.vandykehomeloans.net
-```
-
-**Important:** With `--expand`, pass the **full** final domain list (old + new). Omitting an old name can drop it from the cert.
-
-Then point the VanDyke SSL vhost at that cert’s files (paths from `certbot certificates`), or run Option B’s `--apache` installer against only this vhost.
-
-### Option B — New cert just for VanDyke (simplest; recommended)
-
-Keep other sites on their current certs; issue a dedicated cert:
+Does not rewrite other sites’ certs:
 
 ```bash
 sudo certbot --apache -d vandykehomeloans.net -d www.vandykehomeloans.net
 ```
 
-Certbot will create/update the HTTPS vhost (often `vandykehomeloans.net-le-ssl.conf`) with:
-
-- `SSLCertificateFile /etc/letsencrypt/live/vandykehomeloans.net/fullchain.pem`
-- `SSLCertificateKeyFile /etc/letsencrypt/live/vandykehomeloans.net/privkey.pem`
-
-Confirm proxy lines exist on **443** as well:
-
-```apache
-ProxyPreserveHost On
-RequestHeader set X-Forwarded-Proto "https"
-ProxyPass        / http://127.0.0.1:3010/
-ProxyPassReverse / http://127.0.0.1:3010/
-```
+Afterward, open the generated SSL vhost and ensure it still has the same ProxyPass block as `deploy/apache/vandykehomeloans.net-le-ssl.conf` (Certbot sometimes leaves only DocumentRoot). Reload:
 
 ```bash
-sudo apache2ctl configtest
-sudo systemctl reload apache2
+sudo apache2ctl configtest && sudo systemctl reload apache2
 ```
 
-### Renewals
+### Alternate: expand an **existing** Let’s Encrypt cert
+
+```bash
+sudo certbot certificates
+```
+
+Re-issue with **every** old name plus the new ones (omitting an old name drops it):
+
+```bash
+sudo certbot certonly --apache --cert-name EXISTING_CERT_NAME --expand \
+  -d existing-site.com \
+  -d www.existing-site.com \
+  -d vandykehomeloans.net \
+  -d www.vandykehomeloans.net
+```
+
+Then point the VanDyke SSL vhost `SSLCertificateFile` / `KeyFile` at that cert’s `live/` paths, keep ProxyPass to `127.0.0.1:3010`, and reload Apache.
 
 ```bash
 sudo certbot renew --dry-run
 ```
 
-Certbot’s timer/cron on the server continues to renew; no special VanDyke step beyond ensuring the name stays on the cert.
-
 ---
 
 ## 7. DNS
 
-At your DNS host:
-
 | Type | Name | Value |
 | --- | --- | --- |
-| A | `@` / `vandykehomeloans.net` | your server public IP |
-| A | `www` | same IP (or CNAME → apex) |
-
-Wait for propagation, then:
+| A | vandykehomeloans.net | this VM’s public IP |
+| A or CNAME | www | same IP / apex |
 
 ```bash
 curl -sI https://vandykehomeloans.net | head
-curl -s https://vandykehomeloans.net | grep -o '<title>[^<]*</title>'
+curl -s https://vandykehomeloans.net/runtime.json
+curl -sI https://vandykehomeloans.net/admin | head
 ```
 
 ---
 
-## 8. Post-deploy verification
+## 8. FTP / file ownership
+
+After FTP uploads into this site tree:
 
 ```bash
-curl -sI https://vandykehomeloans.net/privacy | head
-curl -sI https://vandykehomeloans.net/licensing | head
-curl -sI https://vandykehomeloans.net/admin | head   # should redirect to login
-curl -s https://vandykehomeloans.net/robots.txt
-curl -s https://vandykehomeloans.net/sitemap.xml | head
-pm2 logs vandyke-home-loans --lines 50
+export DEPLOY_USER="$USER"
+sudo chown -R "$DEPLOY_USER":www-data /var/www/vandykehomeloans.net
+sudo find /var/www/vandykehomeloans.net -type d -exec chmod 775 {} \;
+sudo find /var/www/vandykehomeloans.net -type f -exec chmod 664 {} \;
+chmod 600 /var/www/vandykehomeloans.net/backend/.env
 ```
 
-Browser checks:
-
-- Title / link preview includes **VanDyke Home Loans**
-- Rate board shows Rate **and** APR
-- `/admin` prompts for password
-- Footer shows NMLS + Privacy + Licensing
+Never chmod/chown other domains under `/var/www/`.
 
 ---
 
-## 9. Optional: GitHub Pages static demo (no gate)
+## 9. Secrets
 
-Public preview without Postgres/admin:
+| File | Git |
+| --- | --- |
+| `backend/.env` | **Ignored** (`.gitignore` has `.env`) |
+| `backend/.env.example` | Committed (placeholders only) |
+
+Do not put passwords in Apache configs, `runtime.json`, or the repo.
+
+---
+
+## 10. Verification checklist
+
+- [ ] `pm2 show vandyke-home-loans` → online, port 3010, `127.0.0.1`
+- [ ] `ss -tlnp | grep 3010` → only localhost
+- [ ] https://vandykehomeloans.net title contains **VanDyke Home Loans**
+- [ ] `/privacy`, `/licensing`, `/runtime.json` OK
+- [ ] `/admin` redirects to login (middleware)
+- [ ] Other sites on the VM still respond (smoke-test one existing domain)
+- [ ] `sudo apache2ctl -S` shows distinct vhosts; no accidental overwrite
+
+---
+
+## 11. Rollback (this site only)
 
 ```bash
-cd /path/to/vandykehomeloans
-npm run build:demo
-npm run deploy:demo
-```
-
-Live: https://gemsns.github.io/vandykehomeloans/
-
-Demo builds set `DEMO_EXPORT=1` / `NEXT_PUBLIC_DEMO=1`, strip admin and server actions, and use a client-side lead stub. Prefer production for real lead capture.
-
----
-
-## 10. Security headers
-
-Production `next.config.ts` sends `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, and `Strict-Transport-Security`. `poweredByHeader` is off. Admin routes are guarded by `middleware.ts`.
-
----
-
-## 11. Rollback
-
-```bash
-cd /var/www/vandykehomeloans
+cd /var/www/vandykehomeloans.net/backend
 git log --oneline -5
 git checkout PREVIOUS_SHA
 npm ci && npm run build
 pm2 restart vandyke-home-loans
 ```
 
-Database rollbacks are manual — snapshot Postgres before `db:push` in production.
+Disable only this site if needed:
+
+```bash
+sudo a2dissite vandykehomeloans.net.conf vandykehomeloans.net-le-ssl.conf
+sudo systemctl reload apache2
+pm2 stop vandyke-home-loans
+```
+
+---
+
+## 12. Optional GitHub Pages demo
+
+```bash
+cd /path/to/checkout
+npm run build:demo && npm run deploy:demo
+```
+
+https://gemsns.github.io/vandykehomeloans/ — static, no Postgres/admin. Prefer this VM for production leads and `/admin`.

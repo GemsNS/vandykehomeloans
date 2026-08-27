@@ -1,0 +1,7 @@
+{
+  "site": "vandykehomeloans.net",
+  "apiBase": "/api",
+  "uploadsBase": "/uploads",
+  "sameOrigin": true,
+  "note": "Same-origin API via Apache ProxyPass to 127.0.0.1:3010"
+}

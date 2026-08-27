@@ -1,0 +1,6 @@
+{
+  "site": "vandykehomeloans.net",
+  "apiBase": "/api",
+  "uploadsBase": "/uploads",
+  "sameOrigin": true
+}
