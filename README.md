@@ -1,8 +1,8 @@
 # VanDyke Home Loans
 
-Production web application for [vandykehomeloans.net](https://vandykehomeloans.net) — live published rates, mortgage calculators, lead capture, and a protected broker admin portal.
+Production web application for [vandykehomeloan.net](https://vandykehomeloan.net) — live published rates, mortgage calculators, lead capture, and a protected broker admin portal.
 
-**Deployment:** see [DEPLOYMENT.md](./DEPLOYMENT.md) for production env vars, Postgres setup, host options, and the GitHub Pages demo.
+**Deployment:** see [DEPLOYMENT.md](./DEPLOYMENT.md) for the shared GCP Ubuntu 18.04 layout (`/var/www/vandykehomeloan.net/{public_html,backend}`), NVM Node 24, GLIBC 2.28, PM2, Apache ProxyPass, and Certbot.
 
 ## Stack (pure JS/TS)
 
@@ -21,7 +21,7 @@ npm install
 npm run dev
 ```
 
-Without `DATABASE_URL`, the public site serves demo rates and brokers. Admin mutations require Postgres:
+Without `DATABASE_URL`, the public site serves fallback rates and brokers. Admin mutations require Postgres:
 
 ```bash
 npm run db:push

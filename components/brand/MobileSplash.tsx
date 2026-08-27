@@ -4,20 +4,30 @@ import { useEffect, useState } from "react";
 import { LogoPlate } from "@/components/brand/LogoPlate";
 
 const SESSION_KEY = "vd-splash-seen";
-const FILL_MS = 1700;
-const FADE_MS = 700;
+const FILL_MS = 1600;
+const FADE_MS = 500;
+const TOTAL_MS = FILL_MS + FADE_MS;
+
+function markSplashDone() {
+  try {
+    sessionStorage.setItem(SESSION_KEY, "1");
+  } catch {
+    /* private mode */
+  }
+  document.documentElement.classList.add("splash-done");
+  document.body.style.overflow = "";
+}
 
 /**
- * First-visit intro on phones only. The raster plate is the brand moment; after it
- * fades, the hero no longer repeats that same framed logo.
+ * First-visit intro on phones only. Dismiss is driven by timers + a CSS
+ * safety animation so a late/failed hydration cannot leave the overlay stuck.
  */
 export function MobileSplash() {
+  const [visible, setVisible] = useState(false);
   const [leaving, setLeaving] = useState(false);
 
   useEffect(() => {
     const root = document.documentElement;
-    if (root.classList.contains("splash-done")) return;
-
     const wide = window.matchMedia("(min-width: 768px)").matches;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let seen = false;
@@ -27,31 +37,35 @@ export function MobileSplash() {
       seen = true;
     }
 
-    if (wide || reduced || seen) {
-      root.classList.add("splash-done");
+    if (wide || reduced || seen || root.classList.contains("splash-done")) {
+      markSplashDone();
+      setVisible(false);
       return;
     }
 
-    const previousOverflow = document.body.style.overflow;
+    setVisible(true);
     document.body.style.overflow = "hidden";
 
     const fadeTimer = window.setTimeout(() => setLeaving(true), FILL_MS);
     const doneTimer = window.setTimeout(() => {
-      try {
-        sessionStorage.setItem(SESSION_KEY, "1");
-      } catch {
-        /* private mode */
-      }
-      root.classList.add("splash-done");
-      document.body.style.overflow = previousOverflow;
-    }, FILL_MS + FADE_MS);
+      markSplashDone();
+      setVisible(false);
+    }, TOTAL_MS);
+
+    // Absolute failsafe if the component tree remounts or timers are cleared.
+    const safetyTimer = window.setTimeout(() => {
+      markSplashDone();
+      setVisible(false);
+    }, TOTAL_MS + 800);
 
     return () => {
       window.clearTimeout(fadeTimer);
       window.clearTimeout(doneTimer);
-      document.body.style.overflow = previousOverflow;
+      window.clearTimeout(safetyTimer);
     };
   }, []);
+
+  if (!visible) return null;
 
   return (
     <div

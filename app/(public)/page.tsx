@@ -11,7 +11,7 @@ import { FAQS } from "@/lib/company";
 import { faqJsonLd, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "VanDyke Home Loans | Hampton Roads Mortgages Powered by New American Funding",
+  title: "VanDyke Home Loans | Hampton Roads Mortgages",
   description:
     "VanDyke Home Loans in Suffolk, VA. Branch Manager Anthony VanDyke, NMLS #955777, and Loan Consultant Gonzalo Guimoye, NMLS #1131706. Conventional, FHA, VA, self-employed, Non-QM, and investor financing through New American Funding.",
   path: "/",

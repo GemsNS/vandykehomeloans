@@ -1,4 +1,4 @@
-export const SITE_URL = "https://vandykehomeloans.net";
+export const SITE_URL = "https://vandykehomeloan.net";
 export const SITE_NAME = "VanDyke Home Loans";
 export const TEAM_NAME = "VanDyke Mortgage Team";
 export const TAGLINE = "Mortgage guidance designed for today’s homebuyer.";

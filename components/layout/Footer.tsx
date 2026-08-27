@@ -131,12 +131,6 @@ export function Footer() {
             </a>
           </p>
           <p>© {new Date().getFullYear()} {SITE_NAME}. {fullAddress()}.</p>
-          {IS_DEMO ? (
-            <p className="text-brand-300">
-              Preview build: submissions are not recorded. Published rates match New American
-              Funding&apos;s public table as of the date shown on the rate board.
-            </p>
-          ) : null}
         </div>
       </div>
     </footer>

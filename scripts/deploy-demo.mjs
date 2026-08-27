@@ -42,7 +42,7 @@ const identity = [
   "-c",
   `user.name=${configured("user.name", "vandyke-demo")}`,
   "-c",
-  `user.email=${configured("user.email", "demo@vandykehomeloans.net")}`,
+  `user.email=${configured("user.email", "demo@vandykehomeloan.net")}`,
 ];
 
 fs.rmSync(path.join(out, ".git"), { recursive: true, force: true });
