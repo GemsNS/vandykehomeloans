@@ -14,8 +14,11 @@ export async function submitLead(input: unknown): Promise<ActionResult> {
   }
 
   if (!isDatabaseConfigured || !db) {
-    console.info("Lead captured (no database configured):", parsed.data.email);
-    return { ok: true, id: "local-preview" };
+    console.error("Lead submission rejected: DATABASE_URL is not configured.");
+    return {
+      ok: false,
+      error: "Online submissions are temporarily unavailable. Please call us at (757) 338-3432.",
+    };
   }
 
   try {

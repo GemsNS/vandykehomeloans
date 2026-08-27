@@ -1,6 +1,6 @@
 # VanDyke Home Loans — Deployment (shared GCP Ubuntu 18.04)
 
-Production: **https://vandykehomeloans.net**
+Production: **https://vandykehomeloan.net**
 
 This guide matches the shared VM conventions used by other sites on the box:
 
@@ -23,7 +23,7 @@ VanDyke is a **Next.js 15 App Router** app (UI + Server Actions + `/admin`). Unl
 ## Layout on the server
 
 ```text
-/var/www/vandykehomeloans.net/
+/var/www/vandykehomeloan.net/
   public_html/          # Apache DocumentRoot (static fallback + runtime.json)
     runtime.json
     index.html          # unused while ProxyPass / is active
@@ -36,7 +36,7 @@ VanDyke is a **Next.js 15 App Router** app (UI + Server Actions + `/admin`). Unl
 
 | Piece | Path / value |
 | --- | --- |
-| Domain folder | `/var/www/vandykehomeloans.net` |
+| Domain folder | `/var/www/vandykehomeloan.net` |
 | Static root | `.../public_html` |
 | Node app | `.../backend` |
 | Localhost port | **3010** (change only if taken; keep unique) |
@@ -73,19 +73,19 @@ ss -tlnp | grep -E '3010|3000|3001|3020' || true
 
 ```bash
 export DEPLOY_USER="$USER"   # FTP/SSH user that owns other sites
-sudo mkdir -p /var/www/vandykehomeloans.net/{public_html/uploads,backend}
-sudo chown -R "$DEPLOY_USER":www-data /var/www/vandykehomeloans.net
-sudo find /var/www/vandykehomeloans.net -type d -exec chmod 775 {} \;
-sudo find /var/www/vandykehomeloans.net -type f -exec chmod 664 {} \;
+sudo mkdir -p /var/www/vandykehomeloan.net/{public_html/uploads,backend}
+sudo chown -R "$DEPLOY_USER":www-data /var/www/vandykehomeloan.net
+sudo find /var/www/vandykehomeloan.net -type d -exec chmod 775 {} \;
+sudo find /var/www/vandykehomeloan.net -type f -exec chmod 664 {} \;
 ```
 
 Seed `public_html` from the repo templates (after clone, or copy now):
 
 ```bash
 # After backend clone (step 3), sync static helpers:
-cp /var/www/vandykehomeloans.net/backend/deploy/public_html/* \
-   /var/www/vandykehomeloans.net/public_html/
-mkdir -p /var/www/vandykehomeloans.net/public_html/uploads
+cp /var/www/vandykehomeloan.net/backend/deploy/public_html/* \
+   /var/www/vandykehomeloan.net/public_html/
+mkdir -p /var/www/vandykehomeloan.net/public_html/uploads
 ```
 
 ---
@@ -97,7 +97,7 @@ export NVM_DIR="$HOME/.nvm"
 . "$NVM_DIR/nvm.sh"
 nvm use 24
 
-cd /var/www/vandykehomeloans.net/backend
+cd /var/www/vandykehomeloan.net/backend
 git clone https://github.com/GemsNS/vandykehomeloans.git .
 git checkout main
 git pull origin main
@@ -135,7 +135,7 @@ SQL
 Build (scripts already wrap GLIBC 2.28 via `scripts/with-glibc.mjs`):
 
 ```bash
-cd /var/www/vandykehomeloans.net/backend
+cd /var/www/vandykehomeloan.net/backend
 npm ci
 npm run db:push
 npm run db:seed
@@ -145,9 +145,9 @@ npm run build
 Sync `runtime.json` into DocumentRoot:
 
 ```bash
-cp public/runtime.json /var/www/vandykehomeloans.net/public_html/runtime.json
-cp deploy/public_html/index.html /var/www/vandykehomeloans.net/public_html/index.html
-chown "$DEPLOY_USER":www-data /var/www/vandykehomeloans.net/public_html/runtime.json
+cp public/runtime.json /var/www/vandykehomeloan.net/public_html/runtime.json
+cp deploy/public_html/index.html /var/www/vandykehomeloan.net/public_html/index.html
+chown "$DEPLOY_USER":www-data /var/www/vandykehomeloan.net/public_html/runtime.json
 ```
 
 ---
@@ -156,7 +156,7 @@ chown "$DEPLOY_USER":www-data /var/www/vandykehomeloans.net/public_html/runtime.
 
 ```bash
 npm install -g pm2
-cd /var/www/vandykehomeloans.net/backend
+cd /var/www/vandykehomeloan.net/backend
 pm2 start ecosystem.config.cjs
 pm2 save
 pm2 startup
@@ -172,12 +172,12 @@ curl -s http://127.0.0.1:3010/runtime.json
 Update deploy later:
 
 ```bash
-cd /var/www/vandykehomeloans.net/backend
+cd /var/www/vandykehomeloan.net/backend
 git pull origin main
 npm ci
 npm run build
 pm2 restart vandyke-home-loans
-cp public/runtime.json /var/www/vandykehomeloans.net/public_html/runtime.json
+cp public/runtime.json /var/www/vandykehomeloan.net/public_html/runtime.json
 ```
 
 ---
@@ -185,14 +185,14 @@ cp public/runtime.json /var/www/vandykehomeloans.net/public_html/runtime.json
 ## 5. Apache vhosts (new site only)
 
 ```bash
-sudo cp /var/www/vandykehomeloans.net/backend/deploy/apache/vandykehomeloans.net.conf \
+sudo cp /var/www/vandykehomeloan.net/backend/deploy/apache/vandykehomeloan.net.conf \
   /etc/apache2/sites-available/
 
 # Optional SSL template (Certbot often writes *-le-ssl.conf itself):
-sudo cp /var/www/vandykehomeloans.net/backend/deploy/apache/vandykehomeloans.net-le-ssl.conf \
+sudo cp /var/www/vandykehomeloan.net/backend/deploy/apache/vandykehomeloan.net-le-ssl.conf \
   /etc/apache2/sites-available/
 
-sudo a2ensite vandykehomeloans.net.conf
+sudo a2ensite vandykehomeloan.net.conf
 sudo apache2ctl configtest
 sudo systemctl reload apache2
 ```
@@ -208,10 +208,10 @@ Confirm ProxyPass targets **3010** and paths `/api`, `/uploads`, `/_next`, `/`.
 Does not rewrite other sites’ certs:
 
 ```bash
-sudo certbot --apache -d vandykehomeloans.net -d www.vandykehomeloans.net
+sudo certbot --apache -d vandykehomeloan.net -d www.vandykehomeloan.net
 ```
 
-Afterward, open the generated SSL vhost and ensure it still has the same ProxyPass block as `deploy/apache/vandykehomeloans.net-le-ssl.conf` (Certbot sometimes leaves only DocumentRoot). Reload:
+Afterward, open the generated SSL vhost and ensure it still has the same ProxyPass block as `deploy/apache/vandykehomeloan.net-le-ssl.conf` (Certbot sometimes leaves only DocumentRoot). Reload:
 
 ```bash
 sudo apache2ctl configtest && sudo systemctl reload apache2
@@ -229,8 +229,8 @@ Re-issue with **every** old name plus the new ones (omitting an old name drops i
 sudo certbot certonly --apache --cert-name EXISTING_CERT_NAME --expand \
   -d existing-site.com \
   -d www.existing-site.com \
-  -d vandykehomeloans.net \
-  -d www.vandykehomeloans.net
+  -d vandykehomeloan.net \
+  -d www.vandykehomeloan.net
 ```
 
 Then point the VanDyke SSL vhost `SSLCertificateFile` / `KeyFile` at that cert’s `live/` paths, keep ProxyPass to `127.0.0.1:3010`, and reload Apache.
@@ -245,13 +245,13 @@ sudo certbot renew --dry-run
 
 | Type | Name | Value |
 | --- | --- | --- |
-| A | vandykehomeloans.net | this VM’s public IP |
+| A | vandykehomeloan.net | this VM's public IP |
 | A or CNAME | www | same IP / apex |
 
 ```bash
-curl -sI https://vandykehomeloans.net | head
-curl -s https://vandykehomeloans.net/runtime.json
-curl -sI https://vandykehomeloans.net/admin | head
+curl -sI https://vandykehomeloan.net | head
+curl -s https://vandykehomeloan.net/runtime.json
+curl -sI https://vandykehomeloan.net/admin | head
 ```
 
 ---
@@ -262,10 +262,10 @@ After FTP uploads into this site tree:
 
 ```bash
 export DEPLOY_USER="$USER"
-sudo chown -R "$DEPLOY_USER":www-data /var/www/vandykehomeloans.net
-sudo find /var/www/vandykehomeloans.net -type d -exec chmod 775 {} \;
-sudo find /var/www/vandykehomeloans.net -type f -exec chmod 664 {} \;
-chmod 600 /var/www/vandykehomeloans.net/backend/.env
+sudo chown -R "$DEPLOY_USER":www-data /var/www/vandykehomeloan.net
+sudo find /var/www/vandykehomeloan.net -type d -exec chmod 775 {} \;
+sudo find /var/www/vandykehomeloan.net -type f -exec chmod 664 {} \;
+chmod 600 /var/www/vandykehomeloan.net/backend/.env
 ```
 
 Never chmod/chown other domains under `/var/www/`.
@@ -287,7 +287,7 @@ Do not put passwords in Apache configs, `runtime.json`, or the repo.
 
 - [ ] `pm2 show vandyke-home-loans` → online, port 3010, `127.0.0.1`
 - [ ] `ss -tlnp | grep 3010` → only localhost
-- [ ] https://vandykehomeloans.net title contains **VanDyke Home Loans**
+- [ ] https://vandykehomeloan.net title contains **VanDyke Home Loans**
 - [ ] `/privacy`, `/licensing`, `/runtime.json` OK
 - [ ] `/admin` redirects to login (middleware)
 - [ ] Other sites on the VM still respond (smoke-test one existing domain)
@@ -298,7 +298,7 @@ Do not put passwords in Apache configs, `runtime.json`, or the repo.
 ## 11. Rollback (this site only)
 
 ```bash
-cd /var/www/vandykehomeloans.net/backend
+cd /var/www/vandykehomeloan.net/backend
 git log --oneline -5
 git checkout PREVIOUS_SHA
 npm ci && npm run build
@@ -308,7 +308,7 @@ pm2 restart vandyke-home-loans
 Disable only this site if needed:
 
 ```bash
-sudo a2dissite vandykehomeloans.net.conf vandykehomeloans.net-le-ssl.conf
+sudo a2dissite vandykehomeloan.net.conf vandykehomeloan.net-le-ssl.conf
 sudo systemctl reload apache2
 pm2 stop vandyke-home-loans
 ```
