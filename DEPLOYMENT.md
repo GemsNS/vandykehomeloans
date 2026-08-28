@@ -42,7 +42,15 @@ VanDyke is a **Next.js 15 App Router** app (UI + Server Actions + `/admin`). Unl
 | Localhost port | **3010** (change only if taken; keep unique) |
 | PM2 name | `vandyke-home-loan` |
 
----
+**Critical:** Ubuntu 18.04’s default `node` is **v16** — it cannot build or run this app. Every deploy command must run under **NVM Node 24** (`nvm use 24`). If you see `EBADENGINE` or `Segmentation fault`, you forgot NVM.
+
+Quick deploy (recommended after `git pull` is on the server):
+
+```bash
+cd /var/www/vandykehomeloan.net/backend
+bash scripts/server-deploy.sh
+```
+
 
 ## 1. One-time server modules
 
@@ -177,15 +185,25 @@ Update deploy later:
 
 ```bash
 cd /var/www/vandykehomeloan.net/backend
-git fetch origin main
-git checkout main
+bash scripts/server-deploy.sh
+```
+
+Or step-by-step (must use NVM Node 24 first):
+
+```bash
+export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" && nvm use 24
+cd /var/www/vandykehomeloan.net/backend
+git checkout -- ecosystem.config.cjs   # if pull blocked by local edits
 git pull origin main
-npm ci
+rm -rf node_modules && npm ci
 npm run build
 npm run sync:naf-rates
 npm run sync:public_html
-pm2 restart vandyke-home-loan --update-env
+pm2 delete vandyke-home-loan 2>/dev/null || true
+pm2 start ecosystem.config.cjs
+pm2 save
 ```
+
 
 Verify titles (should **not** include “Powered by New American Funding”):
 
@@ -317,7 +335,31 @@ Do not put passwords in Apache configs, `runtime.json`, or the repo.
 
 ---
 
-## 10. Verification checklist
+## 10. Recovery (site errored / pull or npm failed)
+
+Symptoms: `git pull` blocked on `ecosystem.config.cjs`, `npm ci` shows **Node v16**, `EBADENGINE`, `Segmentation fault` on build, PM2 **errored** with many restarts, missing `sync:naf-rates` script.
+
+```bash
+export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" && nvm use 24
+node -v   # must print v24.x
+
+cd /var/www/vandykehomeloan.net/backend
+git checkout -- ecosystem.config.cjs
+git pull origin main
+bash scripts/server-deploy.sh
+```
+
+If `server-deploy.sh` is not on the server yet, use the step-by-step block in section 4.
+
+Check logs if still failing:
+
+```bash
+pm2 logs vandyke-home-loan --lines 50
+```
+
+---
+
+## 11. Verification checklist
 
 - [ ] `pm2 show vandyke-home-loan` → online, port 3010, `127.0.0.1`
 - [ ] `ss -tlnp | grep 3010` → only localhost
@@ -329,7 +371,7 @@ Do not put passwords in Apache configs, `runtime.json`, or the repo.
 
 ---
 
-## 11. Rollback (this site only)
+## 12. Rollback (this site only)
 
 ```bash
 cd /var/www/vandykehomeloan.net/backend
@@ -349,7 +391,7 @@ pm2 stop vandyke-home-loan
 
 ---
 
-## 12. Optional GitHub Pages demo
+## 13. Optional GitHub Pages demo
 
 ```bash
 cd /path/to/checkout
