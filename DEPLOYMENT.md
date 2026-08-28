@@ -221,13 +221,17 @@ curl -s https://vandykehomeloan.net/runtime.json
 
 Rates are **not** static. The app pulls New American Funding’s public mortgage rates page on a schedule (default every 30 minutes when pages are served) and updates Postgres when `DATABASE_URL` is set.
 
-Manual sync on the server:
+Manual sync on the server (requires PM2 Node in PATH — see section 4):
 
 ```bash
+export PATH="$(dirname "$(node scripts/resolve-node.mjs)"):$PATH"
 cd /var/www/vandykehomeloan.net/backend
 npm run sync:naf-rates
+cat data/naf-rates-meta.json
 pm2 restart vandyke-home-loan --update-env
 ```
+
+Uses plain `scripts/sync-naf-rates.mjs` (not `tsx`) so it does not segfault under the GLIBC wrapper.
 
 Optional hourly cron (set `RATES_SYNC_SECRET` in `.env` first):
 

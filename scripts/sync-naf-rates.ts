@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Pull today's rates from New American Funding and update the local cache/DB.
- * Usage: node scripts/with-glibc.mjs tsx scripts/sync-naf-rates.ts
+ * @deprecated Use scripts/sync-naf-rates.mjs (tsx segfaults under the GLIBC wrapper).
  */
 import { syncNafRates } from "../lib/naf-rates/sync";
 
