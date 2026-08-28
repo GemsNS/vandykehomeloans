@@ -48,7 +48,7 @@ if (!cmd) {
 
 const child = spawn(cmd, args, {
   stdio: "inherit",
-  shell: true,
+  shell: false,
   env: process.env,
   cwd: root,
 });

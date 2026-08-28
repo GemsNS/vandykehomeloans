@@ -224,14 +224,13 @@ Rates are **not** static. The app pulls New American Funding’s public mortgage
 Manual sync on the server (requires PM2 Node in PATH — see section 4):
 
 ```bash
-export PATH="$(dirname "$(node scripts/resolve-node.mjs)"):$PATH"
 cd /var/www/vandykehomeloan.net/backend
 npm run sync:naf-rates
 cat data/naf-rates-meta.json
 pm2 restart vandyke-home-loan --update-env
 ```
 
-Uses plain `scripts/sync-naf-rates.mjs` (not `tsx`) so it does not segfault under the GLIBC wrapper.
+`sync:naf-rates` uses `run-pm2-node.mjs` to exec the PM2 Node binary directly (works even when shell `node` is v16).
 
 Optional hourly cron (set `RATES_SYNC_SECRET` in `.env` first):
 

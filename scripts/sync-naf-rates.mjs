@@ -3,7 +3,7 @@
  * Pull NAF published rates into data/*.json and Postgres.
  * Plain Node ESM — no tsx/esbuild (those segfault under the GLIBC wrapper on Ubuntu 18.04).
  *
- * Usage: node scripts/with-glibc.mjs node scripts/sync-naf-rates.mjs
+ * Usage: npm run sync:naf-rates  (via scripts/run-pm2-node.mjs)
  */
 import fs from "node:fs";
 import path from "node:path";
