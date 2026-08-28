@@ -124,9 +124,12 @@ export async function syncNafRates(options?: { force?: boolean }): Promise<NafSy
     const updated = await upsertParsedRates(fetched.rates);
     lastSyncFinishedAt = Date.now();
 
-    return { ok: true, asOf: fetched.asOf, updated };
+    const result = { ok: true as const, asOf: fetched.asOf, updated };
+    console.log("[naf-rates] synced:", JSON.stringify(result));
+    return result;
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown sync error";
+    console.error("[naf-rates] sync failed:", message);
     return { ok: false, error: message };
   }
 }

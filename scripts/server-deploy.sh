@@ -32,7 +32,12 @@ echo "==> npm run build"
 npm run build
 
 echo "==> sync rates + public_html"
-npm run sync:naf-rates || echo "WARN: sync:naf-rates failed (site may still run on cache)"
+npm run sync:naf-rates
+if [[ ! -f data/naf-rates-meta.json ]]; then
+  echo "ERROR: NAF rate sync failed — data/naf-rates-meta.json was not created."
+  exit 1
+fi
+cat data/naf-rates-meta.json
 npm run sync:public_html || true
 
 if [[ -f ../public_html/runtime.json ]]; then

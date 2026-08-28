@@ -9,11 +9,16 @@ import {
   type Rate,
 } from "@/db/schema";
 import { FALLBACK_BROKERS, FALLBACK_RATES } from "@/lib/data/fallback";
-import { ensureNafRatesFresh, ratesFromNafCache } from "@/lib/naf-rates/sync";
+import { readNafPublishedMeta } from "@/lib/naf-rates/meta";
+import { ensureNafRatesFresh, ratesFromNafCache, syncNafRates } from "@/lib/naf-rates/sync";
 
 export async function getRates(): Promise<Rate[]> {
-  // Background refresh only — never block page render on NAF network fetch.
-  void ensureNafRatesFresh();
+  // First request after deploy: no cache file yet — wait for NAF pull once.
+  if (!readNafPublishedMeta()) {
+    await syncNafRates({ force: true });
+  } else {
+    void ensureNafRatesFresh();
+  }
 
   if (!isDatabaseConfigured || !db) {
     return ratesFromNafCache() ?? FALLBACK_RATES;
