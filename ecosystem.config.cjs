@@ -38,11 +38,12 @@ const glibcLib = path.join(glibcRoot, "lib");
 const existingLd = process.env.LD_LIBRARY_PATH || "";
 const ldLibraryPath = [glibcRoot, glibcLib, existingLd].filter(Boolean).join(":");
 
-const nodeVersion = process.version.startsWith("v24")
-  ? process.version
-  : "v24.16.0";
+const nodeVersion = process.env.NODE_VERSION?.trim() || "v24.16.0";
 const nvmNode = path.join(home, ".nvm", "versions", "node", nodeVersion, "bin", "node");
-const interpreter = fs.existsSync(nvmNode) ? nvmNode : "node";
+const envInterpreter = fileEnv.NODE_INTERPRETER || process.env.NODE_INTERPRETER;
+const interpreter =
+  (envInterpreter && fs.existsSync(envInterpreter) ? envInterpreter : null) ||
+  (fs.existsSync(nvmNode) ? nvmNode : "node");
 
 const port = fileEnv.PORT || process.env.PORT || "3010";
 const hostname = fileEnv.HOSTNAME || process.env.HOSTNAME || "127.0.0.1";

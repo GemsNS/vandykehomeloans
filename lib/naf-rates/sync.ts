@@ -137,17 +137,12 @@ export async function ensureNafRatesFresh(): Promise<void> {
     return;
   }
 
-  if (inflightSync) {
-    await inflightSync;
-    return;
-  }
+  if (inflightSync) return;
 
   inflightSync = syncNafRates();
-  try {
-    await inflightSync;
-  } finally {
+  void inflightSync.finally(() => {
     inflightSync = null;
-  }
+  });
 }
 
 export function ratesFromNafCache(): Rate[] | null {

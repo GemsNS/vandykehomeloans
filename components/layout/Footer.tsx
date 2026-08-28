@@ -42,8 +42,8 @@ const COLUMNS = [
   },
 ];
 
-export async function Footer() {
-  const publishedMeta = await getNafPublishedMeta();
+export function Footer() {
+  const publishedMeta = getNafPublishedMeta();
   return (
     <footer className="border-t border-white/10 bg-ink-950 text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 md:grid-cols-4">

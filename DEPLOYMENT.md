@@ -42,9 +42,14 @@ VanDyke is a **Next.js 15 App Router** app (UI + Server Actions + `/admin`). Unl
 | Localhost port | **3010** (change only if taken; keep unique) |
 | PM2 name | `vandyke-home-loan` |
 
-**Critical:** Ubuntu 18.04’s default `node` is **v16** — it cannot build or run this app. Every deploy command must run under **NVM Node 24** (`nvm use 24`). If you see `EBADENGINE` or `Segmentation fault`, you forgot NVM.
+**Critical:** Ubuntu 18.04’s default shell `node` is often **v16**. PM2 runs a **different** Node binary (see `ecosystem.config.cjs` → `interpreter`). If you run `npm ci` under shell Node 16 while PM2 uses another Node, `node_modules` gets corrupted (`esbuild` mismatch) and `npm run build` may **segfault**. Always run npm with the PM2 interpreter:
 
-Quick deploy (recommended after `git pull` is on the server):
+```bash
+export PATH="$(dirname "$(node scripts/resolve-node.mjs)"):$PATH"
+node -v && npm ci && npm run build
+```
+
+Quick deploy:
 
 ```bash
 cd /var/www/vandykehomeloan.net/backend
@@ -188,11 +193,11 @@ cd /var/www/vandykehomeloan.net/backend
 bash scripts/server-deploy.sh
 ```
 
-Or step-by-step (must use NVM Node 24 first):
+Or step-by-step (use PM2's Node for npm — see `node scripts/resolve-node.mjs`):
 
 ```bash
-export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" && nvm use 24
 cd /var/www/vandykehomeloan.net/backend
+export PATH="$(dirname "$(node scripts/resolve-node.mjs)"):$PATH"
 git checkout -- ecosystem.config.cjs   # if pull blocked by local edits
 git pull origin main
 rm -rf node_modules && npm ci
@@ -337,21 +342,36 @@ Do not put passwords in Apache configs, `runtime.json`, or the repo.
 
 ## 10. Recovery (site errored / pull or npm failed)
 
-Symptoms: `git pull` blocked on `ecosystem.config.cjs`, `npm ci` shows **Node v16**, `EBADENGINE`, `Segmentation fault` on build, PM2 **errored** with many restarts, missing `sync:naf-rates` script.
+### Root cause (typical)
+
+1. `git pull` blocked by local `ecosystem.config.cjs` edits → **new code never landed** (`sync:naf-rates` missing).
+2. `npm ci` run under **shell Node 16** while PM2 uses a different Node → **corrupt `node_modules`** (`Expected 0.28.2 but got 0.19.12`).
+3. `npm run build` **segfault** → system Node 16 + GLIBC wrapper (`with-glibc.mjs`) is incompatible.
+4. `pm2 restart` with broken `node_modules` / missing build → **errored** loop.
+
+This is a **deploy environment mismatch**, not a runtime bug in the site code. Fix by reinstalling with the PM2 Node binary (without changing your default shell node):
 
 ```bash
-export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" && nvm use 24
-node -v   # must print v24.x
-
 cd /var/www/vandykehomeloan.net/backend
+export PATH="$(dirname "$(node scripts/resolve-node.mjs)"):$PATH"
+node -v
+
 git checkout -- ecosystem.config.cjs
 git pull origin main
 bash scripts/server-deploy.sh
 ```
 
-If `server-deploy.sh` is not on the server yet, use the step-by-step block in section 4.
+If `server-deploy.sh` is not on the server yet:
 
-Check logs if still failing:
+```bash
+export PATH="$(dirname "$(node scripts/resolve-node.mjs)"):$PATH"
+git checkout -- ecosystem.config.cjs && git pull origin main
+rm -rf node_modules && npm ci && npm run build
+pm2 delete vandyke-home-loan 2>/dev/null || true
+pm2 start ecosystem.config.cjs && pm2 save
+```
+
+Set `NODE_INTERPRETER` in `.env` if your compatible Node lives outside NVM.
 
 ```bash
 pm2 logs vandyke-home-loan --lines 50
