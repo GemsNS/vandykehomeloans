@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "node scripts/with-glibc.mjs next dev",
     "build": "node scripts/with-glibc.mjs next build",
+    "sync:public_html": "node scripts/sync-public-html.mjs",
     "build:demo": "node scripts/build-demo.mjs",
     "deploy:demo": "node scripts/build-demo.mjs && node scripts/deploy-demo.mjs",
     "start": "node scripts/with-glibc.mjs next start",

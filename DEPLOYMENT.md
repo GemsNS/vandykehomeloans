@@ -40,7 +40,7 @@ VanDyke is a **Next.js 15 App Router** app (UI + Server Actions + `/admin`). Unl
 | Static root | `.../public_html` |
 | Node app | `.../backend` |
 | Localhost port | **3010** (change only if taken; keep unique) |
-| PM2 name | `vandyke-home-loans` |
+| PM2 name | `vandyke-home-loan` |
 
 ---
 
@@ -145,10 +145,14 @@ npm run build
 Sync `runtime.json` into DocumentRoot:
 
 ```bash
+npm run sync:public_html
+# or manually:
 cp public/runtime.json /var/www/vandykehomeloan.net/public_html/runtime.json
 cp deploy/public_html/index.html /var/www/vandykehomeloan.net/public_html/index.html
 chown "$DEPLOY_USER":www-data /var/www/vandykehomeloan.net/public_html/runtime.json
 ```
+
+`sync:public_html` falls back to `deploy/public_html/runtime.json` if `public/runtime.json` is missing.
 
 ---
 
@@ -173,12 +177,21 @@ Update deploy later:
 
 ```bash
 cd /var/www/vandykehomeloan.net/backend
+git fetch origin main
+git checkout main
 git pull origin main
 npm ci
 npm run build
 npm run sync:naf-rates
+npm run sync:public_html
 pm2 restart vandyke-home-loan --update-env
-cp public/runtime.json /var/www/vandykehomeloan.net/public_html/runtime.json
+```
+
+Verify titles (should **not** include “Powered by New American Funding”):
+
+```bash
+curl -s https://vandykehomeloan.net/ | grep -o '<title>[^<]*</title>'
+curl -s https://vandykehomeloan.net/runtime.json
 ```
 
 ### NAF published rates (auto-sync)
@@ -306,7 +319,7 @@ Do not put passwords in Apache configs, `runtime.json`, or the repo.
 
 ## 10. Verification checklist
 
-- [ ] `pm2 show vandyke-home-loans` → online, port 3010, `127.0.0.1`
+- [ ] `pm2 show vandyke-home-loan` → online, port 3010, `127.0.0.1`
 - [ ] `ss -tlnp | grep 3010` → only localhost
 - [ ] https://vandykehomeloan.net title contains **VanDyke Home Loans**
 - [ ] `/privacy`, `/licensing`, `/runtime.json` OK
@@ -323,7 +336,7 @@ cd /var/www/vandykehomeloan.net/backend
 git log --oneline -5
 git checkout PREVIOUS_SHA
 npm ci && npm run build
-pm2 restart vandyke-home-loans
+pm2 restart vandyke-home-loan --update-env
 ```
 
 Disable only this site if needed:
@@ -331,7 +344,7 @@ Disable only this site if needed:
 ```bash
 sudo a2dissite vandykehomeloan.net.conf vandykehomeloan.net-le-ssl.conf
 sudo systemctl reload apache2
-pm2 stop vandyke-home-loans
+pm2 stop vandyke-home-loan
 ```
 
 ---
