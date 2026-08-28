@@ -12,7 +12,8 @@ import { FALLBACK_BROKERS, FALLBACK_RATES } from "@/lib/data/fallback";
 import { ensureNafRatesFresh, ratesFromNafCache } from "@/lib/naf-rates/sync";
 
 export async function getRates(): Promise<Rate[]> {
-  await ensureNafRatesFresh();
+  // Background refresh only — never block page render on NAF network fetch.
+  void ensureNafRatesFresh();
 
   if (!isDatabaseConfigured || !db) {
     return ratesFromNafCache() ?? FALLBACK_RATES;
