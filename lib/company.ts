@@ -33,7 +33,7 @@ export const CONTACT = {
   publishedRates: "https://www.newamericanfunding.com/mortgage-rates/",
 };
 
-/** Snapshot of NAF's public rate table. Update whenever https://www.newamericanfunding.com/mortgage-rates/ changes. */
+/** Fallback snapshot when NAF sync has not run yet. Live values come from lib/naf-rates/sync. */
 export const NAF_PUBLISHED_RATES = {
   asOf: "9:00AM PT on 8/18/2026",
   pointsLabel: "1.000 ($8,065)",

@@ -10,7 +10,8 @@
     "start": "node scripts/with-glibc.mjs next start",
     "lint": "node scripts/with-glibc.mjs next lint",
     "db:push": "node scripts/with-glibc.mjs drizzle-kit push",
-    "db:seed": "node scripts/with-glibc.mjs tsx db/seed.ts"
+    "db:seed": "node scripts/with-glibc.mjs tsx db/seed.ts",
+    "sync:naf-rates": "node scripts/with-glibc.mjs tsx scripts/sync-naf-rates.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

@@ -4,13 +4,15 @@ import { RateTable } from "@/components/home/RateTable";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { PROGRAMS, type ProgramSlug } from "@/lib/programs";
 import { getRates } from "@/lib/data/queries";
+import { getNafPublishedMeta } from "@/lib/naf-rates/meta";
 import { breadcrumbJsonLd } from "@/lib/seo";
 import { notFound } from "next/navigation";
 
 export async function ProgramArticle({ slug }: { slug: string }) {
   const program = PROGRAMS[slug as ProgramSlug];
   if (!program) notFound();
-  const rates = (await getRates()).filter((rate) => rate.productType === program.type);
+  const [allRates, publishedMeta] = await Promise.all([getRates(), getNafPublishedMeta()]);
+  const rates = allRates.filter((rate) => rate.productType === program.type);
 
   return (
     <>
@@ -37,7 +39,7 @@ export async function ProgramArticle({ slug }: { slug: string }) {
           <ApplyNowButton>Apply for {program.title}</ApplyNowButton>
         </div>
       </section>
-      {rates.length > 0 ? <RateTable rates={rates} /> : null}
+      {rates.length > 0 ? <RateTable rates={rates} publishedMeta={publishedMeta} /> : null}
     </>
   );
 }

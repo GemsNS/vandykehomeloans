@@ -1,7 +1,8 @@
 import { Equal, Phone } from "lucide-react";
 import Link from "next/link";
 import { LogoPlate } from "@/components/brand/LogoPlate";
-import { CONTACT, LENDER, NAF_PUBLISHED_RATES, PEOPLE, SITE_NAME, TEAM_NAME, fullAddress } from "@/lib/company";
+import { CONTACT, LENDER, PEOPLE, SITE_NAME, TEAM_NAME, fullAddress } from "@/lib/company";
+import { getNafPublishedMeta } from "@/lib/naf-rates/meta";
 import { IS_DEMO } from "@/lib/demo";
 
 const COLUMNS = [
@@ -41,7 +42,8 @@ const COLUMNS = [
   },
 ];
 
-export function Footer() {
+export async function Footer() {
+  const publishedMeta = await getNafPublishedMeta();
   return (
     <footer className="border-t border-white/10 bg-ink-950 text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 md:grid-cols-4">
@@ -113,7 +115,7 @@ export function Footer() {
               NMLS Consumer Access
             </a>
             . Rates shown match New American Funding&apos;s published estimates as of{" "}
-            {NAF_PUBLISHED_RATES.asOf} and are subject to change. Your actual rate is determined at
+            {publishedMeta.asOf} and are subject to change. Your actual rate is determined at
             lock through New American Funding. This website is operated by the VanDyke Mortgage Team
             for marketing purposes; loans are originated through {LENDER.name}.
           </p>

@@ -9,13 +9,21 @@ import {
   type Rate,
 } from "@/db/schema";
 import { FALLBACK_BROKERS, FALLBACK_RATES } from "@/lib/data/fallback";
+import { ensureNafRatesFresh, ratesFromNafCache } from "@/lib/naf-rates/sync";
 
 export async function getRates(): Promise<Rate[]> {
-  if (!isDatabaseConfigured || !db) return FALLBACK_RATES;
+  await ensureNafRatesFresh();
+
+  if (!isDatabaseConfigured || !db) {
+    return ratesFromNafCache() ?? FALLBACK_RATES;
+  }
+
   try {
-    return await db.select().from(rates).orderBy(rates.termYears);
+    const rows = await db.select().from(rates).orderBy(rates.termYears);
+    if (rows.length > 0) return rows;
+    return ratesFromNafCache() ?? FALLBACK_RATES;
   } catch {
-    return FALLBACK_RATES;
+    return ratesFromNafCache() ?? FALLBACK_RATES;
   }
 }
 

@@ -5,6 +5,7 @@ import type { Rate } from "@/db/schema";
 import { RateAdvertisingDisclaimer } from "@/components/compliance/RateAdvertisingDisclaimer";
 import { ApplyNowButton } from "@/components/lead-funnel/ApplyNowButton";
 import { CONTACT, NAF_PUBLISHED_RATES } from "@/lib/company";
+import type { NafPublishedMeta } from "@/lib/naf-rates/types";
 import { formatPercent } from "@/lib/utils";
 
 const PURPOSES = [
@@ -19,7 +20,15 @@ const FILTERS = [
   { id: "arm", label: "ARM" },
 ] as const;
 
-export function RateTable({ rates }: { rates: Rate[] }) {
+export function RateTable({
+  rates,
+  publishedMeta,
+}: {
+  rates: Rate[];
+  publishedMeta?: Pick<NafPublishedMeta, "asOf" | "pointsLabel">;
+}) {
+  const asOf = publishedMeta?.asOf ?? NAF_PUBLISHED_RATES.asOf;
+  const pointsLabel = publishedMeta?.pointsLabel ?? NAF_PUBLISHED_RATES.pointsLabel;
   const [purpose, setPurpose] = useState<(typeof PURPOSES)[number]["id"]>("purchase");
   const [filter, setFilter] = useState<(typeof FILTERS)[number]["id"]>("all");
 
@@ -43,7 +52,7 @@ export function RateTable({ rates }: { rates: Rate[] }) {
               Today&apos;s published rates
             </h2>
             <p className="mt-3 max-w-2xl text-sm text-white/60">
-              Estimated rates current as of {NAF_PUBLISHED_RATES.asOf}, copied from{" "}
+              Estimated rates current as of {asOf}, copied from{" "}
               <a
                 href={CONTACT.publishedRates}
                 target="_blank"
@@ -124,7 +133,7 @@ export function RateTable({ rates }: { rates: Rate[] }) {
                       {formatPercent(Number(item.apr))}
                     </td>
                     <td className="tape px-4 py-3.5 text-right text-white/70">
-                      {NAF_PUBLISHED_RATES.pointsLabel}
+                      {pointsLabel}
                     </td>
                     <td className="px-4 py-3.5 text-right">
                       <ApplyNowButton size="sm">Apply Now</ApplyNowButton>
@@ -135,7 +144,7 @@ export function RateTable({ rates }: { rates: Rate[] }) {
             </table>
           </div>
         </div>
-        <RateAdvertisingDisclaimer className="mt-4" />
+        <RateAdvertisingDisclaimer className="mt-4" publishedMeta={{ asOf }} />
       </div>
     </section>
   );

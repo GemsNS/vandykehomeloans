@@ -34,3 +34,6 @@ next-env.d.ts
 
 # drizzle
 /drizzle
+
+# NAF rate sync cache (live data from newamericanfunding.com)
+/data/
