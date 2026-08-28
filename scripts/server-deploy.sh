@@ -29,7 +29,7 @@ rm -rf node_modules
 npm ci
 
 echo "==> npm run build"
-npm run build
+node scripts/run-pm2-node.mjs scripts/next-build.mjs
 
 echo "==> sync rates + public_html"
 npm run sync:naf-rates

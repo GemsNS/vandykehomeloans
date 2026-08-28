@@ -24,6 +24,12 @@ export async function getRates(): Promise<Rate[]> {
     return ratesFromNafCache() ?? FALLBACK_RATES;
   }
 
+  const cached = ratesFromNafCache();
+  if (cached && readNafPublishedMeta()) {
+    // Prefer NAF file cache when sync has run (DB may be down or hold stale seed rows).
+    return cached;
+  }
+
   try {
     const rows = await db.select().from(rates).orderBy(rates.termYears);
     if (rows.length > 0) return rows;

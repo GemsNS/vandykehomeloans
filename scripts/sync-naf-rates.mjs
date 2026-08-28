@@ -174,11 +174,18 @@ async function main() {
 
   let dbUpdated = 0;
   if (databaseUrl) {
-    const sql = postgres(databaseUrl, { max: 1, prepare: false });
     try {
-      dbUpdated = await upsertRates(sql, fetched.rates);
-    } finally {
-      await sql.end({ timeout: 5 });
+      const sql = postgres(databaseUrl, { max: 1, prepare: false });
+      try {
+        dbUpdated = await upsertRates(sql, fetched.rates);
+      } finally {
+        await sql.end({ timeout: 5 });
+      }
+    } catch (error) {
+      console.warn(
+        "[naf-rates] DB upsert skipped (file cache is still updated):",
+        error instanceof Error ? error.message : error,
+      );
     }
   }
 
