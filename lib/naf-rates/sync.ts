@@ -1,3 +1,5 @@
+import "server-only";
+
 import { and, eq } from "drizzle-orm";
 import { db, isDatabaseConfigured } from "@/db";
 import { rates, type Rate } from "@/db/schema";

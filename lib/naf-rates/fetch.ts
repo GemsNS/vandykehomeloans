@@ -1,3 +1,5 @@
+import "server-only";
+
 import { CONTACT } from "@/lib/company";
 import { parseNafRatesHtml } from "@/lib/naf-rates/parse";
 

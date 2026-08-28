@@ -1,3 +1,5 @@
+import "server-only";
+
 import { desc, eq } from "drizzle-orm";
 import { db, isDatabaseConfigured } from "@/db";
 import {
@@ -9,33 +11,24 @@ import {
   type Rate,
 } from "@/db/schema";
 import { FALLBACK_BROKERS, FALLBACK_RATES } from "@/lib/data/fallback";
-import { readNafPublishedMeta } from "@/lib/naf-rates/meta";
-import { ensureNafRatesFresh, ratesFromNafCache, syncNafRates } from "@/lib/naf-rates/sync";
+import { ensureNafRatesFresh, ratesFromNafCache } from "@/lib/naf-rates/sync";
 
 export async function getRates(): Promise<Rate[]> {
-  // First request after deploy: no cache file yet — wait for NAF pull once.
-  if (!readNafPublishedMeta()) {
-    await syncNafRates({ force: true });
-  } else {
-    void ensureNafRatesFresh();
-  }
-
-  if (!isDatabaseConfigured || !db) {
-    return ratesFromNafCache() ?? FALLBACK_RATES;
-  }
+  void ensureNafRatesFresh();
 
   const cached = ratesFromNafCache();
-  if (cached && readNafPublishedMeta()) {
-    // Prefer NAF file cache when sync has run (DB may be down or hold stale seed rows).
-    return cached;
+  if (cached) return cached;
+
+  if (!isDatabaseConfigured || !db) {
+    return FALLBACK_RATES;
   }
 
   try {
     const rows = await db.select().from(rates).orderBy(rates.termYears);
     if (rows.length > 0) return rows;
-    return ratesFromNafCache() ?? FALLBACK_RATES;
+    return FALLBACK_RATES;
   } catch {
-    return ratesFromNafCache() ?? FALLBACK_RATES;
+    return FALLBACK_RATES;
   }
 }
 

@@ -1,4 +1,6 @@
-import path from "node:path";
+import "server-only";
+
+import path from "path";
 
 /** Absolute path to data/naf-rates-*.json (set VD_DATA_DIR in PM2 .env). */
 export function nafRatesDataDir(): string {

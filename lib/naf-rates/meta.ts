@@ -1,5 +1,7 @@
-import fs from "node:fs";
-import path from "node:path";
+import "server-only";
+
+import fs from "fs";
+import path from "path";
 import { NAF_PUBLISHED_RATES } from "@/lib/company";
 import { nafRatesDataDir } from "@/lib/naf-rates/paths";
 import type { NafPublishedMeta, NafParsedRate } from "@/lib/naf-rates/types";
