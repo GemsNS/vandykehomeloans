@@ -9,6 +9,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { getActiveBrokers, getRates } from "@/lib/data/queries";
 import { FAQS } from "@/lib/company";
 import { faqJsonLd, pageMetadata } from "@/lib/seo";
+import { getNafPublishedMeta } from "@/lib/naf-rates/meta";
 
 export const metadata = pageMetadata({
   title: "Hampton Roads Mortgages",
@@ -19,7 +20,11 @@ export const metadata = pageMetadata({
 });
 
 export default async function HomePage() {
-  const [rates, brokers] = await Promise.all([getRates(), getActiveBrokers()]);
+  const [rates, brokers, publishedMeta] = await Promise.all([
+    getRates(),
+    getActiveBrokers(),
+    getNafPublishedMeta(),
+  ]);
   const featured = rates.find((rate) => rate.isFeatured) ?? rates[0];
 
   return (
@@ -27,7 +32,7 @@ export default async function HomePage() {
       <JsonLd data={faqJsonLd(FAQS)} />
       <Hero featuredRate={Number(featured?.rate ?? 6.625)} />
       <LifestyleShowcase />
-      <RateTable rates={rates} />
+      <RateTable rates={rates} publishedMeta={publishedMeta} />
       <BrokerGrid brokers={brokers} />
       <ReviewsSection />
       <TrustSection />

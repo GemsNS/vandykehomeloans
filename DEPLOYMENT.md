@@ -182,6 +182,7 @@ git checkout main
 git pull origin main
 npm ci
 npm run build
+npm run sync:naf-rates
 npm run sync:public_html
 pm2 restart vandyke-home-loan --update-env
 ```
@@ -192,6 +193,26 @@ Verify titles (should **not** include “Powered by New American Funding”):
 curl -s https://vandykehomeloan.net/ | grep -o '<title>[^<]*</title>'
 curl -s https://vandykehomeloan.net/runtime.json
 ```
+
+### NAF published rates (auto-sync)
+
+Rates are **not** static. The app pulls New American Funding’s public mortgage rates page on a schedule (default every 30 minutes when pages are served) and updates Postgres when `DATABASE_URL` is set.
+
+Manual sync on the server:
+
+```bash
+cd /var/www/vandykehomeloan.net/backend
+npm run sync:naf-rates
+pm2 restart vandyke-home-loan --update-env
+```
+
+Optional hourly cron (set `RATES_SYNC_SECRET` in `.env` first):
+
+```bash
+0 * * * * curl -fsS -H "Authorization: Bearer YOUR_RATES_SYNC_SECRET" https://vandykehomeloan.net/api/cron/sync-rates
+```
+
+Verify the “as of” line on the homepage matches NAF (e.g. `9:00AM PT on …`).
 
 ---
 

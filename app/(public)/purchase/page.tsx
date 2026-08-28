@@ -5,6 +5,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { getRates } from "@/lib/data/queries";
 import { PEOPLE } from "@/lib/company";
 import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
+import { getNafPublishedMeta } from "@/lib/naf-rates/meta";
 
 export const metadata = pageMetadata({
   title: "Buy a Home in Hampton Roads",
@@ -14,7 +15,7 @@ export const metadata = pageMetadata({
 });
 
 export default async function PurchasePage() {
-  const rates = await getRates();
+  const [rates, publishedMeta] = await Promise.all([getRates(), getNafPublishedMeta()]);
   return (
     <>
       <JsonLd
@@ -56,7 +57,10 @@ export default async function PurchasePage() {
           </div>
         </div>
       </section>
-      <RateTable rates={rates.filter((rate) => rate.productType !== "arm").slice(0, 6)} />
+      <RateTable
+        rates={rates.filter((rate) => rate.productType !== "arm").slice(0, 6)}
+        publishedMeta={publishedMeta}
+      />
     </>
   );
 }
