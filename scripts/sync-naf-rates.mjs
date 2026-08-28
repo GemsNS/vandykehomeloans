@@ -184,6 +184,20 @@ async function main() {
 
   const result = { ok: true, asOf: fetched.asOf, updated: dbUpdated, cached: fetched.rates.length };
   console.log("[naf-rates] synced:", JSON.stringify(result));
+
+  const port = fileEnv.PORT || process.env.PORT || "3010";
+  const secret = fileEnv.RATES_SYNC_SECRET || process.env.RATES_SYNC_SECRET;
+  const headers = secret ? { Authorization: `Bearer ${secret}` } : {};
+  try {
+    const response = await fetch(`http://127.0.0.1:${port}/api/cron/revalidate-rates`, { headers });
+    const body = await response.text();
+    console.log(`[naf-rates] revalidate: HTTP ${response.status} ${body}`);
+  } catch (error) {
+    console.warn(
+      "[naf-rates] revalidate skipped (restart PM2 after sync if the date still looks old):",
+      error instanceof Error ? error.message : error,
+    );
+  }
 }
 
 main().catch((error) => {

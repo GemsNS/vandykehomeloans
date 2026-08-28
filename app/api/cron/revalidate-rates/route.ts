@@ -1,4 +1,3 @@
-import { syncNafRates } from "@/lib/naf-rates/sync";
 import { revalidateRatePages } from "@/lib/naf-rates/revalidate";
 
 export async function GET(request: Request) {
@@ -11,10 +10,6 @@ export async function GET(request: Request) {
     }
   }
 
-  const result = await syncNafRates({ force: true });
-  if (result.ok && !result.skipped) {
-    revalidateRatePages();
-  }
-
-  return Response.json(result, { status: result.ok ? 200 : 500 });
+  revalidateRatePages();
+  return Response.json({ ok: true, revalidated: true });
 }

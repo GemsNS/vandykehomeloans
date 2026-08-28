@@ -67,6 +67,7 @@ module.exports = {
         PORT: port,
         HOSTNAME: hostname,
         LD_LIBRARY_PATH: ldLibraryPath,
+        VD_DATA_DIR: path.join(root, "data"),
       },
     },
   ],
