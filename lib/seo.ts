@@ -59,13 +59,15 @@ export function pageMetadata({
       locale: "en_US",
       url,
       siteName: SITE_NAME,
-      title: fullTitle,
+      // iMessage and other link previews often drop the site name and show only
+      // the segment after "|" — keep social titles brand-only.
+      title: SITE_NAME,
       description,
       images: [OG_IMAGE],
     },
     twitter: {
       card: "summary_large_image",
-      title: fullTitle,
+      title: SITE_NAME,
       description,
       images: [OG_IMAGE.url],
     },
