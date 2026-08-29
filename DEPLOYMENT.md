@@ -53,8 +53,17 @@ Quick deploy:
 
 ```bash
 cd /var/www/vandykehomeloan.net/backend
-bash scripts/server-deploy.sh
+npm run deploy
+# same as: bash scripts/server-deploy.sh
 ```
+
+Deploy a branch before it is merged to `main`:
+
+```bash
+DEPLOY_BRANCH=cursor/naf-rates-startup-sync-5e13 npm run deploy
+```
+
+The script uses the PM2 Node binary, runs `npm ci`, `npm run build`, syncs NAF rates, restarts PM2, and prints the rate stamp + `og:title` from the homepage.
 
 
 ## 1. One-time server modules
