@@ -1,6 +1,6 @@
 # VanDyke Home Loans — Deployment (shared GCP Ubuntu 18.04)
 
-Production: **https://vandykehomeloan.net**
+Production: **https://vandyke.loans** (legacy alias: vandykehomeloan.net)
 
 This guide matches the shared VM conventions used by other sites on the box:
 

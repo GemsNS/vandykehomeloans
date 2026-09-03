@@ -4,7 +4,7 @@ import { CONTACT } from "@/lib/company";
 import { parseNafRatesHtml } from "@/lib/naf-rates/parse";
 
 const NAF_USER_AGENT =
-  "VanDykeHomeLoansRatesSync/1.0 (+https://vandykehomeloan.net; compliance copy)";
+  "VanDykeHomeLoansRatesSync/1.0 (+https://vandyke.loans; compliance copy)";
 
 export async function fetchNafPublishedRates() {
   const response = await fetch(CONTACT.publishedRates, {

@@ -95,7 +95,7 @@ function parseNafRatesHtml(html) {
 async function fetchNafPublishedRates() {
   const response = await fetch(NAF_URL, {
     headers: {
-      "User-Agent": "VanDykeHomeLoansRatesSync/1.0 (+https://vandykehomeloan.net)",
+      "User-Agent": "VanDykeHomeLoansRatesSync/1.0 (+https://vandyke.loans)",
       Accept: "text/html,application/xhtml+xml",
     },
     cache: "no-store",

@@ -1,6 +1,6 @@
 # VanDyke Home Loans
 
-Production web application for [vandykehomeloan.net](https://vandykehomeloan.net) — live published rates, mortgage calculators, lead capture, and a protected broker admin portal.
+Production web application for [vandyke.loans](https://vandyke.loans) — live published rates, mortgage calculators, lead capture, and a protected broker admin portal.
 
 **Deployment:** see [DEPLOYMENT.md](./DEPLOYMENT.md) for the shared GCP Ubuntu 18.04 layout (`/var/www/vandykehomeloan.net/{public_html,backend}`), NVM Node 24, GLIBC 2.28, PM2, Apache ProxyPass, and Certbot.
 

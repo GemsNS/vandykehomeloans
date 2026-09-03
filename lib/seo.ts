@@ -1,5 +1,15 @@
 import type { Metadata } from "next";
-import { CONTACT, LENDER, OFFICE, PEOPLE, SITE_NAME, SITE_URL, TEAM_NAME, fullAddress } from "@/lib/company";
+import {
+  CONTACT,
+  LENDER,
+  OFFICE,
+  PEOPLE,
+  SITE_NAME,
+  SITE_TITLE,
+  SITE_URL,
+  TEAM_NAME,
+  fullAddress,
+} from "@/lib/company";
 
 const OG_IMAGE = {
   url: "/brand/vandyke-home-loans-logo.png",
@@ -8,18 +18,9 @@ const OG_IMAGE = {
   alt: `${SITE_NAME} logo`,
 } as const;
 
-/** Build a document/social title that always leads with VanDyke Home Loans. */
-export function brandTitle(pageTitle?: string): string {
-  if (!pageTitle || pageTitle === SITE_NAME) return SITE_NAME;
-  if (pageTitle.startsWith(`${SITE_NAME} |`) || pageTitle === SITE_NAME) return pageTitle;
-  // Strip a trailing brand suffix so we can normalize to brand-first.
-  const withoutTrailing = pageTitle
-    .replace(new RegExp(`\\s*[\\|–-]\\s*${SITE_NAME}\\s*$`), "")
-    .replace(SITE_NAME, "")
-    .replace(/\s{2,}/g, " ")
-    .trim();
-  if (!withoutTrailing) return SITE_NAME;
-  return `${SITE_NAME} | ${withoutTrailing}`;
+/** Every page uses the same document/social title. */
+export function brandTitle(_pageTitle?: string): string {
+  return SITE_TITLE;
 }
 
 export function pageMetadata({
@@ -36,7 +37,6 @@ export function pageMetadata({
   const url = new URL(path, SITE_URL).toString();
   const fullTitle = brandTitle(title);
   return {
-    // absolute avoids the root `%s | SITE_NAME` template doubling the brand.
     title: { absolute: fullTitle },
     description,
     applicationName: SITE_NAME,
@@ -59,15 +59,13 @@ export function pageMetadata({
       locale: "en_US",
       url,
       siteName: SITE_NAME,
-      // iMessage and other link previews often drop the site name and show only
-      // the segment after "|" — keep social titles brand-only.
-      title: SITE_NAME,
+      title: fullTitle,
       description,
       images: [OG_IMAGE],
     },
     twitter: {
       card: "summary_large_image",
-      title: SITE_NAME,
+      title: fullTitle,
       description,
       images: [OG_IMAGE.url],
     },

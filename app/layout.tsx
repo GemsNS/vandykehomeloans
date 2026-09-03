@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { DM_Sans, IBM_Plex_Mono, Inter_Tight, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { CONTACT, SITE_NAME, SITE_URL, TEAM_NAME } from "@/lib/company";
+import { CONTACT, SITE_NAME, SITE_TITLE, SITE_URL, TEAM_NAME } from "@/lib/company";
 import { OG_IMAGE, localBusinessJsonLd } from "@/lib/seo";
 import "./globals.css";
 
@@ -37,9 +37,10 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} | Hampton Roads Mortgages`,
-    template: `${SITE_NAME} | %s`,
-  },  description:
+    default: SITE_TITLE,
+    absolute: SITE_TITLE,
+  },
+  description:
     "The VanDyke Mortgage Team in Suffolk, VA helps first-time buyers, veterans, FHA clients, self-employed borrowers, and investors. Branch Manager Anthony VanDyke, NMLS #955777. Powered by New American Funding, NMLS #6606.",
   applicationName: SITE_NAME,
   appleWebApp: {
@@ -72,14 +73,14 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: SITE_NAME,
+    title: SITE_TITLE,
     description:
       "Conventional, FHA, VA, self-employed, Non-QM, and investor financing with Anthony VanDyke and the VanDyke Mortgage Team. Powered by New American Funding.",
     images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: SITE_NAME,
+    title: SITE_TITLE,
     description:
       "Talk with Anthony VanDyke, NMLS #955777, or Gonzalo Guimoye, NMLS #1131706, in Suffolk, Virginia.",
     images: [OG_IMAGE.url],

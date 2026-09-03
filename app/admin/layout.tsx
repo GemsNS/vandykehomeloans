@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { SITE_NAME } from "@/lib/company";
+import { SITE_TITLE } from "@/lib/company";
 
 export const metadata: Metadata = {
   title: {
-    absolute: `${SITE_NAME} Admin`,
+    absolute: SITE_TITLE,
   },
   robots: { index: false, follow: false },
 };
