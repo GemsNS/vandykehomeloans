@@ -5,6 +5,7 @@ import {
   OFFICE,
   PEOPLE,
   SITE_NAME,
+  SITE_SOCIAL_TITLE,
   SITE_TITLE,
   SITE_URL,
   TEAM_NAME,
@@ -18,7 +19,7 @@ const OG_IMAGE = {
   alt: `${SITE_NAME} logo`,
 } as const;
 
-/** Every page uses the same document/social title. */
+/** Browser document title (can include " - Powered By …"). */
 export function brandTitle(_pageTitle?: string): string {
   return SITE_TITLE;
 }
@@ -58,16 +59,15 @@ export function pageMetadata({
       type: "website",
       locale: "en_US",
       url,
-      // Use the domain here — if siteName matches the title prefix, iMessage
-      // drops it and only shows "Powered By New American Funding".
-      siteName: "vandyke.loans",
-      title: fullTitle,
+      siteName: SITE_SOCIAL_TITLE,
+      // Must not contain " - " — Apple Messages keeps only the right-hand side.
+      title: SITE_SOCIAL_TITLE,
       description,
       images: [OG_IMAGE],
     },
     twitter: {
       card: "summary_large_image",
-      title: fullTitle,
+      title: SITE_SOCIAL_TITLE,
       description,
       images: [OG_IMAGE.url],
     },

@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { DM_Sans, IBM_Plex_Mono, Inter_Tight, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { CONTACT, SITE_NAME, SITE_TITLE, SITE_URL, TEAM_NAME } from "@/lib/company";
+import { CONTACT, SITE_NAME, SITE_SOCIAL_TITLE, SITE_TITLE, SITE_URL, TEAM_NAME } from "@/lib/company";
 import { OG_IMAGE, localBusinessJsonLd } from "@/lib/seo";
 import "./globals.css";
 
@@ -72,15 +72,15 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: SITE_URL,
-    siteName: "vandyke.loans",
-    title: SITE_TITLE,
+    siteName: SITE_SOCIAL_TITLE,
+    title: SITE_SOCIAL_TITLE,
     description:
       "Conventional, FHA, VA, self-employed, Non-QM, and investor financing with Anthony VanDyke and the VanDyke Mortgage Team. Powered by New American Funding.",
     images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: SITE_TITLE,
+    title: SITE_SOCIAL_TITLE,
     description:
       "Talk with Anthony VanDyke, NMLS #955777, or Gonzalo Guimoye, NMLS #1131706, in Suffolk, Virginia.",
     images: [OG_IMAGE.url],
