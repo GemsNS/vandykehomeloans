@@ -59,8 +59,8 @@ export function pageMetadata({
       type: "website",
       locale: "en_US",
       url,
-      siteName: SITE_SOCIAL_TITLE,
-      // Must not contain " - " — Apple Messages keeps only the right-hand side.
+      siteName: "vandyke.loans",
+      // Prefer " / " over " - " — Apple Messages truncates after a hyphen.
       title: SITE_SOCIAL_TITLE,
       description,
       images: [OG_IMAGE],

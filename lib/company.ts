@@ -1,12 +1,12 @@
 export const SITE_URL = "https://vandyke.loans";
 export const SITE_NAME = "VanDyke Home Loans";
 /** Browser tab / document title. */
-export const SITE_TITLE = "VanDyke Home Loans - Powered By New American Funding";
+export const SITE_TITLE = "VanDyke Home Loans / Powered By New American Funding";
 /**
- * iMessage/Facebook split on " - " and show only the right side of og:title.
- * Keep social titles free of that separator.
+ * iMessage splits on " - " and keeps only the right side.
+ * Use " / " so the full brand + lender line stays visible.
  */
-export const SITE_SOCIAL_TITLE = "VanDyke Home Loans";
+export const SITE_SOCIAL_TITLE = "VanDyke Home Loans / Powered By New American Funding";
 export const TEAM_NAME = "VanDyke Mortgage Team";
 export const TAGLINE = "Mortgage guidance designed for today’s homebuyer.";
 
