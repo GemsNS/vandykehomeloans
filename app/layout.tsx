@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: SITE_URL,
-    siteName: SITE_NAME,
+    siteName: "vandyke.loans",
     title: SITE_TITLE,
     description:
       "Conventional, FHA, VA, self-employed, Non-QM, and investor financing with Anthony VanDyke and the VanDyke Mortgage Team. Powered by New American Funding.",

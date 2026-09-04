@@ -58,7 +58,9 @@ export function pageMetadata({
       type: "website",
       locale: "en_US",
       url,
-      siteName: SITE_NAME,
+      // Use the domain here — if siteName matches the title prefix, iMessage
+      // drops it and only shows "Powered By New American Funding".
+      siteName: "vandyke.loans",
       title: fullTitle,
       description,
       images: [OG_IMAGE],
