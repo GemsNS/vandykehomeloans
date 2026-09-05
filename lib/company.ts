@@ -1,12 +1,11 @@
 export const SITE_URL = "https://vandyke.loans";
 export const SITE_NAME = "VanDyke Home Loans";
-/** Browser tab / document title. */
-export const SITE_TITLE = "VanDyke Home Loans / Powered By New American Funding";
 /**
- * iMessage splits on " - " and keeps only the right side.
- * Use " / " so the full brand + lender line stays visible.
+ * Full title for tabs + link previews.
+ * Avoid " - " and " / " — iMessage truncates those to one side only.
  */
-export const SITE_SOCIAL_TITLE = "VanDyke Home Loans / Powered By New American Funding";
+export const SITE_TITLE = "VanDyke Home Loans (Powered By New American Funding)";
+export const SITE_SOCIAL_TITLE = SITE_TITLE;
 export const TEAM_NAME = "VanDyke Mortgage Team";
 export const TAGLINE = "Mortgage guidance designed for today’s homebuyer.";
 

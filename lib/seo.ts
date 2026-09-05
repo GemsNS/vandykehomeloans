@@ -60,7 +60,6 @@ export function pageMetadata({
       locale: "en_US",
       url,
       siteName: "vandyke.loans",
-      // Prefer " / " over " - " — Apple Messages truncates after a hyphen.
       title: SITE_SOCIAL_TITLE,
       description,
       images: [OG_IMAGE],
