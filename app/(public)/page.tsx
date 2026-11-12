@@ -25,12 +25,11 @@ export default async function HomePage() {
     getActiveBrokers(),
     getNafPublishedMeta(),
   ]);
-  const featured = rates.find((rate) => rate.isFeatured) ?? rates[0];
 
   return (
     <>
       <JsonLd data={faqJsonLd(FAQS)} />
-      <Hero featuredRate={Number(featured?.rate ?? 6.625)} />
+      <Hero />
       <LifestyleShowcase />
       <RateTable rates={rates} publishedMeta={publishedMeta} />
       <BrokerGrid brokers={brokers} />

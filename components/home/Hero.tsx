@@ -1,19 +1,12 @@
+import { Phone } from "lucide-react";
 import Image from "next/image";
-import { LogoPlate } from "@/components/brand/LogoPlate";
+import { AwardFigure } from "@/components/home/AwardFigure";
 import { ApplyNowButton } from "@/components/lead-funnel/ApplyNowButton";
-import { QuickQuote } from "@/components/home/QuickQuote";
 import { Button } from "@/components/ui/button";
-import { CONTACT, PEOPLE } from "@/lib/company";
-import { formatPercent } from "@/lib/utils";
+import { CONTACT } from "@/lib/company";
 import heroPhoto from "@/public/images/hero-neighborhood-dusk.jpg";
 
-const STATS = [
-  { label: "Branch manager", value: PEOPLE.anthony.name.split(" ")[0] },
-  { label: "NMLS", value: `#${PEOPLE.anthony.nmlsId}` },
-  { label: "Office", value: "Suffolk, VA" },
-];
-
-export function Hero({ featuredRate }: { featuredRate: number }) {
+export function Hero() {
   return (
     <section className="relative overflow-hidden bg-ink-950 text-white">
       <Image
@@ -31,29 +24,24 @@ export function Hero({ featuredRate }: { featuredRate: number }) {
       <div className="grid-field pointer-events-none absolute inset-0 opacity-25" />
       <div className="pointer-events-none absolute -right-32 -top-40 h-[34rem] w-[34rem] rounded-full bg-brand-500/12 blur-3xl" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-brand-500/60 to-transparent" />
-      <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-24">
-        <div>
-          <LogoPlate className="mb-8 hidden w-full max-w-[330px] md:block" />
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="inline-flex items-center gap-2 rounded-sm border border-brand-500/40 bg-brand-500/10 px-2.5 py-1">
-              <span className="h-1.5 w-1.5 animate-pulse-dot rounded-full bg-up" />
-              <span className="tape text-[11px] uppercase tracking-wider text-brand-300">
-                30-Yr fixed {formatPercent(featuredRate)}
-              </span>
-            </span>
-            <span className="eyebrow text-white/50">Indicative · Hampton Roads, VA</span>
-          </div>
-          <h1 className="mt-6 max-w-2xl font-display text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+      {/* One grid, three children: the award sits under the h1 on phones and moves to the
+          right column on desktop without being rendered twice. */}
+      <div className="relative mx-auto grid max-w-7xl gap-x-12 gap-y-7 px-4 py-10 sm:py-14 lg:grid-cols-[1.1fr_0.9fr] lg:py-20">
+        <div className="lg:col-start-1 lg:row-start-1 lg:self-end">
+          <p className="eyebrow text-white/50">Suffolk · Hampton Roads, VA</p>
+          <h1 className="mt-4 max-w-2xl font-display text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
             Let&apos;s get you home.
             <span className="block text-brand-300">Clear rates, real people.</span>
           </h1>
-          <p className="mt-6 max-w-lg text-base text-white/70 sm:text-lg">
-            From the first conversation through closing day, the VanDyke Mortgage Team helps
-            first-time homebuyers, conventional borrowers, FHA clients, military families, veterans,
-            self-employed borrowers, real estate investors, and clients exploring non-qualified
-            mortgage options — with direct access to New American Funding.
+        </div>
+        <AwardFigure className="lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-center" />
+        <div className="lg:col-start-1 lg:row-start-2 lg:self-start">
+          <p className="max-w-lg text-base text-white/70 sm:text-lg">
+            From the first conversation through closing day, the VanDyke Mortgage Team helps you
+            buy, refinance, or put a VA benefit to work — with direct access to New American
+            Funding.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <ApplyNowButton size="lg">Start Pre-Qualification</ApplyNowButton>
             <Button
               variant="outline"
@@ -61,30 +49,16 @@ export function Hero({ featuredRate }: { featuredRate: number }) {
               className="border-white/25 bg-transparent text-white hover:border-white/60 hover:bg-white/10"
               asChild
             >
-              <a href="#refinance">I am Refinancing</a>
+              <a href={`tel:${CONTACT.phoneTel}`}>
+                <Phone className="h-4 w-4" />
+                Call Anthony <span className="tape">{CONTACT.phoneDisplay}</span>
+              </a>
             </Button>
           </div>
-          {/* Hidden on phones: it is three lines of detail between the CTAs and the quote
-              widget, and the same figures appear in the footer. */}
-          <dl className="mt-10 hidden max-w-lg grid-cols-3 divide-x divide-white/10 border-y border-white/10 sm:grid">
-            {STATS.map((stat) => (
-              <div key={stat.label} className="px-4 py-4 first:pl-0">
-                <dt className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/40">
-                  {stat.label}
-                </dt>
-                <dd className="tape mt-1.5 text-lg font-semibold">{stat.value}</dd>
-              </div>
-            ))}
-          </dl>
-          <p className="mt-5 text-sm text-white/70">
-            Call{" "}
-            <a className="tape font-semibold text-brand-300" href={`tel:${CONTACT.phoneTel}`}>
-              {CONTACT.phoneDisplay}
-            </a>{" "}
-            · Powered by NAF | New American Funding
+          <p className="mt-5 text-xs font-semibold uppercase tracking-[0.16em] text-brand-300">
+            Powered by NAF | New American Funding
           </p>
         </div>
-        <QuickQuote defaultRate={featuredRate} />
       </div>
     </section>
   );

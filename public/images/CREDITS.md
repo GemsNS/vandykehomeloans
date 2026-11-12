@@ -20,6 +20,14 @@ None of these are Unsplash+ / premium images, which carry different terms.
 | `black-excellence-father-son.jpg` | August de Richelieu | https://www.pexels.com/photo/4259139/ | Pexels |
 | `black-excellence-keys.jpg` | RDNE Stock project | https://www.pexels.com/photo/8293778/ | Pexels |
 
+## Award artwork
+
+`awards/2026-best-mortgage-lender-suffolk.png` is the 2026 "Best Mortgage Lender in Suffolk"
+plaque (recognized by BusinessRate based on Google reviews), supplied by the VanDyke Mortgage
+Team. The `-320/-480/-640/-960` `.avif` and `.webp` files beside it are resized copies made
+once with sharp, because `images.unoptimized` is on and Next never resizes. Regenerate them if
+the PNG changes. The BusinessRate source link goes in `AWARD.sourceUrl` in `lib/company.ts`.
+
 ## If these are ever replaced
 
 Do not copy imagery from other lenders' or banks' sites. Their photos are licensed from

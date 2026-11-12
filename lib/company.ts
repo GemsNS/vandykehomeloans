@@ -75,6 +75,21 @@ export const PEOPLE = {
   },
 } as const;
 
+/**
+ * The one award shown on the site (hero only). Wording matches the plaque artwork in
+ * public/images/awards/. Do not add other award claims.
+ */
+export const AWARD = {
+  /** Alt text: the full text printed on the plaque. */
+  alt: "2026 Best Mortgage Lender in Suffolk. Recognized by BusinessRate based on Google reviews. Anthony VanDyke Team, New American Funding. Thank you, Suffolk!",
+  caption: "2026 Best Mortgage Lender in Suffolk · Recognized by BusinessRate based on Google reviews",
+  /**
+   * BusinessRate page that confirms the award. Unknown for now, so the caption renders
+   * without a link. Set the URL here and the caption becomes a link (opens in a new tab).
+   */
+  sourceUrl: null as string | null,
+} as const;
+
 export const REVIEWS = [
   {
     quote:
