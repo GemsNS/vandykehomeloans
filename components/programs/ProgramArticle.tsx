@@ -7,9 +7,17 @@ import { getRates } from "@/lib/data/queries";
 import { getNafPublishedMeta } from "@/lib/naf-rates/meta";
 import { breadcrumbJsonLd } from "@/lib/seo";
 import { notFound } from "next/navigation";
+import type { ReactNode } from "react";
 
-export async function ProgramArticle({ slug }: { slug: string }) {
-  const program = PROGRAMS[slug as ProgramSlug];
+export async function ProgramArticle({
+  slug,
+  children,
+}: {
+  slug: ProgramSlug;
+  /** Extra program content shown under the bullets, above the CTA. */
+  children?: ReactNode;
+}) {
+  const program = PROGRAMS[slug];
   if (!program) notFound();
   const [allRates, publishedMeta] = await Promise.all([getRates(), getNafPublishedMeta()]);
   const rates = allRates.filter((rate) => rate.productType === program.type);
@@ -35,6 +43,7 @@ export async function ProgramArticle({ slug }: { slug: string }) {
             </li>
           ))}
         </ul>
+        {children}
         <div className="mt-8">
           <ApplyNowButton>Apply for {program.title}</ApplyNowButton>
         </div>

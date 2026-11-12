@@ -10,5 +10,15 @@ export const metadata = pageMetadata({
 });
 
 export default function VaLoansPage() {
-  return <ProgramArticle slug="va" />;
+  return (
+    <ProgramArticle slug="va">
+      {/* Moved word for word from the retired /refinance page. */}
+      <div className="mt-8 rounded-board border border-ink/10 bg-white p-6 shadow-card">
+        <h2 className="font-display text-xl font-bold tracking-tight text-ink">VA refinance</h2>
+        <p className="mt-2 text-sm text-slate-600">
+          Streamline or cash-out paths when remaining entitlement and recoupment still work.
+        </p>
+      </div>
+    </ProgramArticle>
+  );
 }

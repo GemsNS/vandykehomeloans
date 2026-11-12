@@ -15,6 +15,7 @@ export type Program = {
   description: string;
   bullets: string[];
   type: string;
+  /** Where this program is presented: its own page, or its anchor on /programs. */
   path: string;
   seoTitle: string;
 };
@@ -32,7 +33,7 @@ export const PROGRAMS: Record<ProgramSlug, Program> = {
       "High-balance conforming in designated counties",
     ],
     type: "conventional",
-    path: "/programs/conventional",
+    path: "/programs#conventional",
   },
   fha: {
     title: "FHA loans",
@@ -74,7 +75,7 @@ export const PROGRAMS: Record<ProgramSlug, Program> = {
       "Guarantee fee typically financed into the loan",
     ],
     type: "usda",
-    path: "/programs/usda",
+    path: "/programs#usda",
   },
   jumbo: {
     title: "Jumbo loans",
@@ -88,7 +89,7 @@ export const PROGRAMS: Record<ProgramSlug, Program> = {
       "Local Suffolk conversation, national NAF lock desk",
     ],
     type: "jumbo",
-    path: "/programs/jumbo",
+    path: "/programs#jumbo",
   },
   "self-employed": {
     title: "Self-employed mortgages",
@@ -102,7 +103,7 @@ export const PROGRAMS: Record<ProgramSlug, Program> = {
       "Enter NAF pre-qualification once the income story is organized",
     ],
     type: "conventional",
-    path: "/self-employed-loans",
+    path: "/programs#self-employed",
   },
   "non-qm": {
     title: "Non-QM loans",
@@ -116,7 +117,7 @@ export const PROGRAMS: Record<ProgramSlug, Program> = {
       "Qualification still depends on the full borrower profile",
     ],
     type: "conventional",
-    path: "/programs/non-qm",
+    path: "/programs#non-qm",
   },
   reverse: {
     title: "Reverse mortgages",
@@ -130,7 +131,7 @@ export const PROGRAMS: Record<ProgramSlug, Program> = {
       "Compare against a traditional refinance when that is cleaner",
     ],
     type: "conventional",
-    path: "/programs/reverse",
+    path: "/programs#reverse",
   },
   investors: {
     title: "Investor financing",
@@ -144,6 +145,20 @@ export const PROGRAMS: Record<ProgramSlug, Program> = {
       "Local Suffolk origination with NAF product access",
     ],
     type: "conventional",
-    path: "/programs/investors",
+    path: "/programs#investors",
   },
 };
+
+/** Sections of the single /programs page, in display order. The id is the section anchor. */
+export const PROGRAM_GROUPS: { id: ProgramSlug; label: string; slugs: ProgramSlug[] }[] = [
+  { id: "conventional", label: "Conventional & jumbo", slugs: ["conventional", "jumbo"] },
+  { id: "fha", label: "FHA", slugs: ["fha"] },
+  { id: "va", label: "VA", slugs: ["va"] },
+  { id: "usda", label: "USDA", slugs: ["usda"] },
+  {
+    id: "self-employed",
+    label: "Self-employed, Non-QM & investors",
+    slugs: ["self-employed", "non-qm", "investors"],
+  },
+  { id: "reverse", label: "Reverse mortgage", slugs: ["reverse"] },
+];
