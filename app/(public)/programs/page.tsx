@@ -95,7 +95,7 @@ export default function ProgramsPage() {
         ))}
 
         <div className="flex flex-wrap items-center gap-4 border-t border-ink/10 pt-10">
-          <ApplyNowButton>Talk through program fit</ApplyNowButton>
+          <ApplyNowButton>Start Pre-Qualification</ApplyNowButton>
           <Link
             href="/#rates"
             className="text-sm font-semibold text-brand-600 underline-offset-4 hover:underline"

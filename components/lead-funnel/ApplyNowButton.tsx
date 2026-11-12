@@ -4,7 +4,7 @@ import { Button, type ButtonProps } from "@/components/ui/button";
 import { CONTACT } from "@/lib/company";
 
 export function ApplyNowButton({
-  children = "Apply Now",
+  children = "Start Pre-Qualification",
   ...props
 }: ButtonProps) {
   const { asChild: _asChild, type: _type, ...rest } = props;

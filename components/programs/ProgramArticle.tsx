@@ -45,7 +45,7 @@ export async function ProgramArticle({
         </ul>
         {children}
         <div className="mt-8">
-          <ApplyNowButton>Apply for {program.title}</ApplyNowButton>
+          <ApplyNowButton>Start Pre-Qualification</ApplyNowButton>
         </div>
       </section>
       {rates.length > 0 ? <RateTable rates={rates} publishedMeta={publishedMeta} /> : null}

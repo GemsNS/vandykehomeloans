@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { CONTACT } from "./lib/company";
 
 // `npm run build:demo` produces the static GitHub Pages demo at
 // https://gemsns.github.io/vandykehomeloans/ — no server, no database.
@@ -20,7 +21,8 @@ const securityHeaders = [
 ];
 
 const CANONICAL_ORIGIN = "https://vandyke.loans";
-const NAF_PREQUAL_URL = "https://www.newamericanfunding.com/lps/prequal/anthonyvandyke/";
+// Single source of truth for the NAF pre-qualification link (also used by ApplyNowButton).
+const NAF_PREQUAL_URL = CONTACT.preQual;
 
 // Hosts that serve the same app but should never be indexed. Matched as an anchored regex.
 const ALIAS_HOSTS = "(?:(?:www\\.)?vandykehomeloan\\.net|www\\.vandyke\\.loans)";

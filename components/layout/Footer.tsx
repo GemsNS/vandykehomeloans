@@ -15,7 +15,7 @@ const COLUMNS = [
       { href: "/#refinance", label: "Refinance" },
       { href: "/#rates", label: "Today's rates" },
       { href: "/calculators", label: "Calculators" },
-      { href: CONTACT.preQual, label: "Start pre-qualification", external: true },
+      { href: CONTACT.preQual, label: "Start Pre-Qualification", external: true },
     ],
   },
   {

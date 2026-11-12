@@ -102,12 +102,12 @@ export function RateTable({
 
         <div className="mt-8 overflow-hidden rounded-board border border-white/10 bg-ink-900">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[640px] text-left text-sm">
+            <table className="w-full min-w-[480px] text-left text-sm">
               <thead>
                 <tr className="border-b border-white/10 bg-ink-950">
-                  {["Term", "Rate", "APR", "Points (Cost)", ""].map((heading, index) => (
+                  {["Term", "Rate", "APR", "Points (Cost)"].map((heading, index) => (
                     <th
-                      key={heading || `action-${index}`}
+                      key={heading}
                       className={`px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/45 ${
                         index > 0 ? "text-right" : ""
                       }`}
@@ -135,9 +135,6 @@ export function RateTable({
                     <td className="tape px-4 py-3.5 text-right text-white/70">
                       {pointsLabel}
                     </td>
-                    <td className="px-4 py-3.5 text-right">
-                      <ApplyNowButton size="sm">Apply Now</ApplyNowButton>
-                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -145,6 +142,9 @@ export function RateTable({
           </div>
         </div>
         <RateAdvertisingDisclaimer className="mt-4" publishedMeta={{ asOf }} />
+        <div className="mt-6">
+          <ApplyNowButton>Start Pre-Qualification</ApplyNowButton>
+        </div>
       </div>
     </section>
   );
