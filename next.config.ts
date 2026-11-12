@@ -51,30 +51,53 @@ const MOVED_PAGES: { source: string; destination: string }[] = [
   { source: "/calculators/affordability", destination: "/calculators#affordability" },
 ];
 
+/** Each retired URL with and without a trailing slash, so both forms are one 301. */
+const MOVED_PAGE_RULES = MOVED_PAGES.flatMap(({ source, destination }) => [
+  { source, destination },
+  { source: `${source}/`, destination },
+]);
+
+// Paths that keep answering on whichever host they were called (cron API, admin, build assets).
+const HOST_AGNOSTIC = "(?!api(?:/|$)|admin(?:/|$)|_next(?:/|$))";
+
 function siteRedirects() {
   const aliasHost = [{ type: "host" as const, value: ALIAS_HOSTS }];
   return [
     // Off-site hand-off stays a temporary 307 so browsers never cache it permanently.
     { source: "/apply", destination: NAF_PREQUAL_URL, permanent: false },
+    { source: "/apply/", destination: NAF_PREQUAL_URL, permanent: false },
     // Old URLs on an alias host go straight to their final canonical URL (one hop, not two).
-    ...MOVED_PAGES.map(({ source, destination }) => ({
+    ...MOVED_PAGE_RULES.map(({ source, destination }) => ({
       source,
       destination: `${CANONICAL_ORIGIN}${destination}`,
       statusCode: 301 as const,
       has: aliasHost,
     })),
-    ...MOVED_PAGES.map(({ source, destination }) => ({
+    ...MOVED_PAGE_RULES.map(({ source, destination }) => ({
       source,
       destination,
       statusCode: 301 as const,
     })),
-    // Everything else on an alias host moves to vandyke.loans, except the cron API, the
-    // admin portal and build assets, which keep answering on whichever host they were called.
+    // Everything else on an alias host moves to vandyke.loans (trailing slash dropped in the
+    // same hop), except the host-agnostic paths above.
     {
-      source: "/:path((?!api(?:/|$)|admin(?:/|$)|_next(?:/|$)).*)",
+      source: `/:path(${HOST_AGNOSTIC}.+)/`,
       destination: `${CANONICAL_ORIGIN}/:path`,
       statusCode: 301 as const,
       has: aliasHost,
+    },
+    {
+      source: `/:path(${HOST_AGNOSTIC}.*)`,
+      destination: `${CANONICAL_ORIGIN}/:path`,
+      statusCode: 301 as const,
+      has: aliasHost,
+    },
+    // Replaces Next's built-in 308 trailing-slash redirect (skipTrailingSlashRedirect below)
+    // so a slash variant is one 301 and never a 308 followed by a 301.
+    {
+      source: "/:path((?!\\.well-known(?:/.*)?)(?:[^/]+/)*[^/]+)/",
+      destination: "/:path",
+      statusCode: 301 as const,
     },
   ];
 }
@@ -95,6 +118,8 @@ const nextConfig: NextConfig = {
         async headers() {
           return [{ source: "/:path*", headers: securityHeaders }];
         },
+        // Trailing slashes are handled by the explicit 301 rules in siteRedirects().
+        skipTrailingSlashRedirect: true,
         async redirects() {
           return siteRedirects();
         },
