@@ -44,7 +44,9 @@ const COLUMNS = [
 export function Footer() {
   const publishedMeta = getNafPublishedMeta();
   return (
-    <footer className="border-t border-white/10 bg-ink-950 text-white">
+    // Bottom padding on phones equals MobileActionBar's height, so the fixed bar never covers
+    // the compliance text.
+    <footer className="border-t border-white/10 bg-ink-950 pb-[calc(4rem+env(safe-area-inset-bottom))] text-white md:pb-0">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 md:grid-cols-4">
         <div>
           <LogoPlate className="w-full max-w-[260px]" />

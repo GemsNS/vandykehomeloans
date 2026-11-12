@@ -90,7 +90,7 @@ export function NafBlackImpact() {
             src={communityPhoto}
             alt="African American father and son talking together at the kitchen counter of their home"
             sizes="(max-width: 1024px) 100vw, 480px"
-            className="h-auto w-full rounded-board border border-white/10 object-cover shadow-lift"
+            className="aspect-[4/3] h-auto w-full rounded-board border border-white/10 object-cover object-[60%_55%] shadow-lift"
           />
         </div>
         <div className="mt-10 grid gap-4 md:grid-cols-2">

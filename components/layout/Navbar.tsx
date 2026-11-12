@@ -98,7 +98,7 @@ export function Navbar() {
 
 /**
  * Phone-only bar pinned to the bottom of the screen so Call and Start Pre-Qualification are
- * always one tap away. SiteShell pads the page by the bar's height so it never covers the
+ * always one tap away. The footer pads itself by the bar's height so it never covers the
  * footer's compliance text.
  */
 export function MobileActionBar() {
