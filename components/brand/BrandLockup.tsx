@@ -10,8 +10,8 @@ export function BrandLockup({ className }: { className?: string }) {
   return (
     <span className={cn("flex items-center gap-2.5", className)}>
       <HouseMark className="h-9 w-9 shrink-0" />
-      <span className="hidden leading-none md:block">
-        <span className="block font-brand text-[1.3rem] font-semibold leading-none text-brand-300">
+      <span className="block leading-none">
+        <span className="block font-brand text-[1.15rem] font-semibold leading-none text-brand-300 md:text-[1.3rem]">
           VanDyke
         </span>
         <span className="mt-1 block border-t border-brand-500/40 pt-1 text-[8.5px] font-semibold uppercase tracking-[0.3em] text-brand-200/75">

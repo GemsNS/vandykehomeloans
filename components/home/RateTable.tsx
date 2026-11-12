@@ -102,13 +102,13 @@ export function RateTable({
 
         <div className="mt-8 overflow-hidden rounded-board border border-white/10 bg-ink-900">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[480px] text-left text-sm">
+            <table className="w-full text-left text-sm sm:min-w-[480px]">
               <thead>
                 <tr className="border-b border-white/10 bg-ink-950">
                   {["Term", "Rate", "APR", "Points (Cost)"].map((heading, index) => (
                     <th
                       key={heading}
-                      className={`px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/45 ${
+                      className={`px-2 py-3 text-[10px] font-semibold uppercase tracking-[0.08em] sm:px-4 sm:text-[11px] sm:tracking-[0.14em] text-white/45 ${
                         index > 0 ? "text-right" : ""
                       }`}
                     >
@@ -123,16 +123,16 @@ export function RateTable({
                     key={item.id}
                     className="border-b border-white/[0.06] transition-colors last:border-0 hover:bg-white/[0.04]"
                   >
-                    <td className="px-4 py-3.5">
+                    <td className="px-2 py-3.5 sm:px-4">
                       <div className="font-semibold text-white">{item.productName}</div>
                     </td>
-                    <td className="tape px-4 py-3.5 text-right text-base font-semibold text-brand-300">
+                    <td className="tape px-2 py-3.5 sm:px-4 text-right text-sm font-semibold text-brand-300 sm:text-base">
                       {formatPercent(Number(item.rate))}
                     </td>
-                    <td className="tape px-4 py-3.5 text-right font-semibold text-brand-300">
+                    <td className="tape px-2 py-3.5 sm:px-4 text-right font-semibold text-brand-300">
                       {formatPercent(Number(item.apr))}
                     </td>
-                    <td className="tape px-4 py-3.5 text-right text-white/70">
+                    <td className="tape px-2 py-3.5 sm:px-4 text-right text-white/70">
                       {pointsLabel}
                     </td>
                   </tr>
