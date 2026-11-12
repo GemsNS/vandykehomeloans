@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { DM_Sans, IBM_Plex_Mono, Inter_Tight, Playfair_Display } from "next/font/google";
-import Script from "next/script";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { CONTACT, SITE_NAME, SITE_SOCIAL_TITLE, SITE_TITLE, SITE_URL, TEAM_NAME } from "@/lib/company";
 import { OG_IMAGE, localBusinessJsonLd } from "@/lib/seo";
@@ -99,9 +98,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <meta name="theme-color" content="#0B192C" />
         <meta name="apple-mobile-web-app-title" content={SITE_NAME} />
-        <Script id="vd-splash" strategy="beforeInteractive">
-          {`(function(){try{var k="vd-splash-seen";var wide=window.matchMedia("(min-width:768px)").matches;var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;var seen=false;try{seen=!!sessionStorage.getItem(k);}catch(e){seen=true;}if(wide||reduced||seen){document.documentElement.classList.add("splash-done");return;}setTimeout(function(){try{sessionStorage.setItem(k,"1");}catch(e){}document.documentElement.classList.add("splash-done");document.body&&(document.body.style.overflow="");},2600);}catch(e){document.documentElement.classList.add("splash-done");}})();`}
-        </Script>
       </head>
       <body
         className={`${dmSans.variable} ${interTight.variable} ${playfair.variable} ${plexMono.variable} font-sans`}
