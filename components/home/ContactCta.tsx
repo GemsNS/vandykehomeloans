@@ -1,5 +1,7 @@
+import { Phone } from "lucide-react";
 import Image from "next/image";
 import { ApplyNowButton } from "@/components/lead-funnel/ApplyNowButton";
+import { Button } from "@/components/ui/button";
 import { CONTACT, PEOPLE } from "@/lib/company";
 import keysPhoto from "@/public/images/closing-keys.jpg";
 
@@ -17,7 +19,7 @@ export function ContactCta() {
         <div className="order-1 lg:order-none">
           <p className="eyebrow text-brand-600">Loan inquiry</p>
           <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight text-ink">
-            Start with a conversation, not a credit pull.
+            Ready when you are.
           </h2>
           <p className="mt-3 text-sm text-ink-600">
             Clients who are not ready to apply can still review the FAQs, check current rates, or
@@ -25,12 +27,12 @@ export function ContactCta() {
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <ApplyNowButton>Start Pre-Qualification</ApplyNowButton>
-            <a
-              href={`tel:${CONTACT.phoneTel}`}
-              className="tape inline-flex h-11 items-center px-5 text-sm font-semibold text-brand-600"
-            >
-              {CONTACT.phoneDisplay}
-            </a>
+            <Button variant="outline" asChild>
+              <a href={`tel:${CONTACT.phoneTel}`}>
+                <Phone className="h-4 w-4" />
+                Call Anthony <span className="tape">{CONTACT.phoneDisplay}</span>
+              </a>
+            </Button>
           </div>
         </div>
       </div>

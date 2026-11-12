@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FAQS, REVIEWS } from "@/lib/company";
+import { FAQS, PEOPLE, REVIEWS } from "@/lib/company";
 import communityPhoto from "@/public/images/black-excellence-father-son.jpg";
 
 export function ReviewsSection() {
@@ -31,6 +31,16 @@ export function ReviewsSection() {
             </blockquote>
           ))}
         </div>
+        <p className="mt-6 text-sm">
+          <a
+            href={PEOPLE.anthony.profile}
+            target="_blank"
+            rel="noreferrer"
+            className="font-semibold text-brand-600 underline-offset-4 hover:underline"
+          >
+            Read reviews on Anthony&apos;s New American Funding profile
+          </a>
+        </p>
       </div>
     </section>
   );
@@ -83,7 +93,7 @@ export function NafBlackImpact() {
             className="h-auto w-full rounded-board border border-white/10 object-cover shadow-lift"
           />
         </div>
-        <div className="mt-10 grid gap-4 md:grid-cols-3">
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
           {[
             {
               title: "Mortgage-ready guidance",
@@ -92,10 +102,6 @@ export function NafBlackImpact() {
             {
               title: "Cultural competency",
               body: "Language grounded in awareness, historical context, and respectful borrower support.",
-            },
-            {
-              title: "Housing Advocate Certified",
-              body: "Displayed as a trust marker for equitable borrower support across Hampton Roads.",
             },
           ].map((item) => (
             <div key={item.title} className="rounded-board border border-white/10 bg-white/5 p-5">
