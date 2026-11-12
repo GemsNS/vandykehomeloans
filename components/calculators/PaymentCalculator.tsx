@@ -8,13 +8,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   buildAmortizationSchedule,
-  calculateApr,
   calculateTotalMonthlyPayment,
   downPaymentFromPercent,
   downPaymentPercent,
   totalInterestPaid,
 } from "@/lib/mortgage-math";
-import { formatCurrency, formatPercent } from "@/lib/utils";
+import { formatCurrency } from "@/lib/utils";
 
 const COLORS = ["#C9A44C", "#0B192C", "#E3C77E", "#4E5F79", "#B7C0CD"];
 
@@ -53,7 +52,6 @@ export function PaymentCalculator({ defaultRate = 6.625 }: { defaultRate?: numbe
     [principal, rate, termYears],
   );
   const interest = totalInterestPaid(schedule);
-  const apr = calculateApr(principal, rate, termYears, 0);
   const chartData = [
     { name: "P&I", value: breakdown.principalAndInterest },
     { name: "Taxes", value: breakdown.taxes },
@@ -149,7 +147,6 @@ export function PaymentCalculator({ defaultRate = 6.625 }: { defaultRate?: numbe
                 <li>Insurance · {formatCurrency(breakdown.insurance, 2)}</li>
                 {breakdown.hoa > 0 ? <li>HOA · {formatCurrency(breakdown.hoa, 2)}</li> : null}
                 {breakdown.pmi > 0 ? <li>PMI · {formatCurrency(breakdown.pmi, 2)}</li> : null}
-                <li>APR (est.) · {formatPercent(apr)}</li>
                 <li>Total interest · {formatCurrency(interest)}</li>
               </ul>
             </div>

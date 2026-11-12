@@ -1,26 +1,11 @@
-import Link from "next/link";
+import type { ReactNode } from "react";
+import { AffordabilityCalculator } from "@/components/calculators/AffordabilityCalculator";
+import { PaymentCalculator } from "@/components/calculators/PaymentCalculator";
+import { RefinanceCalculator } from "@/components/calculators/RefinanceCalculator";
 import { CalculatorDisclaimer } from "@/components/compliance/CalculatorDisclaimer";
 import { CalculatorNav, PageHero } from "@/components/layout/PageHero";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getFeaturedRates } from "@/lib/data/queries";
 import { pageMetadata } from "@/lib/seo";
-
-const TOOLS = [
-  {
-    href: "/calculators/payment",
-    title: "Payment & amortization",
-    body: "P&I, taxes, insurance, HOA, and PMI with a month-by-month schedule.",
-  },
-  {
-    href: "/calculators/affordability",
-    title: "Home affordability",
-    body: "28/36 DTI limits translated into a max purchase price and loan amount.",
-  },
-  {
-    href: "/calculators/refinance",
-    title: "Refinance break-even",
-    body: "Monthly savings, closing-cost payback, and lifetime interest comparison.",
-  },
-];
 
 export const metadata = pageMetadata({
   title: "Mortgage Calculators",
@@ -29,30 +14,76 @@ export const metadata = pageMetadata({
   path: "/calculators",
 });
 
-export default function CalculatorsIndexPage() {
+export default async function CalculatorsPage() {
+  const rates = await getFeaturedRates();
+  const firstRate = Number(rates[0]?.rate ?? 6.625);
+  const thirtyYearRate = Number(
+    rates.find((item) => item.termYears === 30)?.rate ?? rates[0]?.rate ?? 6.625,
+  );
+
   return (
     <>
       <PageHero
         eyebrow="Tools"
         title="Run the numbers before you apply."
-        description="Every formula is the same engine our loan officers use — principal and interest, APR with points, DTI, and refinance break-even."
+        description="Estimate a monthly payment, see how long a refinance takes to break even, and check what a 28/36 debt-to-income budget can buy."
       />
-      <section className="mx-auto max-w-7xl space-y-8 px-4 py-12">
+      <div className="mx-auto max-w-7xl space-y-14 px-4 py-12">
         <CalculatorNav />
-        <div className="grid gap-6 md:grid-cols-3">
-          {TOOLS.map((tool) => (
-            <Link key={tool.href} href={tool.href}>
-              <Card className="h-full transition hover:shadow-lift">
-                <CardHeader>
-                  <CardTitle>{tool.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="text-sm text-slate-600">{tool.body}</CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
+
+        <CalculatorSection
+          id="payment"
+          title="Payment & amortization"
+          description="Model principal and interest, taxes, insurance, HOA, and PMI. Expand the schedule to see every month of the loan."
+        >
+          <PaymentCalculator defaultRate={firstRate} />
+        </CalculatorSection>
+
+        <CalculatorSection
+          id="refinance"
+          title="Refinance break-even"
+          description="Compare your current coupon against a new VanDyke quote, including points and closing costs."
+        >
+          <RefinanceCalculator defaultRate={thirtyYearRate} />
+        </CalculatorSection>
+
+        <CalculatorSection
+          id="affordability"
+          title="How much home can you afford?"
+          description="We apply the 28/36 front-end and back-end DTI rule, then reverse the payment formula to a max purchase price."
+        >
+          <AffordabilityCalculator defaultRate={firstRate} />
+        </CalculatorSection>
+
         <CalculatorDisclaimer />
-      </section>
+      </div>
     </>
+  );
+}
+
+function CalculatorSection({
+  id,
+  title,
+  description,
+  children,
+}: {
+  id: string;
+  title: string;
+  description: string;
+  children: ReactNode;
+}) {
+  return (
+    <section id={id} aria-labelledby={`${id}-heading`} className="scroll-mt-24 space-y-6">
+      <div>
+        <h2
+          id={`${id}-heading`}
+          className="font-display text-3xl font-extrabold tracking-tight text-ink"
+        >
+          {title}
+        </h2>
+        <p className="mt-2 max-w-2xl text-sm text-slate-600">{description}</p>
+      </div>
+      {children}
+    </section>
   );
 }
