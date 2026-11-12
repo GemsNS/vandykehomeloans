@@ -5,12 +5,16 @@ import { CONTACT, LENDER, PEOPLE, SITE_NAME, TEAM_NAME, fullAddress } from "@/li
 import { getNafPublishedMeta } from "@/lib/naf-rates/meta";
 import { IS_DEMO } from "@/lib/demo";
 
+// Each destination appears once. Privacy, Licensing, NMLS Consumer Access and State
+// licensing live in the compliance strip below, not in these columns.
 const COLUMNS = [
   {
     title: "Borrow",
     links: [
       { href: "/#buy", label: "Buy a home" },
       { href: "/#refinance", label: "Refinance" },
+      { href: "/#rates", label: "Today's rates" },
+      { href: "/calculators", label: "Calculators" },
       { href: CONTACT.preQual, label: "Start pre-qualification", external: true },
     ],
   },
@@ -28,13 +32,9 @@ const COLUMNS = [
   {
     title: "Team",
     links: [
-      { href: "/#anthony", label: "Meet the team" },
-      { href: "/calculators", label: "Calculators" },
+      { href: "/#anthony", label: "Meet Anthony" },
       { href: "/#naf-black-impact", label: "NAF Black Impact" },
-      { href: "/privacy", label: "Privacy Policy" },
-      { href: "/licensing", label: "Licensing & Disclosures" },
-      { href: LENDER.nmlsLookup, label: "NMLS Consumer Access", external: true },
-      { href: LENDER.licensing, label: "State licensing", external: true },
+      { href: CONTACT.portal, label: "My Portal", external: true },
       // The static demo ships without the admin portal, so the link would 404 there.
       ...(IS_DEMO ? [] : [{ href: "/admin", label: "Staff login" }]),
     ],
