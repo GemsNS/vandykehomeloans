@@ -97,7 +97,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <link rel="alternate" hrefLang="en-US" href={SITE_URL} />
         <meta name="theme-color" content="#0B192C" />
         <meta name="apple-mobile-web-app-title" content={SITE_NAME} />
         <Script id="vd-splash" strategy="beforeInteractive">
