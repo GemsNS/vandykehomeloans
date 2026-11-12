@@ -2,7 +2,8 @@ import Link from "next/link";
 import { ApplyNowButton } from "@/components/lead-funnel/ApplyNowButton";
 import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { PROGRAM_GROUPS, PROGRAMS } from "@/lib/programs";
+import { LENDER } from "@/lib/company";
+import { PROGRAM_GROUPS, PROGRAMS, type ProgramSlug } from "@/lib/programs";
 import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -11,6 +12,9 @@ export const metadata = pageMetadata({
     "Explore conventional, FHA, VA, self-employed, Non-QM, investor, reverse, USDA, and jumbo mortgages with the VanDyke Mortgage Team and New American Funding.",
   path: "/programs",
 });
+
+/** Groups whose copy states down-payment terms; each gets the terms pointer below its cards. */
+const DOWN_PAYMENT_TERM_GROUPS: ReadonlySet<ProgramSlug> = new Set(["conventional", "va", "usda"]);
 
 export default function ProgramsPage() {
   return (
@@ -48,7 +52,6 @@ export default function ProgramsPage() {
             key={group.id}
             id={group.id}
             aria-labelledby={`${group.id}-heading`}
-            className="scroll-mt-24"
           >
             <h2
               id={`${group.id}-heading`}
@@ -65,7 +68,7 @@ export default function ProgramsPage() {
                     key={slug}
                     // Sub-programs (jumbo, non-qm, investors) get their own anchor too.
                     id={slug === group.id ? undefined : slug}
-                    className="scroll-mt-24 rounded-board border border-ink/10 bg-white p-6 shadow-card"
+                    className="rounded-board border border-ink/10 bg-white p-6 shadow-card"
                   >
                     <p className="eyebrow text-brand-600">{program.title}</p>
                     <h3 className="mt-2 font-display text-2xl font-bold tracking-tight text-ink">
@@ -91,6 +94,7 @@ export default function ProgramsPage() {
                 );
               })}
             </div>
+            {DOWN_PAYMENT_TERM_GROUPS.has(group.id) ? <ProgramTermsNote /> : null}
           </section>
         ))}
 
@@ -105,5 +109,25 @@ export default function ProgramsPage() {
         </div>
       </div>
     </>
+  );
+}
+
+function ProgramTermsNote() {
+  return (
+    <p className="mt-4 max-w-3xl text-xs leading-relaxed text-slate-500">
+      Down payment, rate, APR, and repayment terms depend on credit, loan amount, occupancy, and
+      property, and are set at lock through {LENDER.dba}. See{" "}
+      <Link href="/#rates" className="font-semibold text-brand-600 underline-offset-2 hover:underline">
+        today&apos;s published rates with APR and the points/cost they assume
+      </Link>{" "}
+      and our{" "}
+      <Link
+        href="/licensing#rate-advertising"
+        className="font-semibold text-brand-600 underline-offset-2 hover:underline"
+      >
+        rate and APR advertising disclosures
+      </Link>
+      .
+    </p>
   );
 }

@@ -101,7 +101,7 @@ export default function LicensingPage() {
           </p>
         </section>
 
-        <section className="space-y-3">
+        <section id="rate-advertising" className="space-y-3">
           <h2 className="font-display text-2xl font-bold tracking-tight text-ink">
             Rate and APR advertising
           </h2>

@@ -55,7 +55,6 @@ export default async function CalculatorsPage() {
           <AffordabilityCalculator defaultRate={firstRate} />
         </CalculatorSection>
 
-        <CalculatorDisclaimer />
       </div>
     </>
   );
@@ -73,7 +72,7 @@ function CalculatorSection({
   children: ReactNode;
 }) {
   return (
-    <section id={id} aria-labelledby={`${id}-heading`} className="scroll-mt-24 space-y-6">
+    <section id={id} aria-labelledby={`${id}-heading`} className="space-y-6">
       <div>
         <h2
           id={`${id}-heading`}
@@ -84,6 +83,7 @@ function CalculatorSection({
         <p className="mt-2 max-w-2xl text-sm text-slate-600">{description}</p>
       </div>
       {children}
+      <CalculatorDisclaimer />
     </section>
   );
 }
