@@ -9,27 +9,26 @@ const COLUMNS = [
   {
     title: "Borrow",
     links: [
-      { href: "/purchase", label: "Buy a home" },
-      { href: "/refinance", label: "Refinance" },
+      { href: "/#buy", label: "Buy a home" },
+      { href: "/#refinance", label: "Refinance" },
       { href: CONTACT.preQual, label: "Start pre-qualification", external: true },
     ],
   },
   {
     title: "Programs",
     links: [
-      { href: "/programs/conventional", label: "Conventional" },
+      { href: "/programs#conventional", label: "Conventional" },
       { href: "/fha-loans", label: "FHA loans" },
       { href: "/va-loans", label: "VA loans" },
-      { href: "/self-employed-loans", label: "Self-employed" },
-      { href: "/programs/non-qm", label: "Non-QM" },
-      { href: "/programs/reverse", label: "Reverse mortgage" },
+      { href: "/programs#self-employed", label: "Self-employed" },
+      { href: "/programs#non-qm", label: "Non-QM" },
+      { href: "/programs#reverse", label: "Reverse mortgage" },
     ],
   },
   {
     title: "Team",
     links: [
-      { href: "/team", label: "Meet the team" },
-      { href: "/about", label: "About us" },
+      { href: "/#anthony", label: "Meet the team" },
       { href: "/calculators", label: "Calculators" },
       { href: "/#naf-black-impact", label: "NAF Black Impact" },
       { href: "/privacy", label: "Privacy Policy" },

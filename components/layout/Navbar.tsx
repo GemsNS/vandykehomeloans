@@ -12,28 +12,27 @@ import { cn } from "@/lib/utils";
 
 // Every loan program lives here and nowhere else in the nav, so no destination is listed twice.
 const PROGRAMS = [
-  { href: "/programs/conventional", label: "Conventional" },
+  { href: "/programs#conventional", label: "Conventional" },
   { href: "/fha-loans", label: "FHA" },
   { href: "/va-loans", label: "VA" },
-  { href: "/self-employed-loans", label: "Self-Employed" },
-  { href: "/programs/non-qm", label: "Non-QM" },
-  { href: "/programs/investors", label: "Investors" },
-  { href: "/programs/reverse", label: "Reverse Mortgage" },
+  { href: "/programs#self-employed", label: "Self-Employed" },
+  { href: "/programs#non-qm", label: "Non-QM" },
+  { href: "/programs#investors", label: "Investors" },
+  { href: "/programs#reverse", label: "Reverse Mortgage" },
 ];
 
 const PROGRAMS_INDEX = { href: "/programs", label: "All Loan Programs" };
 
 const LINKS_BEFORE_PROGRAMS = [
-  { href: "/purchase", label: "Buy a Home" },
-  { href: "/refinance", label: "Refinance" },
+  { href: "/#buy", label: "Buy a Home" },
+  { href: "/#refinance", label: "Refinance" },
 ];
 
 const LINKS_AFTER_PROGRAMS = [
   { href: "/#rates", label: "Rates" },
   { href: "/calculators", label: "Calculators" },
   { href: "/#naf-black-impact", label: "NAF Black Impact" },
-  { href: "/team", label: "Team" },
-  { href: "/about", label: "About" },
+  { href: "/#anthony", label: "Meet Anthony" },
 ];
 
 const OUTLINE_ON_DARK =

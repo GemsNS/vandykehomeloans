@@ -120,7 +120,7 @@ export function QuickQuote({ defaultRate }: { defaultRate: number }) {
           Lock this payment
         </ApplyNowButton>
         <Button variant="ghost" className="mt-1 w-full text-white/70 hover:bg-white/10" asChild>
-          <a href="/calculators/payment">Open full calculator</a>
+          <a href="/calculators#payment">Open full calculator</a>
         </Button>
       </div>
     </div>

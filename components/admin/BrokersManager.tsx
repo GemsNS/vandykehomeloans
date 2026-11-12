@@ -71,7 +71,7 @@ export function BrokersManager({ brokers }: { brokers: Broker[] }) {
             Broker directory
           </h1>
           <p className="mt-1 text-sm text-slate-500">
-            Loan officers appear on the homepage team grid and /team.
+            Loan officers appear on the homepage team grid.
           </p>
         </div>
         <Button onClick={() => startEdit()}>Add broker</Button>

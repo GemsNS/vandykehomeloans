@@ -61,7 +61,7 @@ export function Hero({ featuredRate }: { featuredRate: number }) {
               className="border-white/25 bg-transparent text-white hover:border-white/60 hover:bg-white/10"
               asChild
             >
-              <a href="/refinance">I am Refinancing</a>
+              <a href="/#refinance">I am Refinancing</a>
             </Button>
           </div>
           {/* Hidden on phones: it is three lines of detail between the CTAs and the quote

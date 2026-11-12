@@ -21,7 +21,7 @@ type Audience = {
 
 const AUDIENCES: Audience[] = [
   {
-    href: "/purchase",
+    href: "/#buy",
     label: "Buying",
     headline: "First keys, first home",
     body: "Pre-qualification, down payment options, and a closing timeline you can plan around.",
@@ -39,7 +39,7 @@ const AUDIENCES: Audience[] = [
     focus: "object-[50%_38%]",
   },
   {
-    href: "/self-employed-loans",
+    href: "/programs#self-employed",
     label: "Self-employed",
     headline: "Your income, understood",
     body: "Bank statement and Non-QM options for business owners and 1099 earners.",
@@ -48,7 +48,7 @@ const AUDIENCES: Audience[] = [
     focus: "object-[52%_32%]",
   },
   {
-    href: "/refinance",
+    href: "/#refinance",
     label: "Refinancing",
     headline: "Better news at the table",
     body: "Lower the payment, shorten the term, or pull cash out for the projects that matter.",
