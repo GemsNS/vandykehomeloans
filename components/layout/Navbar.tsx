@@ -35,7 +35,7 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-ink-950/95 text-white backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4">
-        <Link href="/" aria-label="VanDyke Home Loans home">
+        <Link href="/">
           <BrandLockup />
         </Link>
 

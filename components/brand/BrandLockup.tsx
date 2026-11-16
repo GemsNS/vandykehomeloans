@@ -13,7 +13,7 @@ export function BrandLockup({ className }: { className?: string }) {
       <span className="block leading-none">
         <span className="block font-brand text-[1.15rem] font-semibold leading-none text-brand-300 md:text-[1.3rem]">
           VanDyke
-        </span>
+        </span>{" "}
         <span className="mt-1 block border-t border-brand-500/40 pt-1 text-[8.5px] font-semibold uppercase tracking-[0.3em] text-brand-200/75">
           Home Loans
         </span>

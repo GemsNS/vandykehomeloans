@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useId } from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -28,6 +28,7 @@ export function PaymentCalculator({ defaultRate = 6.625 }: { defaultRate?: numbe
   const [annualInsurance, setAnnualInsurance] = useState(1800);
   const [hoa, setHoa] = useState(0);
   const [showSchedule, setShowSchedule] = useState(false);
+  const downId = useId();
 
   const downPayment =
     downMode === "percent" ? downPaymentFromPercent(homePrice, downPercent) : downDollars;
@@ -70,7 +71,7 @@ export function PaymentCalculator({ defaultRate = 6.625 }: { defaultRate?: numbe
           <Field label="Home price" value={homePrice} onChange={setHomePrice} />
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
-              <Label>Down payment</Label>
+              <Label htmlFor={downId}>Down payment</Label>
               <button
                 type="button"
                 className="text-xs font-semibold text-brand-600"
@@ -89,12 +90,14 @@ export function PaymentCalculator({ defaultRate = 6.625 }: { defaultRate?: numbe
             </div>
             {downMode === "percent" ? (
               <Input
+                id={downId}
                 type="number"
                 value={downPercent}
                 onChange={(event) => setDownPercent(Number(event.target.value))}
               />
             ) : (
               <Input
+                id={downId}
                 type="number"
                 value={downDollars}
                 onChange={(event) => setDownDollars(Number(event.target.value))}
@@ -200,10 +203,12 @@ function Field({
   onChange: (value: number) => void;
   step?: number;
 }) {
+  const id = useId();
   return (
     <div className="space-y-1.5">
-      <Label>{label}</Label>
+      <Label htmlFor={id}>{label}</Label>
       <Input
+        id={id}
         type="number"
         step={step}
         value={value}
