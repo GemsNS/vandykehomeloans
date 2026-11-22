@@ -1,6 +1,7 @@
-import { Equal, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
 import Link from "next/link";
 import { LogoPlate } from "@/components/brand/LogoPlate";
+import { EqualHousingLogo } from "@/components/compliance/EqualHousingLogo";
 import { CONTACT, LENDER, PEOPLE, SITE_NAME, TEAM_NAME, fullAddress } from "@/lib/company";
 import { getNafPublishedMeta } from "@/lib/naf-rates/meta";
 import { IS_DEMO } from "@/lib/demo";
@@ -99,16 +100,18 @@ export function Footer() {
       </div>
       <div className="border-t border-white/10">
         <div className="mx-auto max-w-7xl space-y-3 px-4 py-6 text-xs leading-relaxed text-white/55">
-          <p className="inline-flex items-start gap-2">
-            <Equal className="mt-0.5 h-4 w-4 shrink-0" />
-            New American Funding, LLC is an Equal Housing Lender. We fully comply with the Equal
-            Credit Opportunity Act (ECOA), Fair Housing Act, and all other Federal and State
-            regulations. All applicants applying for credit will be treated equally regardless of
-            race, color, ethnicity, national origin, religion, sex or gender, sexual orientation,
-            gender identification, military status, marital or familial status, age, disability or
-            handicap, receipt of public assistance, exercise of any right under the Consumer Credit
-            Protection Act, or any other prohibited basis.
-          </p>
+          <div className="flex items-start gap-4">
+            <EqualHousingLogo className="h-16 w-auto text-white/80" />
+            <p>
+              New American Funding, LLC is an Equal Housing Lender. We fully comply with the Equal
+              Credit Opportunity Act (ECOA), Fair Housing Act, and all other Federal and State
+              regulations. All applicants applying for credit will be treated equally regardless of
+              race, color, ethnicity, national origin, religion, sex or gender, sexual orientation,
+              gender identification, military status, marital or familial status, age, disability or
+              handicap, receipt of public assistance, exercise of any right under the Consumer Credit
+              Protection Act, or any other prohibited basis.
+            </p>
+          </div>
           <p>
             Company NMLS #{LENDER.nmls} · {PEOPLE.anthony.name} NMLS #{PEOPLE.anthony.nmlsId} ·{" "}
             {PEOPLE.gonzalo.name} NMLS #{PEOPLE.gonzalo.nmlsId} ·{" "}
