@@ -8,7 +8,6 @@ import { submitLead } from "@/actions/leads";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CONTACT } from "@/lib/company";
 import { formatPhone } from "@/lib/utils";
 import { leadFunnelSchema, type LeadFunnelValues } from "@/lib/validations";
 
@@ -299,22 +298,7 @@ export function LeadFunnel({ onComplete }: { onComplete?: () => void }) {
           <p className="sm:col-span-2 text-xs text-slate-500">
             By submitting you agree to be contacted by the VanDyke Mortgage Team / New American
             Funding at the number and email provided, including via autodialed calls or texts.
-            Consent is not a condition of purchase. Message and data rates may apply. Reply STOP to
-            opt out of texts, or email{" "}
-            <a
-              href={`mailto:${CONTACT.email}`}
-              className="font-semibold text-brand-600 underline-offset-2 hover:underline"
-            >
-              {CONTACT.email}
-            </a>{" "}
-            or call{" "}
-            <a
-              href={`tel:${CONTACT.phoneTel}`}
-              className="font-semibold text-brand-600 underline-offset-2 hover:underline"
-            >
-              {CONTACT.phoneDisplay}
-            </a>{" "}
-            to stop marketing contact. See our{" "}
+            Consent is not a condition of purchase. See our{" "}
             <a href="/privacy" className="font-semibold text-brand-600 underline-offset-2 hover:underline">
               Privacy Policy
             </a>
