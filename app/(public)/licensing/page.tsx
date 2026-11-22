@@ -136,7 +136,7 @@ export default function LicensingPage() {
         <section className="space-y-3">
           <h2 className="font-display text-2xl font-bold tracking-tight text-ink">Privacy</h2>
           <p>
-            How we handle website inquiries is described in our{" "}
+            Our privacy practices follow New American Funding&apos;s{" "}
             <Link href="/privacy" className="font-semibold text-brand-600 underline-offset-2 hover:underline">
               Privacy Policy
             </Link>

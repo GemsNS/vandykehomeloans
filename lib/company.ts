@@ -127,7 +127,7 @@ export const FAQS = [
   {
     question: "Where can I find licensing and compliance information?",
     answer:
-      "New American Funding, LLC is an Equal Housing Lender, NMLS #6606. Anthony VanDyke is NMLS #955777. Gonzalo Guimoye is NMLS #1131706. Confirm licenses at NMLS Consumer Access. See the Licensing & Disclosures and Privacy Policy pages linked in the site footer for Equal Housing, rate advertising, and contact-consent details.",
+      "New American Funding, LLC is an Equal Housing Lender, NMLS #6606. Anthony VanDyke is NMLS #955777. Gonzalo Guimoye is NMLS #1131706. Confirm licenses at NMLS Consumer Access. See the Licensing & Disclosures and Privacy Policy pages linked in the site footer for Equal Housing, rate advertising, and privacy details.",
   },
 ] as const;
 
