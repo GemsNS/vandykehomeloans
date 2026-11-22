@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { FAQS, REVIEWS } from "@/lib/company";
-import communityPhoto from "@/public/images/black-excellence-father-son.jpg";
+import { FAQS, PEOPLE, REVIEWS } from "@/lib/company";
+import communityPhoto from "@/public/images/father-son-kitchen.jpg";
 
 export function ReviewsSection() {
   return (
@@ -31,6 +31,16 @@ export function ReviewsSection() {
             </blockquote>
           ))}
         </div>
+        <p className="mt-6 text-sm">
+          <a
+            href={PEOPLE.anthony.profile}
+            target="_blank"
+            rel="noreferrer"
+            className="font-semibold text-brand-600 underline-offset-4 hover:underline"
+          >
+            Read reviews on Anthony&apos;s New American Funding profile
+          </a>
+        </p>
       </div>
     </section>
   );
@@ -59,43 +69,41 @@ export function FaqSection() {
   );
 }
 
-export function NafBlackImpact() {
+export function CommitmentSection() {
   return (
-    <section id="naf-black-impact" className="bg-ink-950 py-16 text-white">
+    <section id="commitment" className="bg-ink-950 py-16 text-white">
+      {/* Retired anchor: keeps old /#naf-black-impact links landing on this section. */}
+      <span id="naf-black-impact" aria-hidden="true" />
       <div className="mx-auto max-w-7xl px-4">
         <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
           <div>
-            <p className="eyebrow text-brand-300">NAF Black Impact</p>
+            <p className="eyebrow text-brand-300">Our commitment</p>
             <h2 className="mt-3 max-w-3xl font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
-              Black excellence, homeownership, and a team that shows up.
+              A place to call home, for every family in Hampton Roads.
             </h2>
             <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/75">
-              A large part of this work is helping Black families in Hampton Roads buy, refinance,
-              and keep homes. The NAF Black Impact program trains and certifies loan officers in
-              cultural competency and historical awareness. Anthony and Gonzalo bring that to the
-              kitchen table — not as a slogan, as the way the file gets done.
+              Buying, refinancing, or keeping a home is one of the most personal decisions a family
+              makes. Anthony and Gonzalo take the time to listen, explain each option in plain
+              language, and walk alongside you from the first conversation to the closing table —
+              with the same care for every family they serve.
             </p>
           </div>
           <Image
             src={communityPhoto}
-            alt="African American father and son talking together at the kitchen counter of their home"
+            alt="A father and son talking at the kitchen counter of their home"
             sizes="(max-width: 1024px) 100vw, 480px"
-            className="h-auto w-full rounded-board border border-white/10 object-cover shadow-lift"
+            className="aspect-[4/3] h-auto w-full rounded-board border border-white/10 object-cover object-[60%_55%] shadow-lift"
           />
         </div>
-        <div className="mt-10 grid gap-4 md:grid-cols-3">
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
           {[
             {
-              title: "Mortgage-ready guidance",
-              body: "Education that helps first-time and returning homeowners prepare financially before they apply.",
+              title: "Prepared, not pressured",
+              body: "Time to understand your budget, your options, and the steps ahead before you apply.",
             },
             {
-              title: "Cultural competency",
-              body: "Language grounded in awareness, historical context, and respectful borrower support.",
-            },
-            {
-              title: "Housing Advocate Certified",
-              body: "Displayed as a trust marker for equitable borrower support across Hampton Roads.",
+              title: "Respect at every step",
+              body: "Patient, courteous guidance for first-time and returning homeowners alike, whatever your story.",
             },
           ].map((item) => (
             <div key={item.title} className="rounded-board border border-white/10 bg-white/5 p-5">

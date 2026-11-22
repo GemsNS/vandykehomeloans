@@ -1,10 +1,10 @@
+import { PurchaseSection, RefinanceSection } from "@/components/home/BorrowSections";
 import { BrokerGrid } from "@/components/home/BrokerGrid";
 import { ContactCta } from "@/components/home/ContactCta";
 import { Hero } from "@/components/home/Hero";
 import { LifestyleShowcase } from "@/components/home/LifestyleShowcase";
 import { RateTable } from "@/components/home/RateTable";
-import { FaqSection, NafBlackImpact, ReviewsSection } from "@/components/home/SocialProof";
-import { TrustSection } from "@/components/home/TrustSection";
+import { CommitmentSection, FaqSection, ReviewsSection } from "@/components/home/SocialProof";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getActiveBrokers, getRates } from "@/lib/data/queries";
 import { FAQS, SITE_NAME } from "@/lib/company";
@@ -25,18 +25,21 @@ export default async function HomePage() {
     getActiveBrokers(),
     getNafPublishedMeta(),
   ]);
-  const featured = rates.find((rate) => rate.isFeatured) ?? rates[0];
 
   return (
     <>
       <JsonLd data={faqJsonLd(FAQS)} />
-      <Hero featuredRate={Number(featured?.rate ?? 6.625)} />
+      <Hero />
       <LifestyleShowcase />
+      <PurchaseSection />
+      <RefinanceSection />
       <RateTable rates={rates} publishedMeta={publishedMeta} />
-      <BrokerGrid brokers={brokers} />
+      {/* Old /about and /team URLs 301 here. The commitment section keeps its own anchor inside. */}
+      <div id="anthony">
+        <BrokerGrid brokers={brokers} />
+        <CommitmentSection />
+      </div>
       <ReviewsSection />
-      <TrustSection />
-      <NafBlackImpact />
       <FaqSection />
       <ContactCta />
     </>

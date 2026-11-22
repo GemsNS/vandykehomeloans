@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useId } from "react";
 import {
   CartesianGrid,
   Line,
@@ -126,10 +126,12 @@ function Field({
   onChange: (value: number) => void;
   step?: number;
 }) {
+  const id = useId();
   return (
     <div className="space-y-1.5">
-      <Label>{label}</Label>
+      <Label htmlFor={id}>{label}</Label>
       <Input
+        id={id}
         type="number"
         step={step}
         value={value}

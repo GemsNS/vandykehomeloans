@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 export function PageHero({
   eyebrow,
   title,
@@ -26,21 +24,21 @@ export function PageHero({
 
 export function CalculatorNav() {
   const items = [
-    { href: "/calculators/payment", label: "Payment & amortization" },
-    { href: "/calculators/affordability", label: "Affordability" },
-    { href: "/calculators/refinance", label: "Refinance break-even" },
+    { href: "#payment", label: "Payment & amortization" },
+    { href: "#refinance", label: "Refinance break-even" },
+    { href: "#affordability", label: "Affordability" },
   ];
   return (
-    <div className="flex flex-wrap gap-2">
+    <nav aria-label="Calculators on this page" className="flex flex-wrap gap-2">
       {items.map((item) => (
-        <Link
+        <a
           key={item.href}
           href={item.href}
           className="rounded-board border border-ink/15 bg-white px-4 py-2 text-sm font-semibold text-ink hover:border-ink/40"
         >
           {item.label}
-        </Link>
+        </a>
       ))}
-    </div>
+    </nav>
   );
 }

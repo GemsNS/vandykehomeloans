@@ -1,41 +1,41 @@
-import { Equal, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
 import Link from "next/link";
 import { LogoPlate } from "@/components/brand/LogoPlate";
+import { EqualHousingLogo } from "@/components/compliance/EqualHousingLogo";
 import { CONTACT, LENDER, PEOPLE, SITE_NAME, TEAM_NAME, fullAddress } from "@/lib/company";
 import { getNafPublishedMeta } from "@/lib/naf-rates/meta";
 import { IS_DEMO } from "@/lib/demo";
 
+// Each destination appears once. Privacy, Terms, Licensing, NMLS Consumer Access and State
+// licensing live in the compliance strip below, not in these columns.
 const COLUMNS = [
   {
     title: "Borrow",
     links: [
-      { href: "/purchase", label: "Buy a home" },
-      { href: "/refinance", label: "Refinance" },
-      { href: CONTACT.preQual, label: "Start pre-qualification", external: true },
+      { href: "/#buy", label: "Buy a home" },
+      { href: "/#refinance", label: "Refinance" },
+      { href: "/#rates", label: "Today's rates" },
+      { href: "/calculators", label: "Calculators" },
+      { href: CONTACT.preQual, label: "Start Pre-Qualification", external: true },
     ],
   },
   {
     title: "Programs",
     links: [
-      { href: "/programs/conventional", label: "Conventional" },
+      { href: "/programs#conventional", label: "Conventional" },
       { href: "/fha-loans", label: "FHA loans" },
       { href: "/va-loans", label: "VA loans" },
-      { href: "/self-employed-loans", label: "Self-employed" },
-      { href: "/programs/non-qm", label: "Non-QM" },
-      { href: "/programs/reverse", label: "Reverse mortgage" },
+      { href: "/programs#self-employed", label: "Self-employed" },
+      { href: "/programs#non-qm", label: "Non-QM" },
+      { href: "/programs#reverse", label: "Reverse mortgage" },
     ],
   },
   {
     title: "Team",
     links: [
-      { href: "/team", label: "Meet the team" },
-      { href: "/about", label: "About us" },
-      { href: "/calculators", label: "Calculators" },
-      { href: "/#naf-black-impact", label: "NAF Black Impact" },
-      { href: "/privacy", label: "Privacy Policy" },
-      { href: "/licensing", label: "Licensing & Disclosures" },
-      { href: LENDER.nmlsLookup, label: "NMLS Consumer Access", external: true },
-      { href: LENDER.licensing, label: "State licensing", external: true },
+      { href: "/#anthony", label: "Meet Anthony" },
+      { href: "/#commitment", label: "Our commitment" },
+      { href: CONTACT.portal, label: "My Portal", external: true },
       // The static demo ships without the admin portal, so the link would 404 there.
       ...(IS_DEMO ? [] : [{ href: "/admin", label: "Staff login" }]),
     ],
@@ -45,7 +45,9 @@ const COLUMNS = [
 export function Footer() {
   const publishedMeta = getNafPublishedMeta();
   return (
-    <footer className="border-t border-white/10 bg-ink-950 text-white">
+    // Bottom padding on phones equals MobileActionBar's height, so the fixed bar never covers
+    // the compliance text.
+    <footer className="border-t border-white/10 bg-ink-950 pb-[calc(4rem+env(safe-area-inset-bottom))] text-white md:pb-0">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 md:grid-cols-4">
         <div>
           <LogoPlate className="w-full max-w-[260px]" />
@@ -98,16 +100,18 @@ export function Footer() {
       </div>
       <div className="border-t border-white/10">
         <div className="mx-auto max-w-7xl space-y-3 px-4 py-6 text-xs leading-relaxed text-white/55">
-          <p className="inline-flex items-start gap-2">
-            <Equal className="mt-0.5 h-4 w-4 shrink-0" />
-            New American Funding, LLC is an Equal Housing Lender. We fully comply with the Equal
-            Credit Opportunity Act (ECOA), Fair Housing Act, and all other Federal and State
-            regulations. All applicants applying for credit will be treated equally regardless of
-            race, color, ethnicity, national origin, religion, sex or gender, sexual orientation,
-            gender identification, military status, marital or familial status, age, disability or
-            handicap, receipt of public assistance, exercise of any right under the Consumer Credit
-            Protection Act, or any other prohibited basis.
-          </p>
+          <div className="flex items-start gap-4">
+            <EqualHousingLogo className="h-16 w-auto text-white/80" />
+            <p>
+              New American Funding, LLC is an Equal Housing Lender. We fully comply with the Equal
+              Credit Opportunity Act (ECOA), Fair Housing Act, and all other Federal and State
+              regulations. All applicants applying for credit will be treated equally regardless of
+              race, color, ethnicity, national origin, religion, sex or gender, sexual orientation,
+              gender identification, military status, marital or familial status, age, disability or
+              handicap, receipt of public assistance, exercise of any right under the Consumer Credit
+              Protection Act, or any other prohibited basis.
+            </p>
+          </div>
           <p>
             Company NMLS #{LENDER.nmls} · {PEOPLE.anthony.name} NMLS #{PEOPLE.anthony.nmlsId} ·{" "}
             {PEOPLE.gonzalo.name} NMLS #{PEOPLE.gonzalo.nmlsId} ·{" "}
@@ -122,6 +126,10 @@ export function Footer() {
           <p>
             <Link href="/privacy" className="underline hover:text-white">
               Privacy Policy
+            </Link>
+            {" · "}
+            <Link href="/terms" className="underline hover:text-white">
+              Terms of Use
             </Link>
             {" · "}
             <Link href="/licensing" className="underline hover:text-white">

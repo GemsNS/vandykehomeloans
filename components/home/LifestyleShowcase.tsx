@@ -2,8 +2,8 @@ import { ArrowRight } from "lucide-react";
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import porchPhoto from "@/public/images/black-excellence-kitchen.jpg";
-import purchasePhoto from "@/public/images/black-excellence-keys.jpg";
+import porchPhoto from "@/public/images/family-kitchen.jpg";
+import purchasePhoto from "@/public/images/keys-handoff.jpg";
 import refinancePhoto from "@/public/images/refinance-good-news.jpg";
 import selfEmployedPhoto from "@/public/images/self-employed-owners.jpg";
 import vaPhoto from "@/public/images/va-military-couple.jpg";
@@ -21,12 +21,12 @@ type Audience = {
 
 const AUDIENCES: Audience[] = [
   {
-    href: "/purchase",
+    href: "/#buy",
     label: "Buying",
     headline: "First keys, first home",
     body: "Pre-qualification, down payment options, and a closing timeline you can plan around.",
     photo: purchasePhoto,
-    alt: "African American couple shaking hands and receiving the keys to their new home",
+    alt: "A couple shaking hands and receiving the keys to their new home",
     focus: "object-center",
   },
   {
@@ -39,7 +39,7 @@ const AUDIENCES: Audience[] = [
     focus: "object-[50%_38%]",
   },
   {
-    href: "/self-employed-loans",
+    href: "/programs#self-employed",
     label: "Self-employed",
     headline: "Your income, understood",
     body: "Bank statement and Non-QM options for business owners and 1099 earners.",
@@ -48,7 +48,7 @@ const AUDIENCES: Audience[] = [
     focus: "object-[52%_32%]",
   },
   {
-    href: "/refinance",
+    href: "/#refinance",
     label: "Refinancing",
     headline: "Better news at the table",
     body: "Lower the payment, shorten the term, or pull cash out for the projects that matter.",
@@ -78,7 +78,7 @@ export function LifestyleShowcase() {
           <div className="relative aspect-[5/4] overflow-hidden rounded-board border border-ink/10 shadow-card sm:aspect-[3/2]">
             <Image
               src={porchPhoto}
-              alt="African American parents and their children preparing breakfast together in their kitchen"
+              alt="Parents and their children preparing breakfast together in their kitchen"
               fill
               sizes="(max-width: 1024px) 100vw, 560px"
               className="object-cover object-[50%_40%]"

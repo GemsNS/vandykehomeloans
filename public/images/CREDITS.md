@@ -16,9 +16,17 @@ None of these are Unsplash+ / premium images, which carry different terms.
 | `self-employed-owners.jpg` | Vitaly Gariev | https://unsplash.com/photos/dU3KJqyYlO0 | Unsplash |
 | `community-family.jpg` | National Cancer Institute | https://images.unsplash.com/photo-1577896849786-738ed6c78bd3 | Unsplash |
 | `closing-keys.jpg` | Jakub Żerdzicki | https://unsplash.com/photos/bqUZEAeWuok | Unsplash |
-| `black-excellence-kitchen.jpg` | August de Richelieu | https://www.pexels.com/photo/4259140/ | Pexels |
-| `black-excellence-father-son.jpg` | August de Richelieu | https://www.pexels.com/photo/4259139/ | Pexels |
-| `black-excellence-keys.jpg` | RDNE Stock project | https://www.pexels.com/photo/8293778/ | Pexels |
+| `family-kitchen.jpg` | August de Richelieu | https://www.pexels.com/photo/4259140/ | Pexels |
+| `father-son-kitchen.jpg` | August de Richelieu | https://www.pexels.com/photo/4259139/ | Pexels |
+| `keys-handoff.jpg` | RDNE Stock project | https://www.pexels.com/photo/8293778/ | Pexels |
+
+## Award artwork
+
+`awards/2026-best-mortgage-lender-suffolk.png` is the 2026 "Best Mortgage Lender in Suffolk"
+plaque (recognized by BusinessRate based on Google reviews), supplied by the VanDyke Mortgage
+Team. The `-320/-480/-640/-960` `.avif` and `.webp` files beside it are resized copies made
+once with sharp, because `images.unoptimized` is on and Next never resizes. Regenerate them if
+the PNG changes. The BusinessRate source link goes in `AWARD.sourceUrl` in `lib/company.ts`.
 
 ## If these are ever replaced
 

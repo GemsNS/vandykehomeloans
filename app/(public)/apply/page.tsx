@@ -21,7 +21,7 @@ export default function ApplyPage() {
         description="Social Security numbers, credit pulls, and the rest of the application are handled on Anthony VanDyke’s New American Funding portal — the same system the team uses to originate."
       />
       <section className="mx-auto max-w-xl px-4 py-12 text-center">
-        <ApplyNowButton size="lg">Start NAF Pre-Qualification</ApplyNowButton>
+        <ApplyNowButton size="lg">Start Pre-Qualification</ApplyNowButton>
         <p className="mt-4 text-sm text-ink-600">
           If you are not redirected,{" "}
           <a

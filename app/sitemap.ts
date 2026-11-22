@@ -3,40 +3,30 @@ import { SITE_URL } from "@/lib/company";
 
 export const dynamic = "force-static";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
-  const paths = [
-    "/",
-    "/purchase",
-    "/refinance",
-    "/calculators",
-    "/calculators/payment",
-    "/calculators/affordability",
-    "/calculators/refinance",
-    "/programs",
-    "/programs/conventional",
-    "/programs/fha",
-    "/fha-loans",
-    "/programs/va",
-    "/va-loans",
-    "/programs/usda",
-    "/programs/jumbo",
-    "/programs/self-employed",
-    "/self-employed-loans",
-    "/programs/non-qm",
-    "/programs/reverse",
-    "/programs/investors",
-    "/team",
-    "/about",
-    "/privacy",
-    "/licensing",
-    "/apply",
-  ];
+/**
+ * Every canonical page, and only those: retired URLs 301 elsewhere (next.config.ts) and /apply
+ * hands off to New American Funding, so neither belongs here. No lastModified, because the build
+ * time is not when the content changed.
+ */
+const PAGES: {
+  path: string;
+  priority: number;
+  changeFrequency: NonNullable<MetadataRoute.Sitemap[number]["changeFrequency"]>;
+}[] = [
+  { path: "/", priority: 1, changeFrequency: "daily" },
+  { path: "/programs", priority: 0.9, changeFrequency: "monthly" },
+  { path: "/va-loans", priority: 0.9, changeFrequency: "weekly" },
+  { path: "/fha-loans", priority: 0.8, changeFrequency: "weekly" },
+  { path: "/calculators", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/licensing", priority: 0.3, changeFrequency: "yearly" },
+  { path: "/privacy", priority: 0.3, changeFrequency: "yearly" },
+  { path: "/terms", priority: 0.3, changeFrequency: "yearly" },
+];
 
-  return paths.map((path) => ({
-    url: `${SITE_URL}${path}`,
-    lastModified: now,
-    changeFrequency: path === "/" ? "daily" : "weekly",
-    priority: path === "/" ? 1 : path.includes("va") || path.includes("fha") ? 0.9 : 0.7,
+export default function sitemap(): MetadataRoute.Sitemap {
+  return PAGES.map(({ path, priority, changeFrequency }) => ({
+    url: new URL(path, SITE_URL).toString(),
+    changeFrequency,
+    priority,
   }));
 }

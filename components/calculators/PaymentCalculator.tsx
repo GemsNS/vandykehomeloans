@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useId } from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,13 +8,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   buildAmortizationSchedule,
-  calculateApr,
   calculateTotalMonthlyPayment,
   downPaymentFromPercent,
   downPaymentPercent,
   totalInterestPaid,
 } from "@/lib/mortgage-math";
-import { formatCurrency, formatPercent } from "@/lib/utils";
+import { formatCurrency } from "@/lib/utils";
 
 const COLORS = ["#C9A44C", "#0B192C", "#E3C77E", "#4E5F79", "#B7C0CD"];
 
@@ -29,6 +28,7 @@ export function PaymentCalculator({ defaultRate = 6.625 }: { defaultRate?: numbe
   const [annualInsurance, setAnnualInsurance] = useState(1800);
   const [hoa, setHoa] = useState(0);
   const [showSchedule, setShowSchedule] = useState(false);
+  const downId = useId();
 
   const downPayment =
     downMode === "percent" ? downPaymentFromPercent(homePrice, downPercent) : downDollars;
@@ -53,7 +53,6 @@ export function PaymentCalculator({ defaultRate = 6.625 }: { defaultRate?: numbe
     [principal, rate, termYears],
   );
   const interest = totalInterestPaid(schedule);
-  const apr = calculateApr(principal, rate, termYears, 0);
   const chartData = [
     { name: "P&I", value: breakdown.principalAndInterest },
     { name: "Taxes", value: breakdown.taxes },
@@ -72,7 +71,7 @@ export function PaymentCalculator({ defaultRate = 6.625 }: { defaultRate?: numbe
           <Field label="Home price" value={homePrice} onChange={setHomePrice} />
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
-              <Label>Down payment</Label>
+              <Label htmlFor={downId}>Down payment</Label>
               <button
                 type="button"
                 className="text-xs font-semibold text-brand-600"
@@ -91,12 +90,14 @@ export function PaymentCalculator({ defaultRate = 6.625 }: { defaultRate?: numbe
             </div>
             {downMode === "percent" ? (
               <Input
+                id={downId}
                 type="number"
                 value={downPercent}
                 onChange={(event) => setDownPercent(Number(event.target.value))}
               />
             ) : (
               <Input
+                id={downId}
                 type="number"
                 value={downDollars}
                 onChange={(event) => setDownDollars(Number(event.target.value))}
@@ -149,7 +150,6 @@ export function PaymentCalculator({ defaultRate = 6.625 }: { defaultRate?: numbe
                 <li>Insurance · {formatCurrency(breakdown.insurance, 2)}</li>
                 {breakdown.hoa > 0 ? <li>HOA · {formatCurrency(breakdown.hoa, 2)}</li> : null}
                 {breakdown.pmi > 0 ? <li>PMI · {formatCurrency(breakdown.pmi, 2)}</li> : null}
-                <li>APR (est.) · {formatPercent(apr)}</li>
                 <li>Total interest · {formatCurrency(interest)}</li>
               </ul>
             </div>
@@ -203,10 +203,12 @@ function Field({
   onChange: (value: number) => void;
   step?: number;
 }) {
+  const id = useId();
   return (
     <div className="space-y-1.5">
-      <Label>{label}</Label>
+      <Label htmlFor={id}>{label}</Label>
       <Input
+        id={id}
         type="number"
         step={step}
         value={value}

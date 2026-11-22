@@ -55,8 +55,6 @@ export const PEOPLE = {
     phoneTel: CONTACT.phoneTel,
     fax: CONTACT.faxDisplay,
     profile: "https://www.newamericanfunding.com/mortgage-loans/anthonyvandyke",
-    ratingValue: "4.9",
-    reviewCount: 271,
     bio: "Anthony VanDyke leads the VanDyke Mortgage Team in Suffolk, Virginia. With many years originating purchase and refinance loans, he focuses on clear guidance, competitive New American Funding pricing, and consistent communication through closing.",
     licenseStates: "VA",
   },
@@ -68,11 +66,24 @@ export const PEOPLE = {
     phone: "(757) 289-4581",
     phoneTel: "+17572894581",
     profile: "https://www.newamericanfunding.com/mortgage-loans/gonzaloguimoye",
-    ratingValue: "4.96",
-    reviewCount: 76,
     bio: "Gonzalo Guimoye is a dedicated loan consultant serving Hampton Roads borrowers. Clients regularly note that he explains each step, stays available, and keeps purchase and refinance files moving without surprises.",
     licenseStates: "VA",
   },
+} as const;
+
+/**
+ * The one award shown on the site (hero only). Wording matches the plaque artwork in
+ * public/images/awards/. Do not add other award claims.
+ */
+export const AWARD = {
+  /** Alt text: the full text printed on the plaque. */
+  alt: "2026 Best Mortgage Lender in Suffolk. Recognized by BusinessRate based on Google reviews. Anthony VanDyke Team, New American Funding. Thank you, Suffolk!",
+  caption: "2026 Best Mortgage Lender in Suffolk · Recognized by BusinessRate based on Google reviews",
+  /**
+   * BusinessRate page that confirms the award. Unknown for now, so the caption renders
+   * without a link. Set the URL here and the caption becomes a link (opens in a new tab).
+   */
+  sourceUrl: null as string | null,
 } as const;
 
 export const REVIEWS = [
@@ -116,7 +127,7 @@ export const FAQS = [
   {
     question: "Where can I find licensing and compliance information?",
     answer:
-      "New American Funding, LLC is an Equal Housing Lender, NMLS #6606. Anthony VanDyke is NMLS #955777. Gonzalo Guimoye is NMLS #1131706. Confirm licenses at NMLS Consumer Access. See the Licensing & Disclosures and Privacy Policy pages linked in the site footer for Equal Housing, rate advertising, and contact-consent details.",
+      "New American Funding, LLC is an Equal Housing Lender, NMLS #6606. Anthony VanDyke is NMLS #955777. Gonzalo Guimoye is NMLS #1131706. Confirm licenses at NMLS Consumer Access. See the Licensing & Disclosures and Privacy Policy pages linked in the site footer for Equal Housing, rate advertising, and privacy details.",
   },
 ] as const;
 

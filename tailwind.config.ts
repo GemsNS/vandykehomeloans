@@ -34,7 +34,7 @@ const config: Config = {
           300: "#E3C77E",
           400: "#D5B25F",
           500: "#C9A44C",
-          600: "#9C7A28",
+          600: "#8A6A22", // darkest logo-gradient stop; 5:1 on white
           700: "#7A5F1C",
         },
         // Market tape direction. For mortgage rates, down is the good print.
@@ -50,7 +50,7 @@ const config: Config = {
         slate: {
           DEFAULT: "#3A4A63",
           400: "#8A97AA",
-          500: "#67748A",
+          500: "#5F6C82", // 4.8:1 on canvas for small text
           600: "#4E5F79",
           700: "#3A4A63",
           800: "#12243B",

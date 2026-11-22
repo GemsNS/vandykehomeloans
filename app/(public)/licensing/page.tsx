@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { EqualHousingLogo } from "@/components/compliance/EqualHousingLogo";
 import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { CONTACT, LENDER, PEOPLE, SITE_NAME, TEAM_NAME, fullAddress } from "@/lib/company";
@@ -76,9 +77,12 @@ export default function LicensingPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="font-display text-2xl font-bold tracking-tight text-ink">
-            Equal Housing &amp; fair lending
-          </h2>
+          <div className="flex items-center gap-4">
+            <EqualHousingLogo className="h-16 w-auto text-ink" />
+            <h2 className="font-display text-2xl font-bold tracking-tight text-ink">
+              Equal Housing &amp; fair lending
+            </h2>
+          </div>
           <p>
             {LENDER.name} is an Equal Housing Lender. We fully comply with the Equal Credit
             Opportunity Act (ECOA), Fair Housing Act, and other applicable federal and state
@@ -101,7 +105,7 @@ export default function LicensingPage() {
           </p>
         </section>
 
-        <section className="space-y-3">
+        <section id="rate-advertising" className="space-y-3">
           <h2 className="font-display text-2xl font-bold tracking-tight text-ink">
             Rate and APR advertising
           </h2>
@@ -136,7 +140,7 @@ export default function LicensingPage() {
         <section className="space-y-3">
           <h2 className="font-display text-2xl font-bold tracking-tight text-ink">Privacy</h2>
           <p>
-            How we handle website inquiries is described in our{" "}
+            Our privacy practices follow New American Funding&apos;s{" "}
             <Link href="/privacy" className="font-semibold text-brand-600 underline-offset-2 hover:underline">
               Privacy Policy
             </Link>
