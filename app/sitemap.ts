@@ -20,6 +20,7 @@ const PAGES: {
   { path: "/calculators", priority: 0.7, changeFrequency: "monthly" },
   { path: "/licensing", priority: 0.3, changeFrequency: "yearly" },
   { path: "/privacy", priority: 0.3, changeFrequency: "yearly" },
+  { path: "/terms", priority: 0.3, changeFrequency: "yearly" },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

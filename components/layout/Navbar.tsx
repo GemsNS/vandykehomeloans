@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { CONTACT } from "@/lib/company";
 import { cn } from "@/lib/utils";
 
-// Five destinations. FHA, My Portal, NAF Black Impact and Staff login live in the footer.
+// Five destinations. FHA, My Portal, Our commitment and Staff login live in the footer.
 const LINKS = [
   { href: "/programs", label: "Loans" },
   { href: "/va-loans", label: "VA Loans" },

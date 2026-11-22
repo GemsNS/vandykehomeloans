@@ -16,9 +16,9 @@ None of these are Unsplash+ / premium images, which carry different terms.
 | `self-employed-owners.jpg` | Vitaly Gariev | https://unsplash.com/photos/dU3KJqyYlO0 | Unsplash |
 | `community-family.jpg` | National Cancer Institute | https://images.unsplash.com/photo-1577896849786-738ed6c78bd3 | Unsplash |
 | `closing-keys.jpg` | Jakub Żerdzicki | https://unsplash.com/photos/bqUZEAeWuok | Unsplash |
-| `black-excellence-kitchen.jpg` | August de Richelieu | https://www.pexels.com/photo/4259140/ | Pexels |
-| `black-excellence-father-son.jpg` | August de Richelieu | https://www.pexels.com/photo/4259139/ | Pexels |
-| `black-excellence-keys.jpg` | RDNE Stock project | https://www.pexels.com/photo/8293778/ | Pexels |
+| `family-kitchen.jpg` | August de Richelieu | https://www.pexels.com/photo/4259140/ | Pexels |
+| `father-son-kitchen.jpg` | August de Richelieu | https://www.pexels.com/photo/4259139/ | Pexels |
+| `keys-handoff.jpg` | RDNE Stock project | https://www.pexels.com/photo/8293778/ | Pexels |
 
 ## Award artwork
 

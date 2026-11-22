@@ -4,7 +4,7 @@ import { ContactCta } from "@/components/home/ContactCta";
 import { Hero } from "@/components/home/Hero";
 import { LifestyleShowcase } from "@/components/home/LifestyleShowcase";
 import { RateTable } from "@/components/home/RateTable";
-import { FaqSection, NafBlackImpact, ReviewsSection } from "@/components/home/SocialProof";
+import { CommitmentSection, FaqSection, ReviewsSection } from "@/components/home/SocialProof";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getActiveBrokers, getRates } from "@/lib/data/queries";
 import { FAQS, SITE_NAME } from "@/lib/company";
@@ -34,10 +34,10 @@ export default async function HomePage() {
       <PurchaseSection />
       <RefinanceSection />
       <RateTable rates={rates} publishedMeta={publishedMeta} />
-      {/* Old /about and /team URLs 301 here. NAF Black Impact keeps its own anchor inside. */}
+      {/* Old /about and /team URLs 301 here. The commitment section keeps its own anchor inside. */}
       <div id="anthony">
         <BrokerGrid brokers={brokers} />
-        <NafBlackImpact />
+        <CommitmentSection />
       </div>
       <ReviewsSection />
       <FaqSection />

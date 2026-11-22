@@ -6,7 +6,7 @@ import { CONTACT, LENDER, PEOPLE, SITE_NAME, TEAM_NAME, fullAddress } from "@/li
 import { getNafPublishedMeta } from "@/lib/naf-rates/meta";
 import { IS_DEMO } from "@/lib/demo";
 
-// Each destination appears once. Privacy, Licensing, NMLS Consumer Access and State
+// Each destination appears once. Privacy, Terms, Licensing, NMLS Consumer Access and State
 // licensing live in the compliance strip below, not in these columns.
 const COLUMNS = [
   {
@@ -34,7 +34,7 @@ const COLUMNS = [
     title: "Team",
     links: [
       { href: "/#anthony", label: "Meet Anthony" },
-      { href: "/#naf-black-impact", label: "NAF Black Impact" },
+      { href: "/#commitment", label: "Our commitment" },
       { href: CONTACT.portal, label: "My Portal", external: true },
       // The static demo ships without the admin portal, so the link would 404 there.
       ...(IS_DEMO ? [] : [{ href: "/admin", label: "Staff login" }]),
@@ -126,6 +126,10 @@ export function Footer() {
           <p>
             <Link href="/privacy" className="underline hover:text-white">
               Privacy Policy
+            </Link>
+            {" · "}
+            <Link href="/terms" className="underline hover:text-white">
+              Terms of Use
             </Link>
             {" · "}
             <Link href="/licensing" className="underline hover:text-white">
